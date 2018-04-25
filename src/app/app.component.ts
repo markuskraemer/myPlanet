@@ -8,8 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+    public main:Main;
+
     constructor (){
-        const main:Main = new Main ();
+        this.main = new Main ();
     }
 
 }

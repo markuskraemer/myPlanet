@@ -1,0 +1,9 @@
+<div class="main">
+    ID: {{creature.id}} energy: {{creature.energy}}<br>
+    <span class="neuron" (click)="getInfo(creature.inputFood)">
+        InputFood: {{creature.inputFood.input}} >> {{creature.inputFood.input}}
+    </span> <br>
+     <span class="neuron" (click)="getInfo(creature.outEat)">
+        OutEat: {{creature.outEat.input}} >> {{creature.outEat.output}}
+     </span>
+</div>

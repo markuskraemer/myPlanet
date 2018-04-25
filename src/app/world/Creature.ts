@@ -1,3 +1,6 @@
+import { Tile } from './Tile';
+import { Alias } from './../Alias';
+import { World } from './World';
 import { CreatureNeuronIds } from './CreatureNeuronIds';
 import { WorkingNeuron } from './../network/WorkingNeuron';
 import { NeuralNetwork } from './../network/NeuralNetwork';
@@ -5,15 +8,24 @@ import { InputNeuron } from './../network/InputNeuron';
 
 export class Creature {
 
-    private static creatureCount:number = 0;
-    private count:number;
-    private brain:NeuralNetwork;
-    private inputFood:InputNeuron;
-    private outEat:WorkingNeuron;
+    private static EAT_GAIN:number = 1;
 
-    constructor (doInit:boolean = true){
+    private static creatureCount:number = 0;
+    public id:number;
+    private brain:NeuralNetwork;
+    public inputFood:InputNeuron;
+    public outEat:WorkingNeuron;
+    public x:number;
+    public y:number;
+    private _energy:number = 0;
+    
+    public get energy ():number {
+        return this._energy;
+    }
+
+    constructor (doInit:boolean = true) {
         if(doInit) {
-            this.count = Creature.creatureCount ++;
+            this.id = Creature.creatureCount ++;
             this.createBrain ();
             this.initBrain ();
             this.brain.generateMesh (); 
@@ -24,7 +36,7 @@ export class Creature {
 
     public static fromJSON (json:JSON):Creature {
         const creature:Creature = new Creature (false);
-        creature.count = json['count'];
+        creature.id = json['id'];
 
         creature.brain = new NeuralNetwork ();
 
@@ -33,14 +45,17 @@ export class Creature {
 
         creature.initBrain ();
 
+        creature._energy = json['_energy'];
+
         return creature;
     }
 
     public toJSON ():any {
         return { 
-                count: 'creature_' + this.count,
+                id: this.id,
                 inputFood: this.inputFood, 
-                outEat: this.outEat, 
+                outEat: this.outEat,
+                _energy: this._energy 
             };
     }
 
@@ -56,10 +71,21 @@ export class Creature {
     }
 
     private initBrain ():void {
-
         this.brain.addInputNeuron (this.inputFood); 
         this.brain.addOutputNeuron (this.outEat);
+    }
 
+    public tick (timeDelta:number):void {
+        const tile:Tile = Alias.world.getTileAt (this.x, this.y);
+        this.inputFood.input = tile.foodAmount;
+        this.eat (timeDelta);
+    }
+
+    private eat (timeDelta:number):void {
+        console.log("eat delta: " + timeDelta);
+        const tile:Tile = Alias.world.getTileAt (this.x, this.y);
+        const eatWish:number = this.outEat.output;
+        this._energy += eatWish * Creature.EAT_GAIN * tile.foodAmount * timeDelta;
     }
 
 }

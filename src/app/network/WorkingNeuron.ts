@@ -69,7 +69,7 @@ export class WorkingNeuron extends Neuron
     public get output(): number
     {
         //return this.tanh(this.input);
-        return this.sigmoid(this.input);
+        return 2*this.sigmoid(this.input)-1;
     }
 
     public get delta(): number

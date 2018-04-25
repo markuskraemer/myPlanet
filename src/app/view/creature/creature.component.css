@@ -1,0 +1,10 @@
+.main {
+    padding: 20px;
+    width:max-content;
+    height:100px;
+    border:1px solid black;
+}
+
+.neuron {
+    cursor: pointer;
+}
