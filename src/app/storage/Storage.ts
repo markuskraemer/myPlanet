@@ -1,10 +1,10 @@
 export class Storage {
 
-    public store (o:JSON){
+    public save (o:JSON){
         localStorage.setItem ('world', JSON.stringify(o));
     }
 
-    public get ():string{
+    public load ():string{
         return localStorage.getItem('world');
     }
 

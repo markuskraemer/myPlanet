@@ -184,7 +184,7 @@ export class Network
             var toLayer: Neuron[] = this.neurons[i];
             for (var j: number = 0; j < toLayer.length; ++j)
             {
-                let neuron: Neuron = toLayer[j];
+                let neuron: WorkingNeuron = <WorkingNeuron> toLayer[j];
                 neuron.connections.length = fromLayer.length;
             }
         }
@@ -199,16 +199,18 @@ export class Network
     {
         for (var i: number = 1; i < this.neurons.length; ++i)
         {
-            var fromLayer: Neuron[] = this.neurons[i-1];
+            var fromLayer: Neuron[] = this.neurons[i-1]; 
             var toLayer: Neuron[] = this.neurons[i];
             for (var j: number = 0; j < toLayer.length; ++j)
             {
-                let neuron: Neuron = toLayer[j]
+                let neuron: WorkingNeuron = <WorkingNeuron> toLayer[j]
                 for (var k: number = 0; k < fromLayer.length; ++k)
                 {
-                    if (!neuron.hasConnection(fromLayer[k]))
+                    if (! neuron.hasConnection(fromLayer[k]))
                     {
-                        let connection: Connection = new Connection(fromLayer[k], this.getDefaultConnectionWeight());
+                        let connection: Connection = new Connection();
+                        connection.fromNeuron = fromLayer[k];
+                        connection.weight = this.getDefaultConnectionWeight();  
                         connection.id = i + '' + j + '' + k;
                         neuron.addConnection(connection);
                     }
@@ -226,9 +228,9 @@ export class Network
         {
             for (var j: number = 0; j < this.neurons[i].length; ++j)
             {
-                for (var k: number = 0; k < this.neurons[i][j].connections.length; ++k)
+                for (var k: number = 0; k < (<WorkingNeuron> this.neurons[i][j]).connections.length; ++k)
                 {
-                    this.neurons[i][j].connections[k].updateWeight();
+                    (<WorkingNeuron> this.neurons[i][j]).connections[k].updateWeight();
                 }
             }
         }

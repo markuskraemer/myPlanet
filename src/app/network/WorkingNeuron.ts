@@ -6,6 +6,20 @@ export class WorkingNeuron extends Neuron
     public target: number;
     private static readonly learningRate: number = .4;
 
+
+    public static fromJSON (json:JSON):WorkingNeuron {
+        const workingNeuron:WorkingNeuron = new WorkingNeuron (json['bias']);
+        workingNeuron.target = json['target'];
+        workingNeuron.id = json['id'];
+        const connections:any[] = json['connections'] || [];
+        for(const connectionJSON of connections){
+            const connection:Connection = Connection.fromJSON (connectionJSON);
+            workingNeuron.addConnection(connection);
+        }
+        return workingNeuron;
+    }
+
+
     constructor(bias: number)
     {
         super();
@@ -17,6 +31,19 @@ export class WorkingNeuron extends Neuron
         let { output, id, connections, squaredDelta, delta, target } = this;
         return { output, id, connections, squaredDelta, delta, target };
     }
+
+    public connections: Connection[] = [];
+  
+    public hasConnection(fromNeuron: Neuron): boolean
+    {
+        for (var c of this.connections)
+        {
+            if (c.fromNeuron == fromNeuron)
+                return true;
+        }
+        return false;
+    }
+
 
     public addConnection(c: Connection): void
     {
