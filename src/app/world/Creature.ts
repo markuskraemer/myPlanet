@@ -1,3 +1,4 @@
+import { MathUtils } from './../utils/MathUtils';
 import { Tile } from './Tile';
 import { Alias } from './../Alias';
 import { World } from './World';
@@ -55,12 +56,6 @@ export class Creature {
 
     public toJSON ():any {
         return this;
-                /*
-                id: this.id,
-                inputFood: this.inputFood, 
-                outEat: this.outEat,
-                _energy: this._energy
-                */ 
     }
 
 
@@ -80,15 +75,17 @@ export class Creature {
     }
 
     public tick (timeDelta:number):void {
-        const tile:Tile = Alias.world.getTileAt (this.x, this.y);
+        const tile:Tile = Alias.world.tileMap.getTileAt (this.x, this.y);
         this.inputFood.input = tile.foodAmount;
-        this.eat (timeDelta);
+        this.eat (tile, timeDelta);
+
     }
 
-    private eat (timeDelta:number):void {
-        const tile:Tile = Alias.world.getTileAt (this.x, this.y);
-        const eatWish:number = this.outEat.output;
-        this._energy += eatWish * Creature.EAT_GAIN * tile.foodAmount * timeDelta;
+    private eat (tile:Tile, timeDelta:number):void {
+        const eatWish:number = MathUtils.clamp01 (this.outEat.output);
+        const wantsToEat:number = eatWish * Creature.EAT_GAIN * timeDelta; 
+        const actualFoodAmount:number = tile.eat (wantsToEat);
+        this._energy += actualFoodAmount;
     }
 
 }

@@ -1,3 +1,4 @@
+import { TileMap } from './TileMap';
 import { Tile } from './Tile';
 import { Creature } from './Creature';
 
@@ -7,13 +8,26 @@ export class World {
     public readonly width:number = 400;
     public readonly height:number = 400;
     private static _instance:World;
-    
+    private _tiles:Tile[] = [];
+    private _tileMap:TileMap;
+
+    public get tileMap ():TileMap {
+        return this._tileMap;
+    }
+
+    public get tiles ():Tile []{
+        return this._tiles;
+    }
+
     public get creatures ():Creature[]{
         return this._creatures;
     }
 
     constructor () {
-
+        this._tileMap = new TileMap ();
+        const tile:Tile = new Tile ();
+        tile.foodAmount = Tile.MAX_FOOD_AMOUNT;
+        this._tileMap.tiles.push(tile);
     }
 
     public toJSON ():any {
@@ -38,12 +52,6 @@ export class World {
 
     public addCreature (creature:Creature):void {
         this._creatures.push(creature);
-    }
-
-    public getTileAt (x:number, y:number):Tile{
-        const tile:Tile = new Tile ();
-        tile.foodAmount = 1;
-        return tile;
     }
 
     public tick (delta:number):void {

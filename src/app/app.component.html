@@ -1,5 +1,3 @@
 
-
-<app-creature *ngFor="let creature of main.world.creatures" [creature]="creature">
-
-</app-creature>
+<app-tileMap [tiles]="main.world.tileMap.tiles"></app-tileMap>
+<app-creature *ngFor="let creature of main.world.creatures" [creature]="creature"></app-creature>

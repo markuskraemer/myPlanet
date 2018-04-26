@@ -68,7 +68,6 @@ export class WorkingNeuron extends Neuron
 
     public get output(): number
     {
-        //return this.tanh(this.input);
         return 2*this.sigmoid(this.input)-1;
     }
 
@@ -105,8 +104,7 @@ export class WorkingNeuron extends Neuron
         return result;
     }
 
-    private sigmoid (n: number): number
-    {
+    private sigmoid (n: number): number {
         return 1 / (1 + Math.pow(Math.E, -n));
     }
 
