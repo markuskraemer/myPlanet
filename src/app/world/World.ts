@@ -1,3 +1,4 @@
+import { MapGenerator } from './MapGenerator';
 import { TileMap } from './TileMap';
 import { Tile } from './Tile';
 import { Creature } from './Creature';
@@ -24,7 +25,11 @@ export class World {
     }
 
     constructor () {
+
+        const map:number[][] = MapGenerator.create (20,10);
+
         this._tileMap = new TileMap ();
+        this._tileMap.createTilesBySeedMap (map);
         const tile:Tile = new Tile ();
         tile.foodAmount = Tile.MAX_FOOD_AMOUNT;
         this._tileMap.tiles.push(tile);

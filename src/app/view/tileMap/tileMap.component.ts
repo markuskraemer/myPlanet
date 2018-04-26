@@ -11,6 +11,11 @@ export class TileMapComponent implements OnInit {
     @Input ('tiles')
     public tiles:Tile[];
 
+    @Input ('rows')
+    public rows:number = 0;
+
+    public readonly tileSize:number = 50;
+
     constructor() { }
 
     ngOnInit() {

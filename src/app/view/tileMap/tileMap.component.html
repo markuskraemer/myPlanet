@@ -1,3 +1,5 @@
-<div *ngFor="let tile of tiles" [style.backgroundColor]="getBackgroundColor(tile)" class="tile">
-    {{tile.foodAmount}}
+<div class="container" [style.width]="rows*tileSize+'px'">
+    <div *ngFor="let tile of tiles" [style.backgroundColor]="getBackgroundColor(tile)" class="tile">
+        {{tile.foodAmount}}
+    </div>
 </div>
