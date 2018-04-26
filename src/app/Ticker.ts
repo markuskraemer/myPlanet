@@ -14,5 +14,4 @@ export class Ticker {
         this.clearInterval ();
         this.intervalId = setInterval ( () => this.tick.emit (1), 1000);
     }
-
 }

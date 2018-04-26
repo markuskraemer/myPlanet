@@ -9,7 +9,7 @@ export class WorkingNeuron extends Neuron
 
     public static fromJSON (json:JSON):WorkingNeuron {
         const workingNeuron:WorkingNeuron = new WorkingNeuron (json['bias']);
-        workingNeuron.target = json['target'];
+       // workingNeuron.target = json['target'];
         workingNeuron.id = json['id'];
         const connections:any[] = json['connections'] || [];
         for(const connectionJSON of connections){

@@ -37,6 +37,8 @@ export class Creature {
     public static fromJSON (json:JSON):Creature {
         const creature:Creature = new Creature (false);
         creature.id = json['id'];
+        creature.x = json['x'];
+        creature.y = json['y'];
 
         creature.brain = new NeuralNetwork ();
 
@@ -44,6 +46,7 @@ export class Creature {
         creature.outEat = WorkingNeuron.fromJSON (json['outEat']);
 
         creature.initBrain ();
+        creature.brain.setConnectionTargets (); 
 
         creature._energy = json['_energy'];
 
@@ -51,12 +54,13 @@ export class Creature {
     }
 
     public toJSON ():any {
-        return { 
+        return this;
+                /*
                 id: this.id,
                 inputFood: this.inputFood, 
                 outEat: this.outEat,
-                _energy: this._energy 
-            };
+                _energy: this._energy
+                */ 
     }
 
 
@@ -82,7 +86,6 @@ export class Creature {
     }
 
     private eat (timeDelta:number):void {
-        console.log("eat delta: " + timeDelta);
         const tile:Tile = Alias.world.getTileAt (this.x, this.y);
         const eatWish:number = this.outEat.output;
         this._energy += eatWish * Creature.EAT_GAIN * tile.foodAmount * timeDelta;
