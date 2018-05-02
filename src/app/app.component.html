@@ -1,3 +1,7 @@
 
-<app-tileMap [tiles]="main.world.tileMap.tiles" [rows]="main.world.tileMap.rows"></app-tileMap>
-<app-creature *ngFor="let creature of main.world.creatures" [creature]="creature"></app-creature>
+<app-command-bar></app-command-bar>
+<app-dialogs></app-dialogs>
+<div class="world">
+    <app-tileMap [tiles]="main.world.tileMap.tiles" [rows]="main.world.tileMap.rows"></app-tileMap>
+    <app-creature *ngFor="let creature of main.world.creatures" [creature]="creature"></app-creature>
+</div>

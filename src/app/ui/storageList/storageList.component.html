@@ -1,0 +1,6 @@
+<div *ngIf="items.length>0">
+    <app-storedItem *ngFor="let item of items" [item]="item"></app-storedItem>
+</div>
+<div *ngIf="items.length==0">
+    Nothing to show.
+</div>

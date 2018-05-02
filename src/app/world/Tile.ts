@@ -1,9 +1,11 @@
+import { TileType } from './TileType.enum';
 export class Tile {
 
     public static MAX_FOOD_AMOUNT:number = 100;
 
     public foodAmount:number = 1;
-
+    public type:TileType;
+    
     public toJSON ():any {
         const { foodAmount } = this;
         return { foodAmount };

@@ -8,4 +8,10 @@ export class Storage {
         return localStorage.getItem('world');
     }
 
+
+    public getFileDescribtions ():any[]{
+        const describtions = JSON.parse (localStorage.getItem ('describtions'));
+        return describtions;
+    }
+
 }

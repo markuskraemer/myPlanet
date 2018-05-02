@@ -6,8 +6,8 @@ import { Creature } from './Creature';
 export class World {
 
     private _creatures:Creature [] = [];
-    public readonly width:number = 400;
-    public readonly height:number = 400;
+    public readonly width:number = 800;
+    public readonly height:number = 600;
     private static _instance:World;
     private _tiles:Tile[] = [];
     private _tileMap:TileMap;
@@ -26,7 +26,7 @@ export class World {
 
     constructor () {
 
-        const map:number[][] = MapGenerator.create (20,10);
+        const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);
 
         this._tileMap = new TileMap ();
         this._tileMap.createTilesBySeedMap (map);
@@ -50,8 +50,8 @@ export class World {
 
     public createCreature ():void{
         const creature:Creature = new Creature ();
-        creature.x = Math.random () * this.width;
-        creature.y = Math.random () * this.height;
+        creature.x = 100;//Math.random () * this.width;
+        creature.y = 200;//Math.random () * this.height;
         this.addCreature(creature);
     }
 

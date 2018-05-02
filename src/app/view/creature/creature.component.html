@@ -1,9 +1,14 @@
-<div class="main">
-    ID: {{creature.id}} energy: {{creature.energy}}<br>
-    <span class="neuron" (click)="getInfo(creature.inputFood)">
-        InputFood: {{creature.inputFood.input}} >> {{creature.inputFood.input}}
-    </span> <br>
-     <span class="neuron" (click)="getInfo(creature.outEat)">
-        OutEat: {{creature.outEat.input}} >> {{creature.outEat.output}}
-     </span>
+<div class="main" [style.left]="creature.x+'px'" [style.top]="creature.y+'px'" (click)="showInfo=!showInfo">
+    <div *ngIf="showInfo" class="info"> 
+        ID: {{creature.id}} energy: {{formatterService.float(creature.energy)}}<br>
+        <span class="neuron" (click)="getInfo(creature.inputFood)">
+            InputFood: {{formatterService.float(creature.inputFood.input)}} >> {{formatterService.float(creature.inputFood.input)}}
+        </span> <br>
+        <span class="neuron" (click)="getInfo(creature.outEat)">
+            OutEat: {{formatterService.float(creature.outEat.input)}} >> {{formatterService.float(creature.outEat.output)}}
+        </span>
+     </div>
+     <div class="body" [style.backgroundColor]="getBodyBackgroundColor()" [style.width]="getBodyWidth()">
+
+     </div>
 </div>

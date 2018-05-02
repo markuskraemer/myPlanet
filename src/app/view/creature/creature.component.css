@@ -1,16 +1,28 @@
 :host {
     position: absolute;
-    top:100px;
-    left:200px;
 }
 
 .main {
-    padding: 20px;
     width:max-content;
     height:100px;
+    position: absolute;
+}
+
+.info {
     border:1px solid black;
+    background:rgba(255,255,255,.6);
+    padding: 20px;
+    position: absolute;
+    top:20px;
 }
 
 .neuron {
     cursor: pointer;
+}
+
+.body {
+    height:10px;
+    position: absolute;
+    top:0;
+    left:0;
 }

@@ -1,3 +1,4 @@
+import { TileType } from './../../world/TileType.enum';
 import { Component, OnInit, Input } from '@angular/core';
 import { Tile } from './../../world/Tile';
 
@@ -23,10 +24,24 @@ export class TileMapComponent implements OnInit {
 
     public getBackgroundColor (tile:Tile):string {
         const perc:number = tile.foodAmount / Tile.MAX_FOOD_AMOUNT;
-        return 'rgb('  
-                    + 0 + ','
-                    + perc * 255 + ','
-                    + 0 + ')';
+        switch(tile.type){
+            
+            case TileType.Water:
+                return 'rgb(122,122,255)';  
+            
+            case TileType.Sand:
+                return 'rgb('  
+                    + (125 + (perc * 130)) + ','
+                    + 183 + ','
+                    + 8 + ')';
+            
+            case TileType.Gras:
+                return 'rgb('  
+                    + '125,'
+                    + (150 + perc * 105) + ','
+                    + '125)';
+            
+        }
     }
 
 }

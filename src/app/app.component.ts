@@ -1,3 +1,4 @@
+import { DialogService } from './ui/dialog.service';
 import { Main } from './Main';
 import { Component } from '@angular/core';
 
@@ -10,7 +11,9 @@ export class AppComponent {
 
     public main:Main;
 
-    constructor (){
+    constructor (
+        public dialogService:DialogService
+    ){
         this.main = new Main ();
     }
 
