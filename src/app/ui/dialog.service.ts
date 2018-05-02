@@ -1,21 +1,33 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable()
 export class DialogService {
 
-    private static IDLE:string = 'IDLE'; 
-    private static SHOW_STORAGE_LIST:string = 'SHOW_STORAGE_LIST'; 
+    public  static readonly IDLE:string = 'IDLE'; 
+    public static readonly SHOW_STORAGE_LIST:string = 'SHOW_STORAGE_LIST'; 
+    private _state:string = DialogService.IDLE;
 
-    constructor() { }
+    public get state ():string {
+        return this._state;
+    }
 
-    private state:string = DialogService.IDLE;
-
-    public openStorageList ():void {
-        this.state = DialogService.SHOW_STORAGE_LIST;
+    private setState (value:string){
+        this._state = value;
+        this.changed.emit ();
     }
 
     public get storageListOpen ():boolean {
-        return this.state == DialogService.SHOW_STORAGE_LIST;
+        return this._state == DialogService.SHOW_STORAGE_LIST;
     }
+
+    public readonly changed:EventEmitter<null> = new EventEmitter ();
+
+    constructor() { }
+
+
+    public openStorageList ():void {
+        this.setState (DialogService.SHOW_STORAGE_LIST);
+    }
+
 
 }
