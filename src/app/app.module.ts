@@ -1,3 +1,4 @@
+import { ModalComponent } from './ui/modal/modal.component';
 import { StorageService } from './storage/storage.service';
 import { DialogsComponent } from './ui/dialogs/dialogs.component';
 import { CommandBarComponent } from './ui/command-bar/command-bar.component';
@@ -19,7 +20,8 @@ import { AppComponent } from './app.component';
     StoredItemComponent,
     StorageListComponent,
     CommandBarComponent,
-    DialogsComponent
+    DialogsComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule
