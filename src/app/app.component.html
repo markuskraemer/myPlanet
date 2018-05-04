@@ -2,6 +2,6 @@ ID: {{mainService.world.id}}
 <app-command-bar></app-command-bar>
 <app-dialogs></app-dialogs>
 <div class="world">
-    <app-tileMap [tiles]="mainService.world.tileMap.tiles" [rows]="mainService.world.tileMap.rows"></app-tileMap>
+    <app-tileMap [tiles]="mainService.world.tileMap.tiles" [rows]="mainService.world.tileMap.rowCount"></app-tileMap>
     <app-creature *ngFor="let creature of mainService.world.creatures" [creature]="creature"></app-creature>
 </div>

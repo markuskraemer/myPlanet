@@ -7,13 +7,13 @@ export class Tile {
     public type:TileType;
     
     public toJSON ():any {
-        const { foodAmount } = this;
-        return { foodAmount };
+        return this;
     }
 
     public static fromJSON (json:JSON):Tile {
         const tile:Tile = new Tile ();
         tile.foodAmount = json['foodAmount'];
+        tile.type = json['type'];
         return tile;
     }
     

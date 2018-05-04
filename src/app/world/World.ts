@@ -24,21 +24,14 @@ export class World {
         return this._creatures;
     }
 
-    constructor (id:string = undefined) {
+    constructor (selfInit:boolean = true) {
         
-        if(id == undefined){
+        if(selfInit){
             this._id = '' + new Date ().getTime ();
-        }else{
-            this._id = id; 
+            const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);            
+            this._tileMap = new TileMap ();
+            this._tileMap.createTilesBySeedMap (map);
         }
-
-        const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);
-        
-        this._tileMap = new TileMap ();
-        this._tileMap.createTilesBySeedMap (map);
-        const tile:Tile = new Tile ();
-        tile.foodAmount = Tile.MAX_FOOD_AMOUNT;
-        this._tileMap.tiles.push(tile);
     }
 
     public toJSON ():any {
@@ -47,8 +40,10 @@ export class World {
     }
 
     public static fromJSON (json:JSON):World {
-        const world = new World (json['_id']);
         console.log("new World from JSON: ", json);
+        const world = new World (false);
+        world._id = json['_id'];
+        world._tileMap = TileMap.fromJSON (json['_tileMap']);      
         for(const creaturesJSON of json['_creatures']){
             world.addCreature(Creature.fromJSON(<any>creaturesJSON));
         }

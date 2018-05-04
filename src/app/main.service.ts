@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ApplicationRef } from '@angular/core';
 import { StorageService } from './storage/storage.service';
 import { Inject } from '@angular/core';
 import { Ticker } from './Ticker';
@@ -13,7 +13,8 @@ export class MainService {
     public world:World;
     
     constructor (
-       private storageService:StorageService
+       private storageService:StorageService,
+       private appRef:ApplicationRef
         ){
             console.log("SS: ", this.storageService);
         this.init ();
@@ -33,6 +34,8 @@ export class MainService {
     public load (id:string):void {
         const worldJSON:JSON = JSON.parse (this.storageService.load (id));
         this.world = World.fromJSON (worldJSON);
+        Alias.world = this.world;
+        this.appRef.tick ();
     }
     
 
