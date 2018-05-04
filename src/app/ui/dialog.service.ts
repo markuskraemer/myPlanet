@@ -29,5 +29,9 @@ export class DialogService {
         this.setState (DialogService.SHOW_STORAGE_LIST);
     }
 
+    public closeStorageList ():void {
+        this.setState (DialogService.IDLE);        
+    }
+
 
 }

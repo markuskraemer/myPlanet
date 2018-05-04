@@ -1,6 +1,12 @@
-<div *ngIf="items.length>0">
-    <app-storedItem *ngFor="let item of items" [item]="item"></app-storedItem>
-</div>
-<div *ngIf="items.length==0">
-    Nothing to show.
+<div #dialog title="Saved Worlds">
+    <div (click)="handleLoadClick()">UUUUUU</div>
+    <div *ngIf="items.length>0">
+        <div *ngFor="let item of items" class="item" (click)="handleLoadClick(item)">
+            <span>{{item.name}} | {{formatterService.toDate(item.time)}} | {{item.id}}</span>
+            <input type="button" value="load" (click)="handleLoadClick(item)">
+        </div>
+    </div>
+    <div *ngIf="items.length==0">
+        Nothing to show.
+    </div>
 </div>

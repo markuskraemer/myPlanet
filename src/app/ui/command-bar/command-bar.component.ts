@@ -1,3 +1,6 @@
+import { MainService } from './../../main.service';
+import { Alias } from './../../Alias';
+import { StorageService } from './../../storage/storage.service';
 import { DialogService } from './../dialog.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,7 +12,9 @@ import { Component, OnInit } from '@angular/core';
 export class CommandBarComponent implements OnInit {
 
     constructor(
-        public dialogService:DialogService
+        private mainService:MainService,
+        public dialogService:DialogService,
+        private storageService:StorageService
     ) { }
 
     ngOnInit() {
@@ -20,7 +25,7 @@ export class CommandBarComponent implements OnInit {
     }
 
     public handleSaveClick ():void {
-        
+        this.storageService.save (this.mainService.world);
     }
 
 }

@@ -1,3 +1,4 @@
+import { IStorageDescribtion } from './../../storage/IStorageDescribtion';
 import { FormatterService } from './../../utils/Formatter.service';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -9,7 +10,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class StoredItemComponent implements OnInit {
 
     @Input ('item')
-    public item:{name:string, timestamp:number};
+    public item:IStorageDescribtion;
 
     constructor(public formatService:FormatterService) { }
 

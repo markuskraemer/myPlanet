@@ -1,3 +1,4 @@
+import { MainService } from './main.service';
 import { ModalComponent } from './ui/modal/modal.component';
 import { StorageService } from './storage/storage.service';
 import { DialogsComponent } from './ui/dialogs/dialogs.component';
@@ -27,6 +28,7 @@ import { AppComponent } from './app.component';
     BrowserModule
   ],
   providers: [
+      MainService,
       FormatterService,
       DialogService,
       StorageService

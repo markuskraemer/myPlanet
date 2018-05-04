@@ -1,5 +1,11 @@
+import { MainService } from './../../main.service';
+import { Alias } from './../../Alias';
+import { FormatterService } from './../../utils/Formatter.service';
+import { DialogService } from './../dialog.service';
 import { IStorageDescribtion } from './../../storage/IStorageDescribtion';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import * as $ from 'jquery';
+import 'jquery-ui/ui/widgets/dialog.js';
 
 @Component({
   selector: 'app-storageList',
@@ -11,9 +17,24 @@ export class StorageListComponent implements OnInit {
     @Input ('items')
     public items:IStorageDescribtion[];
 
-    constructor() { }
+    @ViewChild ('dialog')
+    private dialog:ElementRef;
+
+    constructor(
+        private mainService:MainService,
+        private dialogService:DialogService,
+        public formatterService:FormatterService
+    ) { }
 
     ngOnInit() {
+        $(this.dialog.nativeElement).dialog ({
+            close: () => this.dialogService.closeStorageList ()
+        })
+    }
+
+    public handleLoadClick (item:IStorageDescribtion):void {
+        console.log("handleLoadClick ", item);
+        this.mainService.load(item.id);
     }
 
 }

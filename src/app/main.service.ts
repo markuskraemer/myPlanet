@@ -1,17 +1,19 @@
+import { Injectable } from '@angular/core';
 import { StorageService } from './storage/storage.service';
 import { Inject } from '@angular/core';
 import { Ticker } from './Ticker';
 import { Alias } from './Alias';
 import { World } from './world/World';
 import { Storage } from './storage/Storage';
-export class Main {
+
+@Injectable()
+export class MainService {
 
     private ticker:Ticker;
     public world:World;
-    private storageService:StorageService
     
     constructor (
-       
+       private storageService:StorageService
         ){
             console.log("SS: ", this.storageService);
         this.init ();
@@ -37,5 +39,4 @@ export class Main {
     private tick (delta:number){
         this.world.tick (delta);
     }
-
 }
