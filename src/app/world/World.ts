@@ -11,7 +11,8 @@ export class World {
     private static _instance:World;
     private _tileMap:TileMap;
     private _id:string;
-    
+    public name:string;
+
     public get id ():string {
         return this._id;
     }
@@ -27,6 +28,7 @@ export class World {
     constructor (selfInit:boolean = true) {
         
         if(selfInit){
+            this.name = "Untitled World";
             this._id = '' + new Date ().getTime ();
             const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);            
             this._tileMap = new TileMap ();
@@ -35,14 +37,15 @@ export class World {
     }
 
     public toJSON ():any {
-        let { _creatures, _id, _tileMap } = this;
-        return { _creatures, _id, _tileMap }; 
+        let { _creatures, _id, _tileMap, name } = this;
+        return { _creatures, _id, _tileMap, name }; 
     }
 
     public static fromJSON (json:JSON):World {
         console.log("new World from JSON: ", json);
         const world = new World (false);
         world._id = json['_id'];
+        world.name = json['name'];
         world._tileMap = TileMap.fromJSON (json['_tileMap']);      
         for(const creaturesJSON of json['_creatures']){
             world.addCreature(Creature.fromJSON(<any>creaturesJSON));

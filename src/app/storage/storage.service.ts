@@ -28,7 +28,7 @@ export class StorageService {
         let describtion:IStorageDescribtion = this.getDescribtionById (world.id, describtions);
         if(describtion == null){
            describtion = {
-               name:"Welt",
+               name:world.name,
                id:world.id,
                time:new Date ().getTime ()
             
@@ -36,6 +36,7 @@ export class StorageService {
            describtions.push(describtion);
         }else{
             describtion.time = new Date ().getTime ();
+            describtion.name = world.name;
         }
         localStorage.setItem ('describtions', JSON.stringify(describtions));
 
