@@ -1,6 +1,13 @@
 :host {
-    background:grey;
-    width:max-content;
-    height: max-content;
-    padding:20px;
+}
+
+.item {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.info {
+    width:350px;
 }

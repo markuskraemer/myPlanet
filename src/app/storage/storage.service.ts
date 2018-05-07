@@ -8,11 +8,21 @@ export class StorageService {
     private items:IStorageDescribtion[];
     constructor() { }    
     
+    public delete (id:string):void {
+        this.items = null;
+        localStorage.removeItem(id);
+        const describtions:IStorageDescribtion [] = this.getFileDescribtions ();
+        let index:number = this.getDescribtionIndexById (id, describtions);
+        describtions.splice(index, 1);
+        localStorage.setItem ('describtions', JSON.stringify(describtions));
+        console.log("delete now: ", this.getFileDescribtions ());
+    }
+
+
     public load (id:string):string {
         const storage:string = localStorage.getItem(id);
         return storage;
     }
-
 
     public save (world:World):void {
         const worldJSON:JSON = world.toJSON ();
@@ -22,7 +32,7 @@ export class StorageService {
         console.log("saved: ", JSON.parse(localStorage.getItem (world.id)));
     }
 
-    private updateDescribtion (world:World):void{
+    private updateDescribtion (world:World):void {
         this.items = null;
         const describtions:IStorageDescribtion [] = this.getFileDescribtions ();
         let describtion:IStorageDescribtion = this.getDescribtionById (world.id, describtions);
@@ -51,13 +61,14 @@ export class StorageService {
     }
 
     private getDescribtionById (id:string, describtions:IStorageDescribtion[]):IStorageDescribtion {
-        for(const describtion of describtions){
-            if(describtion.id == id){
-                return describtion;
-            }
-        }
-        return null;
+        return describtions[this.getDescribtionIndexById(id, describtions)];
     }
 
+    private getDescribtionIndexById (id:string, describtions:IStorageDescribtion[]):number {
+        const result:number = describtions.findIndex  ((value:IStorageDescribtion) => {
+            return value.id == id;
+        });
+        return result;
+    }
 
 }

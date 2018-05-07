@@ -1,3 +1,4 @@
+import { TickService } from './tick.service';
 import { MainService } from './main.service';
 import { ModalComponent } from './ui/modal/modal.component';
 import { StorageService } from './storage/storage.service';
@@ -33,7 +34,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       MainService,
       FormatterService,
       DialogService,
-      StorageService
+      StorageService,
+      TickService
   ],
   bootstrap: [
       AppComponent

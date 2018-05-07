@@ -5,6 +5,10 @@
     background:grey;
 }
 
+.row {
+    height:40px;
+    display: block;
+}
 
 .world {
 

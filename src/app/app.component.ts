@@ -1,3 +1,4 @@
+import { TickService } from './tick.service';
 import { MainService } from './main.service';
 import { Alias } from './Alias';
 import { DialogService } from './ui/dialog.service';
@@ -13,7 +14,8 @@ export class AppComponent {
 
     constructor (
         public dialogService:DialogService,
-        public mainService:MainService
+        public mainService:MainService,
+        public tickService:TickService
     ){
     }
 

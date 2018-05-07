@@ -1,7 +1,15 @@
-<div class="header">ID: {{mainService.world.id}} | <input type="text" [(ngModel)]="mainService.world.name" >
-</div>
+<div class="header">ID: {{mainService.world.id}} | <input type="text" [(ngModel)]="mainService.world.name" ></div>
+<app-command-bar class="row"></app-command-bar>
+<div class="row">
+    <input type="button" 
+        value="{{tickService.isRunning?'stop':'start'}}" 
+        (click)="tickService.isRunning?tickService.stop():tickService.start()">
+    Ticks:{{tickService.ticks}} | 
+    <input type="range" min="0.5" max="10" step="0.5" [(ngModel)]="tickService.speed">
+    speed: x{{tickService.speed}}
+    updateTime:{{tickService.updateTime}} 
 
-<app-command-bar></app-command-bar>
+</div>
 <app-dialogs></app-dialogs>
 <div class="world">
     <app-tileMap [tiles]="mainService.world.tileMap.tiles" [rows]="mainService.world.tileMap.rowCount"></app-tileMap>

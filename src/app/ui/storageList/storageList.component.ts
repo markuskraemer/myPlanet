@@ -28,13 +28,17 @@ export class StorageListComponent implements OnInit {
 
     ngOnInit() {
         $(this.dialog.nativeElement).dialog ({
-            close: () => this.dialogService.closeStorageList ()
+            close: () => this.dialogService.closeStorageList (),
+            width:500
         })
     }
 
     public handleLoadClick (item:IStorageDescribtion):void {
-        console.log("handleLoadClick ", item);
         this.mainService.load(item.id);
     }
+
+    public handleDeleteClick(item:IStorageDescribtion):void {
+        this.mainService.delete(item.id);
+    } 
 
 }
