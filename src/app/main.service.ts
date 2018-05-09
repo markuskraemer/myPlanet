@@ -2,7 +2,6 @@ import { TickService } from './tick.service';
 import { Injectable, ApplicationRef } from '@angular/core';
 import { StorageService } from './storage/storage.service';
 import { Inject } from '@angular/core';
-import { Ticker } from './Ticker';
 import { Alias } from './Alias';
 import { World } from './world/World';
 import { Storage } from './storage/Storage';

@@ -2,7 +2,6 @@ import { TickService } from './tick.service';
 import { MainService } from './main.service';
 import { Alias } from './Alias';
 import { DialogService } from './ui/dialog.service';
-import { Main } from './Main';
 import { Component } from '@angular/core';
 
 @Component({
