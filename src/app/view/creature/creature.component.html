@@ -11,7 +11,7 @@
             OutRotate: {{formatterService.float(creature.outRotate.input)}} >> {{formatterService.float(creature.outRotate.output)}}
         </span>
      </div>
-     <div class="creature" [style.backgroundColor]="getCreatureBackgroundColor()" [style.transform]="getCreatureTransform()">
+     <div class="creature" [ngStyle]="getCreatureStyle()">
 
      </div>
 </div>

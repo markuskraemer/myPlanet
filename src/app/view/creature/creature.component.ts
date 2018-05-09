@@ -32,7 +32,17 @@ export class CreatureComponent implements OnInit {
     }
 
     public getCreatureTransform ():string {
-        return 'rotateZ(45deg)';
+        const scale:number = 1 + Math.max(this.creature.energy, 0) / 500;
+        return 'scale(' + scale + ')rotateZ(' + this.creature.viewAngle + 'deg)';
     }
+
+    public getCreatureStyle ():any {
+        let o:any = {
+            backgroundColor:this.getCreatureBackgroundColor(),
+            transform:this.getCreatureTransform()
+        }
+        return o;
+    }
+
 
 }
