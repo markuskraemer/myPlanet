@@ -25,15 +25,14 @@ export class CreatureComponent implements OnInit {
         console.log(o);
     }
 
-    public getBodyWidth ():string {
-        return 10 + this.creature.energy * 2 + 'px';
-    }
-
-    public getBodyBackgroundColor ():string {
+    public getCreatureBackgroundColor ():string {
         return 'rgb(' 
                 + (255 - this.creature.energy)
                 + ', 255, 255)';
     }
 
+    public getCreatureTransform ():string {
+        return 'rotateZ(45deg)';
+    }
 
 }

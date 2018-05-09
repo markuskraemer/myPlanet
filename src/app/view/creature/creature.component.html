@@ -6,9 +6,12 @@
         </span> <br>
         <span class="neuron" (click)="getInfo(creature.outEat)">
             OutEat: {{formatterService.float(creature.outEat.input)}} >> {{formatterService.float(creature.outEat.output)}}
+        </span><br>
+        <span class="neuron" (click)="getInfo(creature.outRotate)">
+            OutRotate: {{formatterService.float(creature.outRotate.input)}} >> {{formatterService.float(creature.outRotate.output)}}
         </span>
      </div>
-     <div class="body" [style.backgroundColor]="getBodyBackgroundColor()" [style.width]="getBodyWidth()">
+     <div class="creature" [style.backgroundColor]="getCreatureBackgroundColor()" [style.transform]="getCreatureTransform()">
 
      </div>
 </div>

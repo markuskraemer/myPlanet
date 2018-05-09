@@ -31,9 +31,9 @@ export class TileMap {
                 if(tile.type == TileType.Water){
                     tile.foodAmount = 0;
                 }else if(tile.type == TileType.Sand){
-                    tile.foodAmount = 20 + Math.random () * 10;
+                    tile.foodAmount = 200 + Math.random () * 100;
                 }else if(tile.type == TileType.Gras){
-                    tile.foodAmount = 50 + Math.random () * 50;
+                    tile.foodAmount = 500 + Math.random () * 500;
                 }
                 this.tiles.push(tile);
             }
@@ -44,8 +44,7 @@ export class TileMap {
 
         const r:number = Math.floor(x / TileMap.TILE_SIZE);
         const c:number = Math.floor(y / TileMap.TILE_SIZE);
-        const index:number = r * c + r;
-        // console.log(x + "|" + y + " -> " + index);
+        const index:number = c * this.rowCount + r;        
         return this.tiles[index];
     }
 

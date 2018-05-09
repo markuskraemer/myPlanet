@@ -6,7 +6,7 @@ export class TickService {
     private _ticks:number = 0;
     private intervalId:any;
     private _isRunning:boolean;
-    private _speed:number;
+    private _speed:number = .25;
     public tick:EventEmitter<number> = new EventEmitter ();
 
     public get speed ():number {

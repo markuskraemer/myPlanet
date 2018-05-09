@@ -1,3 +1,4 @@
+import { TileType } from './TileType.enum';
 import { MathUtils } from './../utils/MathUtils';
 import { Tile } from './Tile';
 import { Alias } from './../Alias';
@@ -10,14 +11,22 @@ import { InputNeuron } from './../network/InputNeuron';
 export class Creature {
 
     private static EAT_GAIN:number = 1;
-
+    private static ROTATE_FACTOR:number = 10;
+    private static COST_ROTATE:number = 5;
+    
     private static creatureCount:number = 0;
     public id:number;
     private brain:NeuralNetwork;
+
     public inputFood:InputNeuron;
+    
     public outEat:WorkingNeuron;
+    public outRotate:WorkingNeuron;
+
+
     public x:number;
     public y:number;
+    public viewAngle:number = 0;
     private _energy:number = 0;
     
     public get energy ():number {
@@ -64,6 +73,7 @@ export class Creature {
 
         this.inputFood = new InputNeuron ();
         this.outEat = new WorkingNeuron (0);
+        this.outRotate = new WorkingNeuron (0);
 
         this.inputFood.id = CreatureNeuronIds.IN_FOOD;
         this.outEat.id = CreatureNeuronIds.OUT_EAT;
@@ -72,13 +82,23 @@ export class Creature {
     private initBrain ():void {
         this.brain.addInputNeuron (this.inputFood); 
         this.brain.addOutputNeuron (this.outEat);
+       // this.brain.addOutputNeuron (this.outRotate);
     }
 
     public tick (timeDelta:number):void {
         const tile:Tile = Alias.world.tileMap.getTileAt (this.x, this.y);
+        const costMultiplier:number = this.calcCostMultiplier ();
         this.inputFood.input = tile.foodAmount;
+        this.rotate (costMultiplier, timeDelta);
         this.eat (tile, timeDelta);
+    }
 
+    private calcCostMultiplier ():number {
+        
+        if(Alias.world.tileMap.getTileAt (this.x, this.y).type == TileType.Water)
+            return 2;
+        else
+            return 1;
     }
 
     private eat (tile:Tile, timeDelta:number):void {
@@ -86,6 +106,12 @@ export class Creature {
         const wantsToEat:number = eatWish * Creature.EAT_GAIN * timeDelta; 
         const actualFoodAmount:number = tile.eat (wantsToEat);
         this._energy += actualFoodAmount;
+    }
+
+    private rotate (costMultiplier:number, timeDelta:number):void {
+        const rotateForce = MathUtils.clampNegPos(this.outRotate.output);
+        this.viewAngle += rotateForce * Creature.ROTATE_FACTOR * timeDelta;
+        this._energy -= Math.abs(rotateForce * Creature.COST_ROTATE * timeDelta * costMultiplier);
     }
 
 }

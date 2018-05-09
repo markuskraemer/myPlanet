@@ -1,7 +1,7 @@
 import { TileType } from './TileType.enum';
 export class Tile {
 
-    public static MAX_FOOD_AMOUNT:number = 100;
+    public static MAX_FOOD_AMOUNT:number = 1000;
 
     public foodAmount:number = 1;
     public type:TileType;
