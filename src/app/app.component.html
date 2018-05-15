@@ -15,3 +15,6 @@
     <app-tileMap [tiles]="mainService.world.tileMap.tiles" [rows]="mainService.world.tileMap.rowCount"></app-tileMap>
     <app-creature *ngFor="let creature of mainService.world.creatures" [creature]="creature"></app-creature>
 </div>
+<app-creature-info [creature]="mainService.inspectedCreature" class="creature-info"></app-creature-info>
+<app-neuralNetwork [network]="mainService.inspectedCreatureBrain" class="brain-info"></app-neuralNetwork>
+

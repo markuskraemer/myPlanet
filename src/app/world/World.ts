@@ -6,7 +6,7 @@ import { Creature } from './Creature';
 export class World {
 
     private _creatures:Creature [] = [];
-    public readonly width:number = 200;
+    public readonly width:number = 800;
     public readonly height:number = 400;
     private static _instance:World;
     private _tileMap:TileMap;

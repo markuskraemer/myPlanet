@@ -3,20 +3,28 @@ import { WorkingNeuron } from './WorkingNeuron';
 import { InputNeuron } from './InputNeuron';
 export class NeuralNetwork {
 
-    private inputLayer:InputNeuron[] = [];
-    private outputLayer:WorkingNeuron[] = [];
+    private _inputLayer:InputNeuron[] = [];
+    private _outputLayer:WorkingNeuron[] = [];
+
+    public get inputLayer ():InputNeuron[] {
+        return this._inputLayer;
+    }
+
+    public get outputLayer ():WorkingNeuron[] {
+        return this._outputLayer;
+    }
 
     public addInputNeuron (inputNeuron:InputNeuron):void {
-        this.inputLayer.push(inputNeuron);
+        this._inputLayer.push(inputNeuron);
     }
 
     public addOutputNeuron (outputNeuron:WorkingNeuron):void {
-        this.outputLayer.push (outputNeuron);
+        this._outputLayer.push (outputNeuron);
     }
 
     public generateMesh ():void {
-        for(const outputNeuron of this.outputLayer){
-            for(const inputNeuron of this.inputLayer){
+        for(const outputNeuron of this._outputLayer){
+            for(const inputNeuron of this._inputLayer){
                 const connection:Connection = new Connection ();
                 outputNeuron.addConnection (connection);
             }
@@ -24,16 +32,16 @@ export class NeuralNetwork {
     }
 
     public setConnectionTargets ():void {
-        for(const outputNeuron of this.outputLayer){
+        for(const outputNeuron of this._outputLayer){
             for(let i:number = 0; i < outputNeuron.connections.length; ++i){
                 const connection:Connection = outputNeuron.connections[i];
-                connection.fromNeuron = this.inputLayer[i]; 
+                connection.fromNeuron = this._inputLayer[i]; 
             }
         } 
     } 
 
     public randomizeWeights ():void {
-        for(const outputNeuron of this.outputLayer){
+        for(const outputNeuron of this._outputLayer){
             for(const connection of outputNeuron.connections){
                 connection.weight = Math.random () * 2 - 1; 
             }

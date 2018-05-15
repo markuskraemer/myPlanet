@@ -1,3 +1,4 @@
+import { MainService } from './../../main.service';
 import { FormatterService } from './../../utils/Formatter.service';
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Creature } from './../../world/Creature';
@@ -15,7 +16,8 @@ export class CreatureComponent implements OnInit {
     public showInfo:boolean = false;
 
     constructor(
-        public formatterService:FormatterService
+        public formatterService:FormatterService,
+        public mainService:MainService
     ) { }
 
     ngOnInit() {

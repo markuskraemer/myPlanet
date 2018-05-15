@@ -13,3 +13,25 @@
 .world {
 
 }
+
+.creature-info {
+    position: absolute;
+    top:0;
+    right: 0;
+    z-index:100;
+    width:400px;
+    height:100px;
+    padding:20px;
+    box-sizing: border-box;
+}
+
+.brain-info {
+    position: absolute;
+    top:100px;
+    right: 0;
+    z-index:100;
+    width:400px;
+    height:250px;
+    background: lightblue;
+}
+

@@ -1,4 +1,4 @@
-<div class="main" [style.left]="creature.x+'px'" [style.top]="creature.y+'px'" (click)="showInfo=!showInfo">
+<div class="main" [style.left]="creature.x+'px'" [style.top]="creature.y+'px'" (click)="showInfo=!showInfo;mainService.inspectedCreature=showInfo?this.creature:null">
     <div *ngIf="showInfo" class="info"> 
         ID: {{creature.id}} energy: {{formatterService.float(creature.energy)}}<br>
         <span class="neuron" (click)="getInfo(creature.inputFood)">

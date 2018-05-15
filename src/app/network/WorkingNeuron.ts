@@ -4,13 +4,14 @@ import { Connection } from './Connection';
 export class WorkingNeuron extends Neuron
 {
     public target: number;
+
     private static readonly learningRate: number = .4;
 
 
     public static fromJSON (json:JSON):WorkingNeuron {
-        const workingNeuron:WorkingNeuron = new WorkingNeuron (json['bias']);
+        const workingNeuron:WorkingNeuron = new WorkingNeuron (json['id']);
        // workingNeuron.target = json['target'];
-        workingNeuron.id = json['id'];
+
         const connections:any[] = json['connections'] || [];
         for(const connectionJSON of connections){
             const connection:Connection = Connection.fromJSON (connectionJSON);
@@ -19,10 +20,10 @@ export class WorkingNeuron extends Neuron
         return workingNeuron;
     }
 
-
-    constructor(bias: number)
+ 
+    constructor(public id:string)
     {
-        super();
+        super(id);
     }
 
 
