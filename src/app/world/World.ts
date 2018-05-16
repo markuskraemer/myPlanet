@@ -32,7 +32,7 @@ export class World {
         return this.totalCreaturesCount - this.deadCreaturesCount;
     }
 
-    public get avAgeOfDeadCreaturs ():number {
+    public get avAgeOfDeadCreatures ():number {
         return this.totalAgeOfDeadCreatures / this.deadCreaturesCount;
     }
 

@@ -15,5 +15,6 @@
     <app-tileMap [tiles]="mainService.world.tileMap.tiles" [rows]="mainService.world.tileMap.rowCount"></app-tileMap>
     <app-creature *ngFor="let creature of mainService.world.creatures" [creature]="creature"></app-creature>
 </div>
+<app-world-info [world]="mainService.world" class="world-info"></app-world-info>
 <app-creature-info [creature]="mainService.inspectedCreature" class="creature-info"></app-creature-info>
 

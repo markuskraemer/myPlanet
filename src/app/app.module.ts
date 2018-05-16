@@ -1,3 +1,4 @@
+import { WorldInfoComponent } from './view/world-info/world-info.component';
 import { CreatureInfoComponent } from './view/creatureInfo/creature-info.component';
 import { TestComponent } from './view/test/test.component';
 import { NeuralNetworkComponent } from './view/neuralNetwork/neuralNetwork.component';
@@ -30,7 +31,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ModalComponent,
     NeuralNetworkComponent,
     TestComponent,
-    CreatureInfoComponent
+    CreatureInfoComponent,
+    WorldInfoComponent
   ],
   imports: [
     BrowserModule,

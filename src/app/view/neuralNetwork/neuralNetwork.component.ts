@@ -15,7 +15,6 @@ export class NeuralNetworkComponent implements OnInit {
 
     @Input('network')
     public set network (n:NeuralNetwork) {
-        console.log("set network: ", n);
         this._network = n;
         this.determineContext ();
         requestAnimationFrame ( () => this.draw ());
@@ -41,7 +40,6 @@ export class NeuralNetworkComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log("onInit");
         this.determineContext ();
         this.tickService.tick.subscribe ( () => this.draw ());
         this.draw ();
