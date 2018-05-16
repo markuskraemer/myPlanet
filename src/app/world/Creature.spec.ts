@@ -13,12 +13,15 @@ describe ('creature test', () => {
 
     it('#creature json test', () => {
         const json1:JSON = creature1.toJSON();
+        console.log("111: ", json1);
+
         const creature2:Creature = Creature.fromJSON (json1);
         const json2:JSON = creature2.toJSON();
 
-        console.log("111: ", json1);
+      
         console.log("222: ", json2);
 
+       
         expect(json2).toEqual(json1);
         
     })

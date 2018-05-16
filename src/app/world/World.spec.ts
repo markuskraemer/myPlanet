@@ -12,8 +12,8 @@ describe ('world test', () => {
         const world2:World = World.fromJSON (json1);
         const json2:JSON = world2.toJSON();
 
-        console.log("111: ", json1);
-        console.log("222: ", json2);
+        console.log("W111: ", json1);
+        console.log("W222: ", json2);
 
         expect(json2).toEqual(json1);
         

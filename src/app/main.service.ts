@@ -23,8 +23,6 @@ export class MainService {
     }
 
     public inspectedCreatureBrain:NeuralNetwork;
-        
-    public testObject = {count:0, changed: new EventEmitter ()}; 
 
     constructor (
        private storageService:StorageService,
@@ -56,8 +54,5 @@ export class MainService {
 
     private tick (delta:number){
         this.world.tick (delta);
-        this.testObject.count ++;
-        this.testObject.changed.emit ();
-        // this.zone.run (() => console.log("run"));
     }
 }
