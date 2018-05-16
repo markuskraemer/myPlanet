@@ -40,7 +40,7 @@ export class CreatureComponent implements OnInit {
 
     public getCreatureStyle ():any {
         let o:any = {
-            backgroundColor:this.getCreatureBackgroundColor(),
+            backgroundColor:this.creature.color.rgb().string(),
             transform:this.getCreatureTransform()
         }
         return o;

@@ -9,6 +9,8 @@ import { CreatureNeuronIds } from './CreatureNeuronIds';
 import { WorkingNeuron } from './../network/WorkingNeuron';
 import { NeuralNetwork } from './../network/NeuralNetwork';
 import { InputNeuron } from './../network/InputNeuron';
+import { nonenumerable } from './../utils/ObjectUtils';
+import * as Color from 'color';
 
 export class Creature {
 
@@ -36,14 +38,14 @@ export class Creature {
     public outRotate:WorkingNeuron;
     public outMove:WorkingNeuron;
 
-    public world:World;
     public x:number;
     public y:number;
     private moveVector:Victor;
     public viewAngle:number = 0;
     public age:number = 0;
     private _energy:number = 0;
-    
+    public color:Color;
+
     public isDead:boolean = false;
 
     public get energy ():number {
@@ -59,6 +61,7 @@ export class Creature {
         if(doSelfInit) {
             this.id = Creature.creatureCount ++;
             this._energy = 200;
+            this.color = this.getRandomColor ();
             this.createBrain ();
             this.initBrain ();
             this._brain.generateMesh (); 
@@ -98,6 +101,13 @@ export class Creature {
         return this;
     }
 
+    private getRandomColor ():Color {
+        const r:number = Math.random () * 255;
+        const g:number = Math.random () * 255;
+        const b:number = Math.random () * 255;
+
+        return Color.rgb (r, g, b);
+    }
 
     private createBrain ():void {
         this._brain = new NeuralNetwork ();
@@ -172,14 +182,16 @@ export class Creature {
     private move (costMultiplier:number, timeDelta:number):void {
         const moveForce = MathUtils.clampNegPos(this.outMove.output);
         this.moveVector.multiplyScalar (moveForce * Creature.MOVE_FACTOR);
-        this.x += this.moveVector.x;
-        this.y += this.moveVector.y;
+        if(Alias.world.tileMap.isOnTile (this.x + this.moveVector.x, this.y + this.moveVector.y)){
+            this.x += this.moveVector.x;
+            this.y += this.moveVector.y;
+        }
         this._energy -= Math.abs(moveForce * Creature.COST_MOVE * timeDelta * costMultiplier);
     }
 
     private checkDie ():void {
         if(this._energy < Creature.MINIMUM_SURVIVALENERGY){
-            this.world.letCreatureDie (this);
+            Alias.world.letCreatureDie (this);
         }
     }
 

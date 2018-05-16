@@ -8,6 +8,7 @@ export class World {
     private _creatures:Creature [] = [];
     public readonly width:number = 800;
     public readonly height:number = 400;
+    public readonly MIN_CREATURE_COUNT:number = 2;
     private static _instance:World;
     private _tileMap:TileMap;
     private _id:string;
@@ -65,7 +66,6 @@ export class World {
         world._tileMap = TileMap.fromJSON (json['_tileMap']);      
         for(const creaturesJSON of json['_creatures']){
             let creature:Creature = Creature.fromJSON(<any>creaturesJSON);
-            creature.world = world;
             world.addCreature(creature);
         }
         return world;
@@ -81,7 +81,6 @@ export class World {
     public createCreature ():void{
         this.totalCreaturesCount ++;
         const creature:Creature = new Creature ();
-        creature.world = this;
         creature.x = Math.random () * this.width;
         creature.y = Math.random () * this.height;
         this.addCreature(creature);
@@ -94,6 +93,9 @@ export class World {
     public tick (delta:number):void {
         for(const creature of this._creatures){
             creature.tick (delta);
+        }
+        if(this.aliveCreaturesCount < this.MIN_CREATURE_COUNT){
+            this.createCreature ();
         }
     }
 }

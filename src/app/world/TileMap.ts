@@ -48,4 +48,7 @@ export class TileMap {
         return this.tiles[index];
     }
 
+    public isOnTile (x:number, y:number):boolean {
+        return this.getTileAt (x,y) != null;
+    }
 }
