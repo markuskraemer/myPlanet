@@ -1,0 +1,9 @@
+.container {
+    background-color: lightblue;
+}
+
+.info{
+    padding:20px;
+    box-sizing: border-box;
+}
+

@@ -15,10 +15,11 @@ export class NeuralNetworkComponent implements OnInit {
 
     @Input('network')
     public set network (n:NeuralNetwork) {
+        console.log("set network: ", n);
         this._network = n;
-        if(this._network){
-            this.draw ();
-        }
+        this.determineContext ();
+        requestAnimationFrame ( () => this.draw ());
+        this.draw (); 
     }
 
     public get network ():NeuralNetwork {
@@ -41,10 +42,16 @@ export class NeuralNetworkComponent implements OnInit {
 
     ngOnInit() {
         console.log("onInit");
-        const canvas:HTMLCanvasElement = this.canvas.nativeElement;
-        this.context = canvas.getContext ('2d');
+        this.determineContext ();
         this.tickService.tick.subscribe ( () => this.draw ());
+        this.draw ();
     }
+
+    private determineContext (){
+        const canvas:HTMLCanvasElement = this.canvas.nativeElement;
+        this.context = canvas.getContext ('2d');        
+    }
+
 
     public get canvasWidth ():number {
         return this.elementRef.nativeElement.clientWidth;
@@ -60,7 +67,7 @@ export class NeuralNetworkComponent implements OnInit {
         this.width = this.context.canvas.width;
         this.height = this.context.canvas.height;
         this.context.clearRect (0, 0, this.width, this.height);
-
+        
         if(this._network){
 
             this.context.lineWidth = 1;
@@ -74,11 +81,17 @@ export class NeuralNetworkComponent implements OnInit {
         }
     }
 
+    // this is a test func
+    private drawSquare ():void {
+        this.context.strokeStyle = 'red';
+        this.context.strokeRect (10,10,200,100);
+    }
+
     private drawOutputs ():void {
         for(let i:number = 0; i < this._network.outputLayer.length; ++i){
             const neuron:Neuron = this._network.outputLayer[i];
             this.context.beginPath();
-            this.context.fillStyle = 'pink';//this.getColor (neuron.output);
+            this.context.fillStyle = this.getColor (neuron.output);
             this.context.arc(this.getOutputNeuronX (i), this.getNeuronY (i), Math.abs(neuron.output) * this.radius, 0, 2 * Math.PI, false);
             this.context.fill();
         }
