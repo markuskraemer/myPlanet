@@ -25,4 +25,14 @@ describe ('creature test', () => {
         expect(json2).toEqual(json1);
         
     })
+
+      it('#creature by other creature test', () => {
+        
+        const creature2:Creature = new Creature (creature1);
+        const json1:JSON = creature1.toJSON();
+        const json2:JSON = creature2.toJSON();
+
+        expect(json2).toEqual(json1);
+        
+    })
 })

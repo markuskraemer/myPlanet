@@ -7,7 +7,7 @@ export class TileMap {
     public static readonly TILE_SIZE:number = 50;
 
     public static fromJSON (json:any):TileMap {
-        console.log("tileMap fromJSON: ", json);
+
         const tileMap:TileMap = new TileMap ();
         tileMap.rowCount = json['rowCount'];
         const tilesJSON:any[] = json['tiles'];
@@ -37,6 +37,12 @@ export class TileMap {
                 }
                 this.tiles.push(tile);
             }
+        }
+    }
+
+    public tick ():void {
+        for(const tile of this.tiles){
+            tile.tick ();
         }
     }
 

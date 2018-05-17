@@ -14,7 +14,7 @@ import * as Color from 'color';
 
 export class Creature {
 
-    private static readonly EAT_GAIN:number = 1;
+    private static readonly EAT_GAIN:number = 50;
     private static readonly ROTATE_FACTOR:number = 1;
     private static readonly MOVE_FACTOR:number = 5;
     
@@ -25,6 +25,8 @@ export class Creature {
 
     private static readonly START_ENERGY:number = 150;
     private static readonly MINIMUM_SURVIVALENERGY:number = 100;
+    private static readonly MINIMUM_AGE_TO_GIVE_BIRTH:number = 2;
+
 
     private static creatureCount:number = 0;
     public id:number;
@@ -37,7 +39,8 @@ export class Creature {
     public outEat:WorkingNeuron;
     public outRotate:WorkingNeuron;
     public outMove:WorkingNeuron;
-
+    public outGiveBirth:WorkingNeuron;
+    
     public x:number;
     public y:number;
     private moveVector:Victor;
@@ -45,7 +48,7 @@ export class Creature {
     public age:number = 0;
     private _energy:number = 0;
     public color:Color;
-
+    public generation:number = 0;
     public isDead:boolean = false;
 
     public get energy ():number {
@@ -56,45 +59,74 @@ export class Creature {
         return this._brain;
     }
 
-    constructor (doSelfInit:boolean = true) {
+    constructor ()
+    constructor (mother:Creature)
+    constructor (json:JSON)
+    constructor (motherOrJSONOrNull = null)  {
+
         this.moveVector = new Victor (0,0);
-        if(doSelfInit) {
-            this.id = Creature.creatureCount ++;
-            this._energy = 200;
-            this.color = this.getRandomColor ();
-            this.createBrain ();
-            this.initBrain ();
-            this._brain.generateMesh (); 
-            this._brain.setConnectionTargets (); 
-            this._brain.randomizeWeights ();
+
+        if(motherOrJSONOrNull == null){
+            this.init ();
+        }else if(motherOrJSONOrNull instanceof Creature) {
+            this.initFromCreature (motherOrJSONOrNull)
+        }else{
+            this.initFromJSON (motherOrJSONOrNull);
         }
     }
 
+    private init ():void{
+        this.generation = 0;
+        this.id = Creature.creatureCount ++;
+        this._energy = Creature.START_ENERGY;
+        this.color = this.getRandomColor ();
+        this.createBrain ();
+        this.initBrain ();
+        this._brain.generateMesh (); 
+        this._brain.setConnectionTargets (); 
+        this._brain.randomizeWeights ();
+    }
+
+    private initFromJSON (json:JSON):void {
+        this.id = json['id'];
+        this.x = json['x'];
+        this.y = json['y'];
+        this.color = new Color(json['color'].color);
+        this.viewAngle = json['viewAngle'];
+        this.moveVector = new Victor(json['moveVector'].x, json['moveVector'].y);
+        this.age = json['age'];
+        this.isDead = json['isDead'];
+
+        this._brain = new NeuralNetwork ();
+
+        this.inputFood = InputNeuron.fromJSON (json['inputFood']);
+        this.inputEnergy = InputNeuron.fromJSON (json['inputEnergy']);
+        this.inputAge = InputNeuron.fromJSON (json['inputAge']);
+        this.outEat = WorkingNeuron.fromJSON (json['outEat']);
+        this.outRotate = WorkingNeuron.fromJSON (json['outRotate']);
+        this.outMove = WorkingNeuron.fromJSON (json['outMove']);
+        this.outGiveBirth = WorkingNeuron.fromJSON (json['outGiveBirth']);
+
+
+        this.initBrain ();
+        this._brain.setConnectionTargets (); 
+
+        this._energy = json['_energy'];
+    }
+
+    private initFromCreature (creature:Creature):void {
+        this.initFromJSON(creature.toJSON());
+        this.id = Creature.creatureCount ++;
+        this.viewAngle = Math.random () * Math.PI * 2;
+        this._energy = Creature.START_ENERGY;
+        this.age = 0;
+        this.generation = creature.generation + 1;
+        // this.color = new Color (this.color.)
+
+    }
+
     public static fromJSON (json:JSON):Creature {
-        const creature:Creature = new Creature (false);
-        creature.id = json['id'];
-        creature.x = json['x'];
-        creature.y = json['y'];
-        creature.viewAngle = json['viewAngle'];
-        creature.moveVector = new Victor(json['moveVector'].x, json['moveVector'].y);
-        creature.age = json['age'];
-        creature.isDead = json['isDead'];
-
-        creature._brain = new NeuralNetwork ();
-
-        creature.inputFood = InputNeuron.fromJSON (json['inputFood']);
-        creature.inputEnergy = InputNeuron.fromJSON (json['inputEnergy']);
-        creature.inputAge = InputNeuron.fromJSON (json['inputAge']);
-        creature.outEat = WorkingNeuron.fromJSON (json['outEat']);
-        creature.outRotate = WorkingNeuron.fromJSON (json['outRotate']);
-        creature.outMove = WorkingNeuron.fromJSON (json['outMove']);
-
-        creature.initBrain ();
-        creature._brain.setConnectionTargets (); 
-
-        creature._energy = json['_energy'];
-
-        return creature;
+        return new Creature (json);
     }
 
     public toJSON ():any {
@@ -119,6 +151,7 @@ export class Creature {
         this.outEat = new WorkingNeuron (CreatureNeuronIds.OUT_EAT);
         this.outRotate = new WorkingNeuron (CreatureNeuronIds.OUT_ROTATE);
         this.outMove = new WorkingNeuron (CreatureNeuronIds.OUT_MOVE);
+        this.outGiveBirth = new WorkingNeuron (CreatureNeuronIds.OUT_GIVE_BIRTH);
 
     }
 
@@ -130,6 +163,7 @@ export class Creature {
         this._brain.addOutputNeuron (this.outEat);
         this._brain.addOutputNeuron (this.outRotate);
         this._brain.addOutputNeuron (this.outMove);
+        this._brain.addOutputNeuron (this.outGiveBirth);
     }
 
     public tick (timeDelta:number):void {
@@ -145,7 +179,9 @@ export class Creature {
         this.moveVector.y = Math.cos(this.viewAngle);
         this.move (costMultiplier, timeDelta);
         this.eat (tile, costMultiplier, timeDelta);
+        this.checkGiveBirth ();
         this._energy -= Creature.COST_PERMANENT * costMultiplier;
+        this.age += .1 * timeDelta;
         this.checkDie ();
     }
 
@@ -160,9 +196,13 @@ export class Creature {
     private calcCostMultiplier ():number {
         
         if(Alias.world.tileMap.getTileAt (this.x, this.y).type == TileType.Water)
-            return 2;
+            return 2 * this.age;
         else
-            return 1;
+            return 1 * this.age;
+    }
+
+    private isAbleToGiveBirth() {
+        return this._energy > Creature.START_ENERGY + Creature.MINIMUM_SURVIVALENERGY * 1.1 && this.age > Creature.MINIMUM_AGE_TO_GIVE_BIRTH;
     }
 
     private eat (tile:Tile, costMultiplier:number, timeDelta:number):void {
@@ -170,7 +210,6 @@ export class Creature {
         const wantsToEat:number = eatWish * Creature.EAT_GAIN * timeDelta; 
         const actualFoodAmount:number = tile.eat (wantsToEat);
         this._energy += actualFoodAmount;
-        this._energy -= Creature.COST_PERMANENT * timeDelta * costMultiplier;
     }
 
     private rotate (costMultiplier:number, timeDelta:number):void {
@@ -187,6 +226,19 @@ export class Creature {
             this.y += this.moveVector.y;
         }
         this._energy -= Math.abs(moveForce * Creature.COST_MOVE * timeDelta * costMultiplier);
+    }
+
+    private checkGiveBirth ():void {
+        if(this.outGiveBirth.output > 0 && this.isAbleToGiveBirth ()){
+            this.giveBirth ();
+        }
+    }
+
+    private giveBirth ():void {
+        console.log("-- giveBirth --", this);
+        const child:Creature = new Creature (this);
+        Alias.world.addCreature(child);
+
     }
 
     private checkDie ():void {

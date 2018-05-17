@@ -24,6 +24,11 @@ export class MathUtils {
         return 1 / (1 + Math.pow(Math.E, -n));
     }
 
+    public static round3 (f:number):number {
+        f *= 1000;
+        f |= 0;
+        return f / 1000;
+    }
 }
 
 

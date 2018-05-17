@@ -29,13 +29,10 @@ export class TileMapComponent implements OnInit {
             case TileType.Water:
                 return 'rgb(122,122,255)';  
             
-            case TileType.Sand:
-                return 'rgb('  
-                    + (125 + (perc * 130)) + ','
-                    + 183 + ','
-                    + 8 + ')';
-            
+
             case TileType.Gras:
+            case TileType.Sand:
+
                 return 'rgb('  
                     + '125,'
                     + (150 + perc * 105) + ','

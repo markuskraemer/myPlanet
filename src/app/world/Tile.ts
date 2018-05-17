@@ -1,7 +1,7 @@
 import { TileType } from './TileType.enum';
 export class Tile {
 
-    public static MAX_FOOD_AMOUNT:number = 1000;
+    public static readonly MAX_FOOD_AMOUNT:number = 1000;
 
     public foodAmount:number = 1;
     public type:TileType;
@@ -17,6 +17,14 @@ export class Tile {
         return tile;
     }
     
+    public tick ():void {
+        if(this.type != TileType.Water){
+            this.foodAmount += 4;
+            if(this.foodAmount > Tile.MAX_FOOD_AMOUNT)
+                this.foodAmount = Tile.MAX_FOOD_AMOUNT;
+        }
+    }
+
     public eat (eatWish:number):number {
         const c:number = Math.min(this.foodAmount, eatWish);
         this.foodAmount -= c;

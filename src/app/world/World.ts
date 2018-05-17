@@ -8,7 +8,7 @@ export class World {
     private _creatures:Creature [] = [];
     public readonly width:number = 800;
     public readonly height:number = 400;
-    public readonly MIN_CREATURE_COUNT:number = 2;
+    public readonly MIN_CREATURE_COUNT:number = 1;
     private static _instance:World;
     private _tileMap:TileMap;
     private _id:string;
@@ -50,10 +50,6 @@ export class World {
 
     public toJSON ():any {
         return this;
-        /*
-        let { _creatures, _id, _tileMap, name } = this;
-        return { _creatures, _id, _tileMap, name }; 
-        */
     }
 
     public static fromJSON (json:JSON):World {
@@ -79,7 +75,6 @@ export class World {
     }
 
     public createCreature ():void{
-        this.totalCreaturesCount ++;
         const creature:Creature = new Creature ();
         creature.x = Math.random () * this.width;
         creature.y = Math.random () * this.height;
@@ -87,10 +82,14 @@ export class World {
     }
 
     public addCreature (creature:Creature):void {
+        this.totalCreaturesCount ++;
         this._creatures.push(creature);
     }
 
     public tick (delta:number):void {
+
+        this.tileMap.tick ();
+
         for(const creature of this._creatures){
             creature.tick (delta);
         }

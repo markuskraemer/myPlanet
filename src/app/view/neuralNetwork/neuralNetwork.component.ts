@@ -85,6 +85,42 @@ export class NeuralNetworkComponent implements OnInit {
         this.context.strokeRect (10,10,200,100);
     }
 
+
+    private drawOutputLayer ():void {
+        this.context.strokeStyle = 'black';
+
+        for(let i:number = 0; i < this._network.outputLayer.length; ++i){
+            const neuron:Neuron = this._network.outputLayer[i];
+            this.context.beginPath();
+            this.context.arc(this.getOutputNeuronX (i), this.getNeuronY (i), this.radius, 0, 2 * Math.PI, false);
+            this.context.stroke();
+            this.context.font = '10px Arial';
+            this.context.lineWidth = 1;
+            this.context.strokeText (neuron.id, this.getOutputNeuronX (i) + this.radius + 10, this.getNeuronY (i) + 5);
+
+            this.context.lineWidth = .5;
+            this.context.strokeText (String(MathUtils.round3 (neuron.output)), this.getOutputNeuronX (i) + this.radius + 10, this.getNeuronY (i) + 22);
+        }
+    }
+
+    private drawInputLayer ():void {
+        this.context.strokeStyle = 'black';
+
+        for(let i:number = 0; i < this._network.inputLayer.length; ++i){
+            const neuron:Neuron = this._network.inputLayer[i];
+            this.context.beginPath();
+            this.context.arc(this.getInputNeuronX (i), this.getNeuronY (i), this.radius, 0, 2 * Math.PI, false);
+            this.context.stroke();
+
+            this.context.font = '10px Arial';
+            this.context.lineWidth = 1;
+            this.context.strokeText (neuron.id, this.getInputNeuronX (i) - this.radius - 80, this.getNeuronY (i) + 5);
+
+            this.context.lineWidth = .5;
+            this.context.strokeText (String(MathUtils.round3 (neuron.output)), this.getInputNeuronX (i) - this.radius - 80, this.getNeuronY (i) + 22);
+        }
+    }
+
     private drawOutputs ():void {
         for(let i:number = 0; i < this._network.outputLayer.length; ++i){
             const neuron:Neuron = this._network.outputLayer[i];
@@ -105,36 +141,6 @@ export class NeuralNetworkComponent implements OnInit {
         }
     }
 
-
-
-    private drawOutputLayer ():void {
-        this.context.strokeStyle = 'black';
-
-        for(let i:number = 0; i < this._network.outputLayer.length; ++i){
-            const neuron:Neuron = this._network.outputLayer[i];
-            this.context.beginPath();
-            this.context.arc(this.getOutputNeuronX (i), this.getNeuronY (i), this.radius, 0, 2 * Math.PI, false);
-            this.context.stroke();
-            this.context.font = '10px Arial';
-            this.context.lineWidth = 1;
-            this.context.strokeText (neuron.id, this.getOutputNeuronX (i) + this.radius + 10, this.getNeuronY (i) + 5);
-        }
-    }
-
-    private drawInputLayer ():void {
-        this.context.strokeStyle = 'black';
-
-        for(let i:number = 0; i < this._network.inputLayer.length; ++i){
-            const neuron:Neuron = this._network.inputLayer[i];
-            this.context.beginPath();
-            this.context.arc(this.getInputNeuronX (i), this.getNeuronY (i), this.radius, 0, 2 * Math.PI, false);
-            this.context.stroke();
-            this.context.font = '10px Arial';
-            this.context.lineWidth = 1;
-            this.context.strokeText (neuron.id, this.getInputNeuronX (i) - this.radius - 80, this.getNeuronY (i) + 5);
-
-        }
-    }
 
     private drawConnections ():void {
         for(let i:number = 0; i < this._network.outputLayer.length; ++i){
