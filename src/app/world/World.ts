@@ -7,8 +7,9 @@ export class World {
 
     private _creatures:Creature [] = [];
     public readonly width:number = 800;
-    public readonly height:number = 400;
-    public readonly MIN_CREATURE_COUNT:number = 1;
+    public readonly height:number = 800;
+    public readonly MIN_CREATURE_COUNT:number = 10;
+    public readonly MAX_CREATURE_COUNT:number = 1000;
     private static _instance:World;
     private _tileMap:TileMap;
     private _id:string;
@@ -82,8 +83,10 @@ export class World {
     }
 
     public addCreature (creature:Creature):void {
-        this.totalCreaturesCount ++;
-        this._creatures.push(creature);
+        if(this.aliveCreaturesCount < this.MAX_CREATURE_COUNT){
+            this.totalCreaturesCount ++;
+            this._creatures.push(creature);
+        }
     }
 
     public tick (delta:number):void {

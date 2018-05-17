@@ -1,3 +1,4 @@
+import { TileMap } from './../../world/TileMap';
 import { TileType } from './../../world/TileType.enum';
 import { Component, OnInit, Input } from '@angular/core';
 import { Tile } from './../../world/Tile';
@@ -15,7 +16,7 @@ export class TileMapComponent implements OnInit {
     @Input ('rows')
     public rows:number = 0;
 
-    public readonly tileSize:number = 50;
+    public readonly tileSize:number = TileMap.TILE_SIZE;
 
     constructor() { }
 

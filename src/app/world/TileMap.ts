@@ -4,7 +4,8 @@ export class TileMap {
 
     public tiles:Tile[] = [];
     public rowCount:number = 0;
-    public static readonly TILE_SIZE:number = 50;
+    public colCount:number = 0;
+    public static readonly TILE_SIZE:number = 25;
 
     public static fromJSON (json:any):TileMap {
 
@@ -23,6 +24,7 @@ export class TileMap {
 
     public createTilesBySeedMap (map:number[][]){
         this.rowCount = map[0].length;
+        this.colCount = map.length;
         this.tiles = [];
         for(let col:number = 0; col < map.length; ++col){
             for(let row:number = 0; row < map[col].length; ++row){
@@ -50,6 +52,10 @@ export class TileMap {
 
         const r:number = Math.floor(x / TileMap.TILE_SIZE);
         const c:number = Math.floor(y / TileMap.TILE_SIZE);
+        
+        if(r < 0 || r >= this.rowCount || c < 0 || c >= this.colCount)
+            return null;
+
         const index:number = c * this.rowCount + r;        
         return this.tiles[index];
     }

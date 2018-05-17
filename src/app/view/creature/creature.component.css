@@ -3,8 +3,6 @@
 }
 
 .main {
-    width:max-content;
-    height:100px;
     position: absolute;
 }
 
@@ -21,10 +19,27 @@
 }
 
 .creature {
+    top:0;
+    left:0;
     width:10px;
     height:10px;
     position: absolute;
-    top:0;
-    left:0;
     transform-origin: center;
+}
+
+.eye {
+    width:2px;
+    height:2px;
+    background: black;
+    position: absolute;
+    top:0;
+    z-index: 1;
+}
+
+.left{
+    left:2px;
+}
+
+.right{
+    right:2px;
 }

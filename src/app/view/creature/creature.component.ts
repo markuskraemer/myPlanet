@@ -35,7 +35,7 @@ export class CreatureComponent implements OnInit {
 
     public getCreatureTransform ():string {
         const scale:number = 1 + Math.max(this.creature.energy, 0) / 500;
-        return 'scale(' + scale + ')rotateZ(' + this.creature.viewAngle + 'deg)';
+        return 'scale(' + scale + ')rotateZ(' + this.creature.viewAngle + 'rad)';
     }
 
     public getCreatureStyle ():any {

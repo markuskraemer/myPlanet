@@ -19,7 +19,7 @@ export class Tile {
     
     public tick ():void {
         if(this.type != TileType.Water){
-            this.foodAmount += 4;
+            this.foodAmount += 10;
             if(this.foodAmount > Tile.MAX_FOOD_AMOUNT)
                 this.foodAmount = Tile.MAX_FOOD_AMOUNT;
         }

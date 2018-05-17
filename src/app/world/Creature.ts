@@ -15,10 +15,10 @@ import * as Color from 'color';
 export class Creature {
 
     private static readonly EAT_GAIN:number = 50;
-    private static readonly ROTATE_FACTOR:number = 1;
+    private static readonly ROTATE_FACTOR:number = .25;
     private static readonly MOVE_FACTOR:number = 5;
     
-    private static readonly COST_ROTATE:number = 5;
+    private static readonly COST_ROTATE:number = 8;
     private static readonly COST_MOVE:number = 1;
     private static readonly COST_PERMANENT:number = 1;
     private static readonly COST_EAT:number = .1;
@@ -50,6 +50,7 @@ export class Creature {
     public color:Color;
     public generation:number = 0;
     public isDead:boolean = false;
+    private tile:Tile;
 
     public get energy ():number {
         return this._energy;
@@ -121,8 +122,16 @@ export class Creature {
         this._energy = Creature.START_ENERGY;
         this.age = 0;
         this.generation = creature.generation + 1;
-        // this.color = new Color (this.color.)
+        this.color = new Color ([
+            this.color.red () + 10 * Math.random () - 10,
+            this.color.green () + 10 * Math.random () - 10,
+            this.color.blue () + 10 * Math.random () - 10
+        ]);
+        this.randomize ();
+    }
 
+    private randomize ():void {
+        this.brain.randomizeAnyConnection (.2);
     }
 
     public static fromJSON (json:JSON):Creature {
@@ -171,14 +180,14 @@ export class Creature {
         if(this.isDead)
             return;
 
+        this.tile = Alias.world.tileMap.getTileAt (this.x, this.y);
         this.updateInputNeurons ();
-        const tile:Tile = Alias.world.tileMap.getTileAt (this.x, this.y);
         const costMultiplier:number = this.calcCostMultiplier ();
         this.rotate (costMultiplier, timeDelta);
         this.moveVector.x = Math.sin(this.viewAngle);
         this.moveVector.y = Math.cos(this.viewAngle);
         this.move (costMultiplier, timeDelta);
-        this.eat (tile, costMultiplier, timeDelta);
+        this.eat (costMultiplier, timeDelta);
         this.checkGiveBirth ();
         this._energy -= Creature.COST_PERMANENT * costMultiplier;
         this.age += .1 * timeDelta;
@@ -186,8 +195,7 @@ export class Creature {
     }
 
     private updateInputNeurons ():void {
-        const tile:Tile = Alias.world.tileMap.getTileAt (this.x, this.y);
-        this.inputFood.input = tile.foodAmount / Tile.MAX_FOOD_AMOUNT;
+        this.inputFood.input = this.tile ? this.tile.foodAmount / Tile.MAX_FOOD_AMOUNT : 0;
         this.inputEnergy.input = (this._energy - Creature.MINIMUM_SURVIVALENERGY) / (Creature.START_ENERGY - Creature.MINIMUM_SURVIVALENERGY);
         this.inputAge.input = this.age / 10;
     }    
@@ -195,7 +203,7 @@ export class Creature {
 
     private calcCostMultiplier ():number {
         
-        if(Alias.world.tileMap.getTileAt (this.x, this.y).type == TileType.Water)
+        if(this.tile == null || this.tile.type == TileType.Water)
             return 2 * this.age;
         else
             return 1 * this.age;
@@ -205,11 +213,13 @@ export class Creature {
         return this._energy > Creature.START_ENERGY + Creature.MINIMUM_SURVIVALENERGY * 1.1 && this.age > Creature.MINIMUM_AGE_TO_GIVE_BIRTH;
     }
 
-    private eat (tile:Tile, costMultiplier:number, timeDelta:number):void {
-        const eatWish:number = MathUtils.clamp01 (this.outEat.output);
-        const wantsToEat:number = eatWish * Creature.EAT_GAIN * timeDelta; 
-        const actualFoodAmount:number = tile.eat (wantsToEat);
-        this._energy += actualFoodAmount;
+    private eat (costMultiplier:number, timeDelta:number):void {
+        if(this.tile){
+            const eatWish:number = MathUtils.clamp01 (this.outEat.output);
+            const wantsToEat:number = eatWish * Creature.EAT_GAIN * timeDelta; 
+            const actualFoodAmount:number = this.tile.eat (wantsToEat);
+            this._energy += actualFoodAmount;
+        }
     }
 
     private rotate (costMultiplier:number, timeDelta:number):void {
@@ -224,6 +234,9 @@ export class Creature {
         if(Alias.world.tileMap.isOnTile (this.x + this.moveVector.x, this.y + this.moveVector.y)){
             this.x += this.moveVector.x;
             this.y += this.moveVector.y;
+        }else{
+            console.log(" wont go to : " + (this.x + this.moveVector.x) + "|" + (this.y + this.moveVector.y));
+            this.viewAngle += Math.PI;
         }
         this._energy -= Math.abs(moveForce * Creature.COST_MOVE * timeDelta * costMultiplier);
     }
@@ -235,10 +248,9 @@ export class Creature {
     }
 
     private giveBirth ():void {
-        console.log("-- giveBirth --", this);
         const child:Creature = new Creature (this);
         Alias.world.addCreature(child);
-
+        this._energy -= 150;
     }
 
     private checkDie ():void {

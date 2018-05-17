@@ -48,5 +48,13 @@ export class NeuralNetwork {
         }        
     }
 
+    public randomizeAnyConnection (f:number):void {
+        const index1:number = Math.floor (Math.random () * this.outputLayer.length);
+        const neuron:WorkingNeuron = this.outputLayer[index1];
+        const index2:number = Math.floor (Math.random () * neuron.connections.length);
+        const connection:Connection = neuron.connections[index2];
+        connection.weight += Math.random () * f * 2 - f;
+    }
+
 
 }
