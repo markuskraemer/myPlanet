@@ -11,6 +11,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+    public showWorld:boolean = true;
+
     constructor (
         public dialogService:DialogService,
         public mainService:MainService,

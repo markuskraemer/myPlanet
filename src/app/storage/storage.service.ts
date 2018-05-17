@@ -15,7 +15,6 @@ export class StorageService {
         let index:number = this.getDescribtionIndexById (id, describtions);
         describtions.splice(index, 1);
         localStorage.setItem ('describtions', JSON.stringify(describtions));
-        console.log("delete now: ", this.getFileDescribtions ());
     }
 
 

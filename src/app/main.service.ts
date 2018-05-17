@@ -7,10 +7,11 @@ import { Inject } from '@angular/core';
 import { Alias } from './Alias';
 import { World } from './world/World';
 import { Storage } from './storage/Storage';
+import * as Stats from 'stats.js';
 
 @Injectable()
 export class MainService {
-
+    private stats:any;
     public world:World;
     public _inspectedCreature:Creature;
     public set  inspectedCreature(creature:Creature){
@@ -39,6 +40,17 @@ export class MainService {
         this.world.createCreature ();
         this.tickService.tick.subscribe ( (delta:number) => this.tick(delta));
         this.tickService.start ();
+
+        this.stats = new Stats ();
+        document.body.appendChild(this.stats.dom);
+
+        this.updateStats ();
+    }
+
+    private updateStats ():void {
+        this.stats.end ();
+        this.stats.begin ();
+        requestAnimationFrame(()=>this.updateStats());
     }
 
     public load (id:string):void {
@@ -51,8 +63,7 @@ export class MainService {
         this.storageService.delete (id);
     }
 
-
-    private tick (delta:number){
+    private tick (delta:number) {
         this.world.tick (delta);
     }
 }
