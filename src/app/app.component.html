@@ -12,13 +12,12 @@
 
 </div>
 <app-dialogs></app-dialogs><br>
-<input type="checkbox" [(ngModel)]="showWorld">Show World<br>
+<input type="checkbox" [(ngModel)]="showWorld">Show World 
+<app-input-widget></app-input-widget><br>
 <div class="world" *ngIf="showWorld">
+    
     <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
     <app-creatures-canvas [creatures]="mainService.world.creatures"></app-creatures-canvas>
-    <!--
-    <app-creature *ngFor="let creature of mainService.world.creatures" [creature]="creature"></app-creature>
-    -->
 </div>
 <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
 <app-creature-info [creature]="mainService.inspectedCreature" class="creature-info"></app-creature-info>

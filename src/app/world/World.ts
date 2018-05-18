@@ -75,7 +75,7 @@ export class World {
         this._creatures.splice(index, 1);
     }
 
-    public createCreature ():void{
+    public createCreature ():void {
         const creature:Creature = new Creature ();
         creature.x = Math.random () * this.width;
         creature.y = Math.random () * this.height;
@@ -89,8 +89,20 @@ export class World {
         }
     }
 
-    public tick (delta:number):void {
+    public setCreatureCountTo (n:number):void {
+        while(this._creatures.length > n){
+            this._creatures.pop ();
+            this.deadCreaturesCount ++;
+        }
 
+        while(this.aliveCreaturesCount < n){
+            this.createCreature ();
+        }
+
+        this.tick (1);
+    }
+
+    public tick (delta:number):void {
         this.tileMap.tick ();
 
         for(const creature of this._creatures){

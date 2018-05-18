@@ -1,3 +1,4 @@
+import { InputWidgetComponent } from './ui/input-widget/input-widget.component';
 import { CreaturesCanvasComponent } from './view/creatures-canvas/creatures-canvas.component';
 import { TileMapCanvasComponent } from './view/tileMap-canvas/tileMap-canvas.component';
 import { WorldInfoComponent } from './view/world-info/world-info.component';
@@ -36,7 +37,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TestComponent,
     CreatureInfoComponent,
     WorldInfoComponent,
-    CreaturesCanvasComponent
+    CreaturesCanvasComponent,
+    InputWidgetComponent
   ],
   imports: [
     BrowserModule,

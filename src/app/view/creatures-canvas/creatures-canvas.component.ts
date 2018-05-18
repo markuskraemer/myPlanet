@@ -13,25 +13,27 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
     @ViewChild ('canvas')
     public canvas:ElementRef;
 
+    @ViewChild ('canvas2')
+    public canvas2:ElementRef;
+
     private _creatures:Creature[];
     private subscribtion:any;
+    private tileSize:number = 25;
+
 
     @Input('creatures')
     public set tileMap (value:Creature[]){
         this._creatures = value;
-        this.determineContext ();
         requestAnimationFrame(()=>this.draw());
     }
 
-    private context:CanvasRenderingContext2D;
-    private tileSize:number = 25;
     constructor(
         private elementRef:ElementRef,
         private tickService:TickService
-    ) { }
+    ) { 
+    }
 
     ngOnInit() {
-        this.determineContext ();
         this.subscribtion = this.tickService.tick.subscribe (()=>this.draw ());
     }
 
@@ -39,23 +41,29 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
         this.subscribtion.unsubscribe ();
     }
 
-    private determineContext (){
-        const canvas:HTMLCanvasElement = this.canvas.nativeElement;
-        this.context = canvas.getContext ('2d');        
-    }
 
     private draw ():void {
-        this.context.clearRect (0, 0, this.canvasWidth, this.canvasHeight);
+        const show1:boolean = this.tickService.ticks % 2 == 0;
+        let context:CanvasRenderingContext2D = show1 ? this.canvas.nativeElement.getContext ('2d') : this.canvas2.nativeElement.getContext ('2d'); 
+        context.clearRect (0, 0, this.canvasWidth, this.canvasHeight);
+
         for(let i:number = 0; i < this._creatures.length; ++i){
             const creature:Creature = this._creatures[i];
           
-            this.context.fillStyle = this.getBackgroundColor (creature);
-            this.context.fillRect (creature.x, creature.y, 10, 10);
+            context.fillStyle = this.getBackgroundColor (creature);
+            context.fillRect (creature.x, creature.y, 10, 10);
 
-              this.context.fillStyle = 'black';
-            this.context.fillRect (creature.x + 2, creature.y, 2, 2);
-            this.context.fillRect (creature.x + 6, creature.y, 2, 2);
-            
+            context.fillStyle = 'black';
+            context.fillRect (creature.x + 2, creature.y, 2, 2);
+            context.fillRect (creature.x + 6, creature.y, 2, 2);
+        }
+
+        if(show1){
+            this.canvas.nativeElement.style.display = 'block';
+            this.canvas2.nativeElement.style.display = 'none';
+        }else{
+            this.canvas.nativeElement.style.display = 'none';
+            this.canvas2.nativeElement.style.display = 'block';
         }
     }
 

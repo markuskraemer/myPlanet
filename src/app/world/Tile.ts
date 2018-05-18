@@ -3,9 +3,27 @@ export class Tile {
 
     public static readonly MAX_FOOD_AMOUNT:number = 1000;
 
-    public foodAmount:number = 1;
+    public _foodAmount:number = 1;
+
+    public set foodAmount (value:number){
+        if(value != this._foodAmount){
+            this._foodAmount = value;
+            this._changed = true;
+        }
+    }
+
+    public get foodAmount ():number {
+        return this._foodAmount;
+    } 
+
+    public get changed ():boolean {
+        return this._changed;
+    } 
+
+
     public type:TileType;
-    
+    private _changed:boolean;
+
     public toJSON ():any {
         return this;
     }
@@ -18,10 +36,15 @@ export class Tile {
     }
     
     public tick ():void {
+        this._changed = false;
         if(this.type != TileType.Water){
-            this.foodAmount += 10;
-            if(this.foodAmount > Tile.MAX_FOOD_AMOUNT)
-                this.foodAmount = Tile.MAX_FOOD_AMOUNT;
+            if(this.foodAmount < Tile.MAX_FOOD_AMOUNT) {
+                this.foodAmount += 10;
+    
+                if(this.foodAmount > Tile.MAX_FOOD_AMOUNT){
+                    this.foodAmount = Tile.MAX_FOOD_AMOUNT;
+                }
+            }
         }
     }
 

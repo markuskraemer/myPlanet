@@ -11,46 +11,57 @@ import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 })
 export class TileMapCanvasComponent implements OnInit {
 
+   private backbufferContext:CanvasRenderingContext2D;
+
     @ViewChild ('canvas')
     public canvas:ElementRef;
 
+    @ViewChild ('canvas2')
+    public canvas2:ElementRef;
+
     private _tileMap:TileMap;
     private subscribtion:any;
+    private forceDrawAll:boolean;
 
     @Input('tileMap')
     public set tileMap (value:TileMap){
         this._tileMap = value;
-        this.determineContext ();
         requestAnimationFrame(()=>this.draw());
     }
 
-    private context:CanvasRenderingContext2D;
     private tileSize:number = 25;
+
     constructor(
         private elementRef:ElementRef,
         private tickService:TickService
     ) { }
 
     ngOnInit() {
-        this.determineContext ();
+        this.forceDrawAll = true;
         this.subscribtion = this.tickService.tick.subscribe (()=>this.draw ());
-
-    }
-
-    private determineContext (){
-        const canvas:HTMLCanvasElement = this.canvas.nativeElement;
-        this.context = canvas.getContext ('2d');        
     }
 
     private draw ():void {
         const tiles:Tile[] = this._tileMap.tiles;
-
+        const show1:boolean = this.tickService.ticks % 2 == 0;
+        let context:CanvasRenderingContext2D = show1 ? this.canvas.nativeElement.getContext ('2d') : this.canvas2.nativeElement.getContext ('2d'); 
         for(let i:number = 0; i < tiles.length; ++i){
             const tile:Tile = tiles[i];
-            const x:number = i % this._tileMap.colCount * this.tileSize;
-            const y:number = Math.floor(i / this._tileMap.colCount) * this.tileSize;
-            this.context.fillStyle = this.getBackgroundColor(tile);
-            this.context.fillRect (x, y, this.tileSize, this.tileSize);
+           // if(tile.changed || this.forceDrawAll){
+                const x:number = i % this._tileMap.colCount * this.tileSize;
+                const y:number = Math.floor(i / this._tileMap.colCount) * this.tileSize;
+                context.fillStyle = this.getBackgroundColor(tile);
+                context.fillRect (x, y, this.tileSize, this.tileSize);
+            // }
+        }
+        this.forceDrawAll = false;
+        // this.context.drawImage (this.backbufferContext.canvas, 0, 0);
+        if(show1){
+            this.canvas.nativeElement.style.display = 'block';
+            this.canvas2.nativeElement.style.display = 'none';
+        }else{
+            this.canvas.nativeElement.style.display = 'none';
+            this.canvas2.nativeElement.style.display = 'block';
         }
     }
 
