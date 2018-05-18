@@ -6,7 +6,7 @@
         value="{{tickService.isRunning?'stop':'start'}}" 
         (click)="tickService.isRunning?tickService.stop():tickService.start()">
     Ticks:{{tickService.ticks}} | 
-    <input type="range" min="0.5" max="10" step="0.5" [(ngModel)]="tickService.speed">
+    <input type="range" min="0.5" max="20" step="0.5" [(ngModel)]="tickService.speed">
     speed: x{{tickService.speed}}
     updateTime:{{tickService.updateTime}} 
 
@@ -14,8 +14,11 @@
 <app-dialogs></app-dialogs><br>
 <input type="checkbox" [(ngModel)]="showWorld">Show World<br>
 <div class="world" *ngIf="showWorld">
-    <app-tileMap [tiles]="mainService.world.tileMap.tiles" [rows]="mainService.world.tileMap.rowCount"></app-tileMap>
+    <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
+    <app-creatures-canvas [creatures]="mainService.world.creatures"></app-creatures-canvas>
+    <!--
     <app-creature *ngFor="let creature of mainService.world.creatures" [creature]="creature"></app-creature>
+    -->
 </div>
 <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
 <app-creature-info [creature]="mainService.inspectedCreature" class="creature-info"></app-creature-info>

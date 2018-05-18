@@ -1,3 +1,5 @@
+import { CreaturesCanvasComponent } from './view/creatures-canvas/creatures-canvas.component';
+import { TileMapCanvasComponent } from './view/tileMap-canvas/tileMap-canvas.component';
 import { WorldInfoComponent } from './view/world-info/world-info.component';
 import { CreatureInfoComponent } from './view/creatureInfo/creature-info.component';
 import { TestComponent } from './view/test/test.component';
@@ -24,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     CreatureComponent,
     TileMapComponent,
+    TileMapCanvasComponent,
     StoredItemComponent,
     StorageListComponent,
     CommandBarComponent,
@@ -32,7 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NeuralNetworkComponent,
     TestComponent,
     CreatureInfoComponent,
-    WorldInfoComponent
+    WorldInfoComponent,
+    CreaturesCanvasComponent
   ],
   imports: [
     BrowserModule,

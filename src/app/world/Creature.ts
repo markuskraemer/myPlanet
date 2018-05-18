@@ -14,7 +14,7 @@ import * as Color from 'color';
 
 export class Creature {
 
-    private static readonly EAT_GAIN:number = 50;
+    private static readonly EAT_GAIN:number = 20;
     private static readonly ROTATE_FACTOR:number = .25;
     private static readonly MOVE_FACTOR:number = 5;
     
