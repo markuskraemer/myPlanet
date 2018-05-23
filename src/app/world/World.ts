@@ -72,7 +72,7 @@ export class World {
         const world = new World (false);
         world._id = json['_id'];
         world.name = json['name'];
-        world.totalCreaturesCount = json['totalCreaturesCount'];
+       // world.totalCreaturesCount = json['totalCreaturesCount'];
         world.deadCreaturesCount = json['deadCreaturesCount'];
         world.totalAgeOfDeadCreatures = json['totalAgeOfDeadCreatures'];
         world._tileMap = TileMap.fromJSON (json['_tileMap']);      

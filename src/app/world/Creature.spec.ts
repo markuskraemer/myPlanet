@@ -11,28 +11,28 @@ describe ('creature test', () => {
         
     })
 
+
+ 
+
     it('#creature json test', () => {
         const json1:JSON = creature1.toJSON();
         console.log("111: ", json1);
 
         const creature2:Creature = Creature.fromJSON (json1);
         const json2:JSON = creature2.toJSON();
-
-      
         console.log("222: ", json2);
-
        
-        expect(json2).toEqual(json1);
-        
+        expect(json2).toEqual(json1);   
     })
 
-      it('#creature by other creature test', () => {
-        
-        const creature2:Creature = new Creature (creature1);
-        const json1:JSON = creature1.toJSON();
-        const json2:JSON = creature2.toJSON();
-
-        expect(json2).toEqual(json1);
-        
-    })
+    it ('#creature test color', () => {
+        let s:string = "";
+        let t:number = 100;
+        while(t-- > 0){
+            s +=  creature1.color.toString () + "\n";
+            creature1.calcNewColorBySeed ();
+        }
+        console.log(s);
+        expect(true).toBe(true);
+    });
 })

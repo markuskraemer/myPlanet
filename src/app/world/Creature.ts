@@ -62,20 +62,24 @@ export class Creature {
         return this._brain;
     }
 
-    constructor ()
-    constructor (mother:Creature)
-    constructor (json:JSON)
-    constructor (motherOrJSONOrNull = null)  {
-
+    constructor (doSelfInit:boolean = true)  {
+        console.log(" new Creature: ", doSelfInit);
         this.moveVector = new Victor (0,0);
-
-        if(motherOrJSONOrNull == null){
+        if(doSelfInit){
             this.init ();
-        }else if(motherOrJSONOrNull instanceof Creature) {
-            this.initFromCreature (motherOrJSONOrNull)
-        }else{
-            this.initFromJSON (motherOrJSONOrNull);
-        }
+        }    
+    }
+
+    public static fromJSON (json:JSON):Creature {
+        const creature:Creature = new Creature(false);
+        creature.initFromJSON(json);
+        return creature;
+    }
+
+    public static fromCreature (mother:Creature):Creature {
+        const creature:Creature = new Creature(false);
+        creature.initFromCreature(mother);
+        return creature;
     }
 
     private init ():void{
@@ -124,20 +128,28 @@ export class Creature {
         this._energy = Creature.START_ENERGY;
         this.age = 0;
         this.generation = creature.generation + 1;
-        this.color = new Color ([
-            this.color.red () + 10 * Math.random () - 20,
-            this.color.green () + 10 * Math.random () - 20,
-            this.color.blue () + 10 * Math.random () - 20
-        ]);
+        this.calcNewColorBySeed ();
         this.randomize ();
+    }
+
+    public calcNewColorBySeed ():void {
+        this.color =  new Color ([
+            this.getRandomBySeed (this.color.red ()),
+            this.getRandomBySeed (this.color.green ()),
+            this.getRandomBySeed (this.color.blue ()),
+        ]);
+    }
+
+    private getRandomBySeed (seed:number):number {
+        if(seed < 10)
+            seed = 10;
+        if(seed > 245)
+            seed = 245;
+        return seed + Math.floor(20 * Math.random ()) - 10;
     }
 
     private randomize ():void {
         this.brain.randomizeAnyConnection (.2);
-    }
-
-    public static fromJSON (json:JSON):Creature {
-        return new Creature (json);
     }
 
     public toJSON ():any {
@@ -249,7 +261,7 @@ export class Creature {
     }
 
     private giveBirth ():void {
-        const child:Creature = new Creature (this);
+        const child:Creature = Creature.fromCreature (this);
         Alias.world.addCreature(child);
         this._energy -= 150;
     }
