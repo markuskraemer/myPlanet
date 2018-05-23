@@ -24,10 +24,6 @@ export class TickService {
         return this._ticks;
     }
 
-    public get elapsedTime ():number {
-        return (this._ticks / 10) | 0;
-    }
-
     public get isRunning ():boolean {
         return this._isRunning;
     }

@@ -5,7 +5,7 @@
     <input type="button" 
         value="{{tickService.isRunning?'stop':'start'}}" 
         (click)="tickService.isRunning?tickService.stop():tickService.start()">
-    Ticks:{{tickService.ticks}} | Time:{{ timeService.elapsedTime }}
+    Ticks:{{tickService.ticks}} | Time:{{ formatterService.toDuration(tickService.ticks) }}
     <input type="range" min="0.5" max="20" step="0.5" [(ngModel)]="tickService.speed">
     speed: x{{tickService.speed}}
     updateTime:{{tickService.updateTime}} 
@@ -13,7 +13,10 @@
 </div>
 <app-dialogs></app-dialogs><br>
 <input type="checkbox" [(ngModel)]="showWorld">Show World 
-<app-input-widget></app-input-widget>minCreatureCount: <input type="number" [(ngModel)]="mainService.world.minCreatureCount"> 
+<app-input-widget></app-input-widget>minCreatureCount: <input type="number" [(ngModel)]="mainService.world.minCreatureCount"> <br>
+<input type="button" value="save creature" (click)="mainService.saveCurrentInspectedCreature ()">
+<input type="button" value="load creatures..." (click)="mainService.openCreaturesStorageList ()">
+<br>
 <div class="world" *ngIf="showWorld">
     <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
     <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)"></app-creatures-canvas>

@@ -27,7 +27,7 @@ export class FormatterService {
         const secs:number = seconds % 60;
         const minutes:number = Math.floor(seconds / 60) % 60;
         const hours:number = Math.floor(seconds / 3600);
-        return  this.force2Digits (hours) + ":" + this.force2Digits(minutes) + ":" + this.force2Digits(seconds);
+        return  this.force2Digits (hours) + ":" + this.force2Digits(minutes) + ":" + this.force2Digits(secs);
     }
 
 }

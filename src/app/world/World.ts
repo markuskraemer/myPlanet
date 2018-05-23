@@ -57,7 +57,7 @@ export class World {
         
         if(selfInit){
             this.name = "Untitled World";
-            this._id = '' + new Date ().getTime ();
+            this._id = '' + Math.floor(Math.random () * 1000);
             const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);            
             this._tileMap = new TileMap ();
             this._tileMap.createTilesBySeedMap (map);
@@ -100,9 +100,13 @@ export class World {
 
     public createCreature ():void {
         const creature:Creature = new Creature ();
+        this.setAtRandomPosition (creature);
+        this.addCreature(creature);
+    }
+
+    public setAtRandomPosition (creature:Creature):void {
         creature.x = Math.random () * this.width;
         creature.y = Math.random () * this.height;
-        this.addCreature(creature);
     }
 
     public addCreature (creature:Creature):void {

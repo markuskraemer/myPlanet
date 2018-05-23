@@ -1,3 +1,5 @@
+import { CreatureStorageService } from './storage/creature-storage.service';
+import { CreaturesStorageListComponent } from './ui/creatures-storage-list/creatures-storage-list.component';
 import { InputWidgetComponent } from './ui/input-widget/input-widget.component';
 import { CreaturesCanvasComponent } from './view/creatures-canvas/creatures-canvas.component';
 import { TileMapCanvasComponent } from './view/tileMap-canvas/tileMap-canvas.component';
@@ -30,6 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TileMapCanvasComponent,
     StoredItemComponent,
     StorageListComponent,
+    CreaturesStorageListComponent,
     CommandBarComponent,
     DialogsComponent,
     ModalComponent,
@@ -49,6 +52,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       FormatterService,
       DialogService,
       WorldStorageService,
+      CreatureStorageService,
       TickService
   ],
   bootstrap: [

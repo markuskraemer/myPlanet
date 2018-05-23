@@ -1,18 +1,17 @@
-import { MainService } from './../../main.service';
-import { Alias } from './../../Alias';
 import { FormatterService } from './../../utils/Formatter.service';
 import { DialogService } from './../dialog.service';
+import { MainService } from './../../main.service';
 import { IStorageDescribtion } from './../../storage/IStorageDescribtion';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import * as $ from 'jquery';
 import 'jquery-ui/ui/widgets/dialog.js';
 
 @Component({
-  selector: 'app-storageList',
-  templateUrl: './storageList.component.html',
-  styleUrls: ['./storageList.component.css']
+  selector: 'app-creatures-storage-list',
+  templateUrl: './creatures-storage-list.component.html',
+  styleUrls: ['./creatures-storage-list.component.css']
 })
-export class StorageListComponent implements OnInit {
+export class CreaturesStorageListComponent implements OnInit {
 
     @Input ('items')
     public items:IStorageDescribtion[];
@@ -34,11 +33,10 @@ export class StorageListComponent implements OnInit {
     }
 
     public handleLoadClick (item:IStorageDescribtion):void {
-        this.mainService.loadWorld(item.id);
+        this.mainService.loadAndAddCreature(item.id);
     }
 
     public handleDeleteClick(item:IStorageDescribtion):void {
-        this.mainService.deleteWorld(item.id);
+        this.mainService.deleteCreatureStorage(item.id);
     } 
-
 }

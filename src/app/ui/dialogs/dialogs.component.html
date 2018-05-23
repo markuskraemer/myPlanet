@@ -1,3 +1,4 @@
 
-<app-storageList *ngIf="dialogService.storageListOpen" [items]="storageService.getFileDescribtions()"></app-storageList>
+<app-storageList *ngIf="dialogService.worldStorageListOpen" [items]="worldStorageService.getFileDescribtions()"></app-storageList>
+<app-creatures-storage-list *ngIf="dialogService.creaturesStorageListOpen" [items]="creaturesStorageService.getFileDescribtions()"></app-creatures-storage-list>
 

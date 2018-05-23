@@ -1,3 +1,4 @@
+import { CreatureStorageService } from './../../storage/creature-storage.service';
 import { WorldStorageService } from './../../storage/world-storage.service';
 import { DialogService } from './../dialog.service';
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
@@ -15,7 +16,8 @@ export class DialogsComponent implements OnInit {
 
     constructor(
         public dialogService:DialogService,
-        public storageService:WorldStorageService
+        public worldStorageService:WorldStorageService,
+        public creaturesStorageService:CreatureStorageService
     ) { 
         this.dialogService.changed.subscribe (() => {
             

@@ -29,7 +29,8 @@ export class Creature {
 
 
     private static creatureCount:number = 0;
-    public id:number;
+    public id:string;
+    public name:string = 'any creature';
     private _brain:NeuralNetwork;
 
     public inputFood:InputNeuron;
@@ -63,7 +64,7 @@ export class Creature {
     }
 
     constructor (doSelfInit:boolean = true)  {
-        console.log(" new Creature: ", doSelfInit);
+       // console.log(" new Creature: ", doSelfInit);
         this.moveVector = new Victor (0,0);
         if(doSelfInit){
             this.init ();
@@ -82,9 +83,16 @@ export class Creature {
         return creature;
     }
 
+    public static createFromJSONBrain (json:JSON):Creature {
+        const creature:Creature = new Creature(false);
+        creature._energy = Creature.START_ENERGY;
+        creature.createBrainFromJSON(json);
+        return creature;
+    }
+
     private init ():void{
         this.generation = 0;
-        this.id = Creature.creatureCount ++;
+        this.id = '' + Creature.creatureCount ++;
         this._energy = Creature.START_ENERGY;
         this.color = this.getRandomColor ();
         this.createBrain ();
@@ -96,6 +104,7 @@ export class Creature {
 
     private initFromJSON (json:JSON):void {
         this.id = json['id'];
+        this.name = json['name'];
         this.x = json['x'];
         this.y = json['y'];
         this.color = new Color(json['color'].color);
@@ -103,6 +112,14 @@ export class Creature {
         this.moveVector = new Victor(json['moveVector'].x, json['moveVector'].y);
         this.age = json['age'];
         this.isDead = json['isDead'];
+
+        this.createBrainFromJSON (json);
+      
+
+        this._energy = json['_energy'];
+    }
+
+    private createBrainFromJSON (json:any):void {
 
         this._brain = new NeuralNetwork ();
 
@@ -114,16 +131,14 @@ export class Creature {
         this.outMove = WorkingNeuron.fromJSON (json['outMove']);
         this.outGiveBirth = WorkingNeuron.fromJSON (json['outGiveBirth']);
 
-
+        this.color = new Color(json['color'].color);
         this.initBrain ();
         this._brain.setConnectionTargets (); 
-
-        this._energy = json['_energy'];
     }
 
     private initFromCreature (creature:Creature):void {
         this.initFromJSON(creature.toJSON());
-        this.id = Creature.creatureCount ++;
+        this.id = '' + Creature.creatureCount ++;
         this.viewAngle = Math.random () * Math.PI * 2;
         this._energy = Creature.START_ENERGY;
         this.age = 0;

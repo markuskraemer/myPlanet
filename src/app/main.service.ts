@@ -1,7 +1,10 @@
+import { DialogService } from './ui/dialog.service';
+import { IStorable } from './storage/IStorable';
+import { CreatureStorageService } from './storage/creature-storage.service';
 import { NeuralNetwork } from './network/NeuralNetwork';
 import { Creature } from './world/Creature';
 import { TickService } from './tick.service';
-import { Injectable, ApplicationRef, NgZone, EventEmitter } from '@angular/core';
+import { Injectable, ApplicationRef, EventEmitter } from '@angular/core';
 import { WorldStorageService } from './storage/world-storage.service';
 import { Inject } from '@angular/core';
 import { Alias } from './Alias';
@@ -19,9 +22,10 @@ export class MainService {
     }
 
     constructor (
-       private storageService:WorldStorageService,
+       private worldStorageService:WorldStorageService,
+       private creatureStorageService:CreatureStorageService,
+       private dialogService:DialogService,
        private appRef:ApplicationRef,
-       private zone:NgZone,
        public tickService:TickService
         ){
         this.init ();
@@ -36,7 +40,10 @@ export class MainService {
 
         this.stats = new Stats ();
         document.body.appendChild(this.stats.dom);
-
+        this.stats.dom.style.left = 'auto';
+        this.stats.dom.style.right = '0';
+        this.stats.dom.style.top = 'auto';
+        this.stats.dom.style.bottom = '0';
         this.updateStats ();
     }
 
@@ -46,14 +53,34 @@ export class MainService {
         requestAnimationFrame(()=>this.updateStats());
     }
 
-    public load (id:string):void {
-        const worldJSON:JSON = JSON.parse (this.storageService.load (id));
+    public loadWorld (id:string):void {
+        const worldJSON:JSON = JSON.parse (this.worldStorageService.load (id));
         this.world = World.fromJSON (worldJSON);
         Alias.world = this.world;
     }
+
+    public loadAndAddCreature (id:string):void {
+        const creatureJSON:JSON = JSON.parse(this.creatureStorageService.load(id));
+        const creature:Creature = Creature.createFromJSONBrain (creatureJSON);
+        this.world.addCreature(creature);
+        this.world.setAtRandomPosition(creature);
+    }
     
-    public delete (id:string):void {
-        this.storageService.delete (id);
+    public deleteWorld (id:string):void {
+        this.worldStorageService.delete (id);
+    }
+
+    public openCreaturesStorageList ():void{
+        console.log("openCreaturesStorageList");
+        this.dialogService.openCreaturesStorageList ();
+    }
+
+    public deleteCreatureStorage (id:string):void {
+        this.creatureStorageService.delete(id);
+    }
+
+    public saveCurrentInspectedCreature ():void {
+        this.creatureStorageService.save (<IStorable> this.world.inspectedCreature);
     }
 
     private tick (delta:number) {

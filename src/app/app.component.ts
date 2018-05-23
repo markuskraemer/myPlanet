@@ -1,3 +1,4 @@
+import { FormatterService } from './utils/Formatter.service';
 import { TickService } from './tick.service';
 import { MainService } from './main.service';
 import { Alias } from './Alias';
@@ -16,7 +17,8 @@ export class AppComponent {
     constructor (
         public dialogService:DialogService,
         public mainService:MainService,
-        public tickService:TickService
+        public tickService:TickService,
+        public formatterService:FormatterService
     ){
     }
 
