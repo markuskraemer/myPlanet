@@ -11,7 +11,9 @@ export class TileMap {
 
         const tileMap:TileMap = new TileMap ();
         tileMap.rowCount = json['rowCount'];
+        tileMap.colCount = json['colCount'];
         const tilesJSON:any[] = json['tiles'];
+      
         for(let i:number = 0; i < tilesJSON.length; ++i){
             tileMap.tiles[i] = Tile.fromJSON (tilesJSON[i]);
         } 

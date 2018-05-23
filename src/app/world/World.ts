@@ -8,7 +8,7 @@ export class World {
     private _creatures:Creature [] = [];
     public readonly width:number = 800;
     public readonly height:number = 800;
-    public readonly MIN_CREATURE_COUNT:number = 10;
+    public minCreatureCount:number = 10;
     public readonly MAX_CREATURE_COUNT:number = 1000;
     private static _instance:World;
     private _tileMap:TileMap;
@@ -17,6 +17,21 @@ export class World {
     public totalCreaturesCount:number = 0;
     public deadCreaturesCount:number = 0;
     public totalAgeOfDeadCreatures:number = 0;
+    public oldestAliveCreature:Creature;
+
+    public _inspectedCreature:Creature;
+    public set  inspectedCreature(creature:Creature){
+        this._inspectedCreature = creature;
+    }
+
+    public get inspectedCreature ():Creature {
+        return this._inspectedCreature;
+    }
+
+    public get oldestAliveCreatureAge ():number {
+        return this.oldestAliveCreature ? this.oldestAliveCreature.age : 0;
+    }
+
 
     public get id ():string {
         return this._id;
@@ -73,6 +88,14 @@ export class World {
         this.totalAgeOfDeadCreatures += creature.age;        
         const index:number = this._creatures.indexOf (creature);
         this._creatures.splice(index, 1);
+        if(creature == this.oldestAliveCreature){
+            this.oldestAliveCreature = null;
+        }
+
+        if(creature == this._inspectedCreature){
+            
+        }
+        
     }
 
     public createCreature ():void {
@@ -106,9 +129,20 @@ export class World {
         this.tileMap.tick ();
 
         for(const creature of this._creatures){
+             if(this.oldestAliveCreature == null || creature.age > this.oldestAliveCreature.age) {
+                this.oldestAliveCreature = creature;
+                this.inspectedCreature = creature;
+            }
             creature.tick (delta);
+
+           
         }
-        if(this.aliveCreaturesCount < this.MIN_CREATURE_COUNT){
+
+        this.createCreaturesToMinCreatureCount ();
+    }
+
+    private createCreaturesToMinCreatureCount ():void {
+        while (this.aliveCreaturesCount < this.minCreatureCount){
             this.createCreature ();
         }
     }

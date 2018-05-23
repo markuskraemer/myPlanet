@@ -13,17 +13,11 @@ import * as Stats from 'stats.js';
 export class MainService {
     private stats:any;
     public world:World;
-    public _inspectedCreature:Creature;
-    public set  inspectedCreature(creature:Creature){
-        this._inspectedCreature = creature;
-        this.inspectedCreatureBrain = creature ? creature.brain : null;
-    }
 
-    public get inspectedCreature ():Creature {
-        return this._inspectedCreature;
+    public selectCreature (creature:Creature):void {
+        console.log("selectCreature: ", creature);
+        this.world.inspectedCreature = creature;        
     }
-
-    public inspectedCreatureBrain:NeuralNetwork;
 
     constructor (
        private storageService:StorageService,

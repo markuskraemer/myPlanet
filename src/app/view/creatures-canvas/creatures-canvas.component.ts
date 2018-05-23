@@ -1,7 +1,8 @@
+import { MainService } from './../../main.service';
 import { TickService } from './../../tick.service';
 import { Creature } from './../../world/Creature';
 
-import { Component, OnInit, Input, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, ElementRef, ViewChild, OnDestroy, HostListener, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-creatures-canvas',
@@ -10,16 +11,27 @@ import { Component, OnInit, Input, ElementRef, ViewChild, OnDestroy } from '@ang
 })
 export class CreaturesCanvasComponent implements OnInit, OnDestroy {
 
+    private _creatures:Creature[];
+    private subscribtion:any;
+    private tileSize:number = 25;
+
+    @HostListener('click', ['$event']) 
+    private onClick(e:MouseEvent) {
+        console.log("onClick: ", e);
+        const creature:Creature = this.findCreatureByPosition (e.offsetX, e.offsetY);
+        if(creature != null){
+            this.selectCreature.emit (creature);
+        }
+    }
+
+    @Output('selectcreature')
+    public readonly selectCreature:EventEmitter<Creature> = new EventEmitter ();
+
     @ViewChild ('canvas')
     public canvas:ElementRef;
 
     @ViewChild ('canvas2')
     public canvas2:ElementRef;
-
-    private _creatures:Creature[];
-    private subscribtion:any;
-    private tileSize:number = 25;
-
 
     @Input('creatures')
     public set tileMap (value:Creature[]){
@@ -29,7 +41,8 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
 
     constructor(
         private elementRef:ElementRef,
-        private tickService:TickService
+        private tickService:TickService,
+        private mainService:MainService
     ) { 
     }
 
@@ -39,6 +52,15 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
 
     ngOnDestroy () {
         this.subscribtion.unsubscribe ();
+    }
+
+    private findCreatureByPosition (x:number, y:number){
+        for(const creature of this._creatures){
+            if(x >= creature.x && x < creature.x + creature.width && y >= creature.y && y < creature.y + creature.height){
+                return creature;
+            }
+        }
+        return null;
     }
 
 
@@ -51,7 +73,14 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
             const creature:Creature = this._creatures[i];
           
             context.fillStyle = this.getBackgroundColor (creature);
-            context.fillRect (creature.x, creature.y, 10, 10);
+
+            if(this.mainService.world.inspectedCreature == creature){
+                context.strokeStyle = 'yellow';
+                context.strokeRect (creature.x - creature.width, creature.y - creature.height, creature.width*2, creature.height*2);
+                context.fillRect (creature.x - creature.width, creature.y - creature.height, creature.width*2, creature.height*2);
+            }else{
+                context.fillRect (creature.x, creature.y, creature.width, creature.height);                
+            }
 
             context.fillStyle = 'black';
             context.fillRect (creature.x + 2, creature.y, 2, 2);

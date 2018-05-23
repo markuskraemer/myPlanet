@@ -13,12 +13,11 @@
 </div>
 <app-dialogs></app-dialogs><br>
 <input type="checkbox" [(ngModel)]="showWorld">Show World 
-<app-input-widget></app-input-widget><br>
+<app-input-widget></app-input-widget>minCreatureCount: <input type="number" [(ngModel)]="mainService.world.minCreatureCount"> 
 <div class="world" *ngIf="showWorld">
-    
     <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
-    <app-creatures-canvas [creatures]="mainService.world.creatures"></app-creatures-canvas>
+    <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)"></app-creatures-canvas>
 </div>
 <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
-<app-creature-info [creature]="mainService.inspectedCreature" class="creature-info"></app-creature-info>
+<app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
 

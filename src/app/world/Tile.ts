@@ -30,7 +30,7 @@ export class Tile {
 
     public static fromJSON (json:JSON):Tile {
         const tile:Tile = new Tile ();
-        tile.foodAmount = json['foodAmount'];
+        tile.foodAmount = json['_foodAmount'];
         tile.type = json['type'];
         return tile;
     }

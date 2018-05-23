@@ -14,7 +14,7 @@ import * as Color from 'color';
 
 export class Creature {
 
-    private static readonly EAT_GAIN:number = 20;
+    private static readonly EAT_GAIN:number = 10;
     private static readonly ROTATE_FACTOR:number = .25;
     private static readonly MOVE_FACTOR:number = 5;
     
@@ -43,6 +43,8 @@ export class Creature {
     
     public x:number;
     public y:number;
+    public width:number = 10;
+    public height:number = 10;
     private moveVector:Victor;
     public viewAngle:number = 0;
     public age:number = 0;
@@ -123,9 +125,9 @@ export class Creature {
         this.age = 0;
         this.generation = creature.generation + 1;
         this.color = new Color ([
-            this.color.red () + 10 * Math.random () - 10,
-            this.color.green () + 10 * Math.random () - 10,
-            this.color.blue () + 10 * Math.random () - 10
+            this.color.red () + 10 * Math.random () - 20,
+            this.color.green () + 10 * Math.random () - 20,
+            this.color.blue () + 10 * Math.random () - 20
         ]);
         this.randomize ();
     }
@@ -235,7 +237,6 @@ export class Creature {
             this.x += this.moveVector.x;
             this.y += this.moveVector.y;
         }else{
-            console.log(" wont go to : " + (this.x + this.moveVector.x) + "|" + (this.y + this.moveVector.y));
             this.viewAngle += Math.PI;
         }
         this._energy -= Math.abs(moveForce * Creature.COST_MOVE * timeDelta * costMultiplier);
