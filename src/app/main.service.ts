@@ -6,7 +6,6 @@ import { StorageService } from './storage/storage.service';
 import { Inject } from '@angular/core';
 import { Alias } from './Alias';
 import { World } from './world/World';
-import { Storage } from './storage/Storage';
 import * as Stats from 'stats.js';
 
 @Injectable()
