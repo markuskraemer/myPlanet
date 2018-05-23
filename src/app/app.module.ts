@@ -8,7 +8,7 @@ import { NeuralNetworkComponent } from './view/neuralNetwork/neuralNetwork.compo
 import { TickService } from './tick.service';
 import { MainService } from './main.service';
 import { ModalComponent } from './ui/modal/modal.component';
-import { StorageService } from './storage/storage.service';
+import { WorldStorageService } from './storage/world-storage.service';
 import { DialogsComponent } from './ui/dialogs/dialogs.component';
 import { CommandBarComponent } from './ui/command-bar/command-bar.component';
 import { DialogService } from './ui/dialog.service';
@@ -48,7 +48,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       MainService,
       FormatterService,
       DialogService,
-      StorageService,
+      WorldStorageService,
       TickService
   ],
   bootstrap: [

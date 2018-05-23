@@ -1,4 +1,4 @@
-import { StorageService } from './../../storage/storage.service';
+import { WorldStorageService } from './../../storage/world-storage.service';
 import { DialogService } from './../dialog.service';
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 
@@ -15,7 +15,7 @@ export class DialogsComponent implements OnInit {
 
     constructor(
         public dialogService:DialogService,
-        public storageService:StorageService
+        public storageService:WorldStorageService
     ) { 
         this.dialogService.changed.subscribe (() => {
             

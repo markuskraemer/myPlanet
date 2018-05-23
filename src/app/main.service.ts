@@ -2,7 +2,7 @@ import { NeuralNetwork } from './network/NeuralNetwork';
 import { Creature } from './world/Creature';
 import { TickService } from './tick.service';
 import { Injectable, ApplicationRef, NgZone, EventEmitter } from '@angular/core';
-import { StorageService } from './storage/storage.service';
+import { WorldStorageService } from './storage/world-storage.service';
 import { Inject } from '@angular/core';
 import { Alias } from './Alias';
 import { World } from './world/World';
@@ -19,7 +19,7 @@ export class MainService {
     }
 
     constructor (
-       private storageService:StorageService,
+       private storageService:WorldStorageService,
        private appRef:ApplicationRef,
        private zone:NgZone,
        public tickService:TickService
