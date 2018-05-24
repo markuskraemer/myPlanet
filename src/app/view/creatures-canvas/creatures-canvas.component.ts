@@ -47,7 +47,7 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscribtion = this.tickService.tick.subscribe (()=>this.draw ());
+        this.subscribtion = this.tickService.draw.subscribe (()=>this.draw ());
     }
 
     ngOnDestroy () {

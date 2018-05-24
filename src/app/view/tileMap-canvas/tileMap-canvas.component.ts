@@ -2,14 +2,14 @@ import { TickService } from './../../tick.service';
 import { TileType } from './../../world/TileType.enum';
 import { Tile } from './../../world/Tile';
 import { TileMap } from './../../world/TileMap';
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-tileMap-canvas',
   templateUrl: './tileMap-canvas.component.html',
   styleUrls: ['./tileMap-canvas.component.css']
 })
-export class TileMapCanvasComponent implements OnInit {
+export class TileMapCanvasComponent implements OnInit, OnDestroy {
 
    private backbufferContext:CanvasRenderingContext2D;
 
@@ -38,7 +38,11 @@ export class TileMapCanvasComponent implements OnInit {
 
     ngOnInit() {
         this.forceDrawAll = true;
-        this.subscribtion = this.tickService.tick.subscribe (()=>this.draw ());
+        this.subscribtion = this.tickService.draw.subscribe (()=>this.draw ());
+    }
+
+    ngOnDestroy () {
+        this.subscribtion.unsubscribe ();
     }
 
     private draw ():void {

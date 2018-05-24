@@ -64,14 +64,14 @@ export class MainService {
         const creature:Creature = Creature.createFromJSONBrain (creatureJSON);
         this.world.addCreature(creature);
         this.world.setAtRandomPosition(creature);
+        this.tickService.emitDraw ();
     }
     
     public deleteWorld (id:string):void {
         this.worldStorageService.delete (id);
     }
 
-    public openCreaturesStorageList ():void{
-        console.log("openCreaturesStorageList");
+    public openCreaturesStorageList ():void {
         this.dialogService.openCreaturesStorageList ();
     }
 

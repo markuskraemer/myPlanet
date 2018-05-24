@@ -8,6 +8,7 @@ export class TickService {
     private _isRunning:boolean;
     private _speed:number = .25;
     public tick:EventEmitter<number> = new EventEmitter ();
+    public draw:EventEmitter<null> = new EventEmitter ();
 
     public get speed ():number {
         return this._speed;
@@ -44,7 +45,12 @@ export class TickService {
         this.intervalId = setInterval ( () => {
             this._ticks ++;
             this.tick.emit (1);
+            this.emitDraw ();
         }, this.updateTime);
+    }
+
+    public emitDraw ():void {
+        this.draw.emit();
     }
 
     public stop ():void {
