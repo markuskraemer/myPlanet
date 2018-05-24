@@ -16,6 +16,7 @@ export class NeuralNetworkComponent implements OnInit {
     @Input('network')
     public set network (n:NeuralNetwork) {
         this._network = n;
+        this.infoConnections.length = 0;
         this.determineContext ();
         requestAnimationFrame ( () => this.draw ());
         this.draw (); 
@@ -27,6 +28,8 @@ export class NeuralNetworkComponent implements OnInit {
 
     @ViewChild ('canvas')
     public canvas:ElementRef;
+
+    private infoConnections:Connection [] = [];
     private marginTopBottom:number = 20;
     private context:CanvasRenderingContext2D;
     private width:number;
@@ -147,14 +150,40 @@ export class NeuralNetworkComponent implements OnInit {
             const neuron:WorkingNeuron = this._network.outputLayer[i];
             for(let j:number = 0; j < neuron.connections.length; ++j){
                 const connection:Connection = neuron.connections[j];
+                const startX:number = this.getInputNeuronX (j);
+                const startY:number = this.getNeuronY (j);
+
+                const endX:number = this.getOutputNeuronX (i);
+                const endY:number = this.getNeuronY (i);
+
+                const drawInfo:boolean = this.infoConnections.indexOf (connection) >= 0; 
+
+                this.context.lineWidth = drawInfo ? 3 : 1;
+            
                 this.context.strokeStyle = this.getColor (connection.weight);
                 this.context.beginPath ();
-                this.context.moveTo (this.getOutputNeuronX (i), this.getNeuronY (i));
-                this.context.lineTo (this.getInputNeuronX (j), this.getNeuronY (j));
+                this.context.moveTo (endX, endY);
+                this.context.lineTo (startX, startY);
                 this.context.stroke ();
+
+                if(drawInfo){
+                    this.context.lineWidth = .5;
+                    this.context.strokeStyle = 'black';
+                    this.context.fillStyle = 'white';
+                    this.context.fillRect (startX + (endX - startX) / 2 - 5, 
+                                      startY + (endY - startY) / 2 - 20,
+                                      35,
+                                      20);
+                    this.context.strokeText (String(MathUtils.round3(connection.weight)), 
+                                                startX + (endX - startX) / 2, 
+                                                startY + (endY - startY) / 2 - 5);
+                }
+
+            
             }
         }        
     }
+
 
     private getColor (n:number):string {
 
@@ -176,5 +205,70 @@ export class NeuralNetworkComponent implements OnInit {
 
     private getInputNeuronX (index:number):number {
         return 100 + this.radius;
+    }
+
+    public handleClick (event:MouseEvent):void {
+        const neuron:WorkingNeuron = this.getOutputNeuronUnderPoint (event.offsetX, event.offsetY);
+        this.hideAllConnectionInfos ();
+        if(neuron != null){
+            for(const connection of neuron.connections){
+                this.showConnectionInfo (connection);
+            }
+        }else{
+            const connection:Connection = this.getConnetionUnderPoint (event.offsetX, event.offsetY);
+            if(connection != null){
+                this.showConnectionInfo (connection);
+            }else{
+                
+            }
+        }
+        this.draw ();
+    }
+
+
+    private getConnetionUnderPoint (x:number, y:number):Connection {
+        
+        for(let outIndex:number = 0; outIndex < this._network.outputLayer.length; ++outIndex){
+            const outX:number = this.getOutputNeuronX(outIndex);
+            const outY:number = this.getNeuronY(outIndex);
+    
+            const outNeuron:WorkingNeuron = this._network.outputLayer[outIndex];
+
+            for(let connIndex:number = 0; connIndex < outNeuron.connections.length; ++connIndex){
+                const inX:number = this.getInputNeuronX(connIndex);
+                const inY:number = this.getNeuronY(connIndex);
+
+                const isOnLine:boolean = MathUtils.pointIsOnLine (outX, outY, inX, inY, x, y, .5);
+
+                if(isOnLine){
+                    console.log (x, x, isOnLine);
+                    return outNeuron.connections[connIndex];
+                }
+            }
+        }
+        return null;
+    }
+
+    private getOutputNeuronUnderPoint (x:number, y:number):WorkingNeuron {
+        
+        for(let i:number = 0; i < this._network.outputLayer.length; ++i){
+            if(MathUtils.distance (this.getOutputNeuronX (i), this.getNeuronY(i), x, y) < this.radius){
+                return this._network.outputLayer[i];
+            }
+        }
+        return null;
+    }
+
+
+    private showConnectionInfo (connection:Connection):void {
+        console.log("connectionInfo: ", connection);
+        if(this.infoConnections.indexOf(connection) == -1){
+            this.infoConnections.push(connection);
+        }
+    }
+
+    private hideAllConnectionInfos ():void {
+        console.log("hideAllConnectionInfos");
+        this.infoConnections.length = 0;
     }
 }

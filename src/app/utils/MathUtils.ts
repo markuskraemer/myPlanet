@@ -29,6 +29,28 @@ export class MathUtils {
         f |= 0;
         return f / 1000;
     }
+
+    public static distance (x1:number, y1:number, x2:number, y2:number):number {
+        return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));  
+    }
+
+    public static pointIsOnLine (x1:number, y1:number, x2:number, y2:number, px:number, py:number, tolerance:number = .1) {
+
+        // get distance from the point to the two ends of the line
+        const d1:number = MathUtils.distance(px,py, x1,y1);
+        const d2:number = MathUtils.distance(px,py, x2,y2);
+
+        const lineLen:number = MathUtils.distance(x1,y1, x2,y2);
+
+        // if the two distances are equal to the line's 
+        // length, the point is on the line!
+        // note we use the buffer here to give a range, 
+        // rather than one #
+        if (d1+d2 >= lineLen-tolerance && d1+d2 <= lineLen+tolerance) {
+            return true;
+        }
+        return false;
+    }
 }
 
 
