@@ -5,7 +5,6 @@ import { CreaturesCanvasComponent } from './view/creatures-canvas/creatures-canv
 import { TileMapCanvasComponent } from './view/tileMap-canvas/tileMap-canvas.component';
 import { WorldInfoComponent } from './view/world-info/world-info.component';
 import { CreatureInfoComponent } from './view/creatureInfo/creature-info.component';
-import { TestComponent } from './view/test/test.component';
 import { NeuralNetworkComponent } from './view/neuralNetwork/neuralNetwork.component';
 import { TickService } from './tick.service';
 import { MainService } from './main.service';
@@ -17,8 +16,6 @@ import { DialogService } from './ui/dialog.service';
 import { StorageListComponent } from './ui/storageList/storageList.component';
 import { StoredItemComponent } from './ui/storedItem/storedItem.component';
 import { FormatterService } from './utils/Formatter.service';
-import { TileMapComponent } from './view/tileMap/tileMap.component';
-import { CreatureComponent } from './view/creature/creature.component';
 import { BrowserModule,  } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -27,8 +24,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    CreatureComponent,
-    TileMapComponent,
     TileMapCanvasComponent,
     StoredItemComponent,
     StorageListComponent,
@@ -37,7 +32,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DialogsComponent,
     ModalComponent,
     NeuralNetworkComponent,
-    TestComponent,
     CreatureInfoComponent,
     WorldInfoComponent,
     CreaturesCanvasComponent,
