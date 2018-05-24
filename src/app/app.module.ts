@@ -1,3 +1,4 @@
+import { CreaturePreviewComponent } from './view/creature-preview/creature-preview.component';
 import { CreatureStorageService } from './storage/creature-storage.service';
 import { CreaturesStorageListComponent } from './ui/creatures-storage-list/creatures-storage-list.component';
 import { InputWidgetComponent } from './ui/input-widget/input-widget.component';
@@ -13,8 +14,7 @@ import { WorldStorageService } from './storage/world-storage.service';
 import { DialogsComponent } from './ui/dialogs/dialogs.component';
 import { CommandBarComponent } from './ui/command-bar/command-bar.component';
 import { DialogService } from './ui/dialog.service';
-import { StorageListComponent } from './ui/storageList/storageList.component';
-import { StoredItemComponent } from './ui/storedItem/storedItem.component';
+import { WorldStorageListComponent } from './ui/world-storage-list/world-storage-list.component';
 import { FormatterService } from './utils/Formatter.service';
 import { BrowserModule,  } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -25,8 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     TileMapCanvasComponent,
-    StoredItemComponent,
-    StorageListComponent,
+    WorldStorageListComponent,
     CreaturesStorageListComponent,
     CommandBarComponent,
     DialogsComponent,
@@ -35,7 +34,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CreatureInfoComponent,
     WorldInfoComponent,
     CreaturesCanvasComponent,
-    InputWidgetComponent
+    InputWidgetComponent,
+    CreaturePreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +47,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       DialogService,
       WorldStorageService,
       CreatureStorageService,
-      TickService
+      TickService 
   ],
   bootstrap: [
       AppComponent

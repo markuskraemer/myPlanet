@@ -8,11 +8,11 @@ import * as $ from 'jquery';
 import 'jquery-ui/ui/widgets/dialog.js';
 
 @Component({
-  selector: 'app-storageList',
-  templateUrl: './storageList.component.html',
-  styleUrls: ['./storageList.component.css']
+  selector: 'app-world-storage-list',
+  templateUrl: './world-storage-list.component.html',
+  styleUrls: ['./world-storage-list.component.css']
 })
-export class StorageListComponent implements OnInit {
+export class WorldStorageListComponent implements OnInit {
 
     @Input ('items')
     public items:IStorageDescribtion[];
