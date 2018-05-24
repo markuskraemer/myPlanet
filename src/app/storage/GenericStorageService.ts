@@ -18,8 +18,13 @@ export class GenericStorageService {
 
 
     public load (id:string):string {
+
+        const result:IStorageDescribtion = this.getDescribtionById (id,  this.getFileDescribtions ());
+        return result.o;
+        /*
         const storage:string = localStorage.getItem(id);
         return storage;
+        */
     }
 
     public save (o:IStorable):void {
@@ -38,13 +43,14 @@ export class GenericStorageService {
            describtion = {
                name:o.name,
                id:o.id,
-               time:new Date ().getTime ()
-            
+               time:new Date ().getTime (),
+               o:JSON.stringify(o.toJSON())
            } 
            describtions.push(describtion);
         }else{
             describtion.time = new Date ().getTime ();
             describtion.name = o.name;
+            describtion.o = JSON.stringify(o.toJSON());
         }
         localStorage.setItem (this.key, JSON.stringify(describtions));
 

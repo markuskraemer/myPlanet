@@ -1,3 +1,4 @@
+import { Creature } from './../../world/Creature';
 import { FormatterService } from './../../utils/Formatter.service';
 import { DialogService } from './../dialog.service';
 import { MainService } from './../../main.service';
@@ -39,4 +40,8 @@ export class CreaturesStorageListComponent implements OnInit {
     public handleDeleteClick(item:IStorageDescribtion):void {
         this.mainService.deleteCreatureStorage(item.id);
     } 
+
+    public getCreature (jsonString:string){
+        return Creature.fromJSON (JSON.parse(jsonString));
+    }
 }

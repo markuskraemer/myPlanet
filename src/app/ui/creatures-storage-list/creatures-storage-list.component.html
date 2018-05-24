@@ -1,7 +1,10 @@
 <div #dialog title="Saved Creatures">
     <div *ngIf="items.length>0">
         <div *ngFor="let item of items" class="item">
-            <span class="info">{{item.name}} | {{formatterService.toDate(item.time)}} | {{item.id}}</span>
+            <span class="info">{{item.name}} | {{formatterService.toDate(item.time)}} | {{item.id}}      </span>
+              
+        
+             <app-creature-preview class="preview" [creature]="getCreature(item.o)"></app-creature-preview>
             <input type="button" value="load" (click)="handleLoadClick(item)">
             <input type="button" value="delete" (click)="handleDeleteClick(item)">
         </div>

@@ -9,5 +9,10 @@
 }
 
 .info {
-    width:350px;
+    width:330px;
+}
+
+.preview {
+    width: 20px;
+    height:20px;
 }

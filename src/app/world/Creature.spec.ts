@@ -6,7 +6,7 @@ describe ('creature test', () => {
         creature1 = new Creature ();
         creature1.x = 1;
         creature1.y = 2;
-        creature1.id = 3;
+        creature1.id = '3';
         creature1.inputFood.input = 4;
         
     })
