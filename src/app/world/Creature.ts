@@ -2,6 +2,7 @@ import * as Victor  from 'victor';
 
 import { TileType } from './TileType.enum';
 import { MathUtils } from './../utils/MathUtils';
+import { ObjectUtils } from './../utils/ObjectUtils';
 import { Tile } from './Tile';
 import { Alias } from './../Alias';
 import { World } from './World';
@@ -29,9 +30,10 @@ export class Creature {
 
 
     private static creatureCount:number = 0;
-    public id:string;
-    public name:string = 'any creature';
     private _brain:NeuralNetwork;
+    private tile:Tile;
+    private moveVector:Victor;
+    private _energy:number = 0;
 
     public inputFood:InputNeuron;
     public inputEnergy:InputNeuron;
@@ -42,18 +44,19 @@ export class Creature {
     public outMove:WorkingNeuron;
     public outGiveBirth:WorkingNeuron;
     
+    public id:string;
+    public name:string = 'any creature';
     public x:number;
     public y:number;
     public width:number = 10;
     public height:number = 10;
-    private moveVector:Victor;
     public viewAngle:number = 0;
     public age:number = 0;
-    private _energy:number = 0;
     public color:Color;
     public generation:number = 0;
     public isDead:boolean = false;
-    private tile:Tile;
+    public history:JSON[] = [];
+    public childCount:number = 0;
 
     public get energy ():number {
         return this._energy;
@@ -112,9 +115,9 @@ export class Creature {
         this.moveVector = new Victor(json['moveVector'].x, json['moveVector'].y);
         this.age = json['age'];
         this.isDead = json['isDead'];
+        this.history = json['history'];
 
         this.createBrainFromJSON (json);
-      
 
         this._energy = json['_energy'];
     }
@@ -147,6 +150,11 @@ export class Creature {
         this.randomize ();
     }
 
+    public startHistory ():void {
+
+    }
+
+
     public calcNewColorBySeed ():void {
         this.color =  new Color ([
             this.getRandomBySeed (this.color.red ()),
@@ -168,7 +176,7 @@ export class Creature {
     }
 
     public toJSON ():any {
-        return this;
+        return ObjectUtils.deepCopy (this);
     }
 
     private getRandomColor ():Color {
@@ -208,7 +216,8 @@ export class Creature {
 
         if(this.isDead)
             return;
-
+        this.history.push(this.toJSON());
+        console.log("history: ", this.history);
         this.tile = Alias.world.tileMap.getTileAt (this.x, this.y);
         this.updateInputNeurons ();
         const costMultiplier:number = this.calcCostMultiplier ();
@@ -279,6 +288,7 @@ export class Creature {
         const child:Creature = Creature.fromCreature (this);
         Alias.world.addCreature(child);
         this._energy -= 150;
+        this.childCount ++;
     }
 
     private checkDie ():void {
