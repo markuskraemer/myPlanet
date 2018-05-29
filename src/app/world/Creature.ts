@@ -13,6 +13,23 @@ import { InputNeuron } from './../network/InputNeuron';
 import { nonenumerable } from './../utils/ObjectUtils';
 import * as Color from 'color';
 
+
+/**
+ * @enumerable decorator that sets the enumerable property of a class field to false.
+ * @param value true|false
+ */
+function enumerable(value: boolean) {
+    return function (target:any, key: string): any {
+        let pd = Reflect.getOwnPropertyDescriptor(target, key) || {};
+        pd.enumerable = value;
+        //pd.configurable = true;
+        pd.writable = true;
+        Reflect.defineProperty(target, key, pd);
+        return pd;
+    }
+};
+
+
 export class Creature {
 
     private static readonly EAT_GAIN:number = 10;
@@ -34,6 +51,7 @@ export class Creature {
     private tile:Tile;
     private moveVector:Victor;
     private _energy:number = 0;
+    private _recordHistory:boolean = false;
 
     public inputFood:InputNeuron;
     public inputEnergy:InputNeuron;
@@ -55,7 +73,9 @@ export class Creature {
     public color:Color;
     public generation:number = 0;
     public isDead:boolean = false;
-    public history:JSON[] = [];
+
+    public __history:JSON[];
+
     public childCount:number = 0;
 
     public get energy ():number {
@@ -66,13 +86,56 @@ export class Creature {
         return this._brain;
     }
 
+    public set recordHistory (value:boolean) {
+
+        if(this._recordHistory != value) {
+            this._recordHistory = value;
+        }
+    }
+
+    public get recordHistory ():boolean{
+        return this._recordHistory;
+    }
+
     constructor (doSelfInit:boolean = true)  {
        // console.log(" new Creature: ", doSelfInit);
+       
+       Object.defineProperty(this, '__history', {
+            value: [],
+            writable: true,
+            enumerable:false
+        });
         this.moveVector = new Victor (0,0);
+      
         if(doSelfInit){
             this.init ();
         }    
     }
+
+    public static createByDesign ():Creature {
+        const creature:Creature = new Creature();
+        
+        creature.outEat.connections[0].weight = 10;
+        creature.outEat.connections[1].weight = 1;
+        creature.outEat.connections[2].weight = 0;
+
+        creature.outRotate.connections[0].weight = 0;
+        creature.outRotate.connections[1].weight = 0;
+        creature.outRotate.connections[1].weight = 0;
+
+        creature.outMove.connections[0].weight = 0;
+        creature.outMove.connections[1].weight = 0;
+        creature.outMove.connections[2].weight = 1;
+
+        creature.outGiveBirth.connections[0].weight = 1;
+        creature.outGiveBirth.connections[1].weight = 1;
+        creature.outGiveBirth.connections[2].weight = 0.2;
+
+        creature.color = new Color (0xccffcc);
+
+        return creature;
+    }
+
 
     public static fromJSON (json:JSON):Creature {
         const creature:Creature = new Creature(false);
@@ -115,11 +178,11 @@ export class Creature {
         this.moveVector = new Victor(json['moveVector'].x, json['moveVector'].y);
         this.age = json['age'];
         this.isDead = json['isDead'];
-        this.history = json['history'];
 
         this.createBrainFromJSON (json);
 
         this._energy = json['_energy'];
+        this._recordHistory = false;
     }
 
     private createBrainFromJSON (json:any):void {
@@ -148,10 +211,6 @@ export class Creature {
         this.generation = creature.generation + 1;
         this.calcNewColorBySeed ();
         this.randomize ();
-    }
-
-    public startHistory ():void {
-
     }
 
 
@@ -216,8 +275,10 @@ export class Creature {
 
         if(this.isDead)
             return;
-        this.history.push(this.toJSON());
-        console.log("history: ", this.history);
+    
+        if(this._recordHistory)
+            this.__history.push(this.toJSON());
+      
         this.tile = Alias.world.tileMap.getTileAt (this.x, this.y);
         this.updateInputNeurons ();
         const costMultiplier:number = this.calcCostMultiplier ();

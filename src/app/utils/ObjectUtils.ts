@@ -27,7 +27,14 @@ export class ObjectUtils {
         if (obj instanceof Object) {
             copy = {};
             for (var attr in obj) {
-                if (obj.hasOwnProperty(attr)) copy[attr] = ObjectUtils.deepCopy(obj[attr]);
+                if (obj.hasOwnProperty(attr)){
+                  //  console.log("attr: ", attr, " string: " + (<any>attr instanceof String));
+                    if(attr.substr(0, 2) != '__'){
+                        copy[attr] = ObjectUtils.deepCopy(obj[attr]);
+                    }else{
+                        debugger;
+                    }
+                }
             }
             return copy;
         }

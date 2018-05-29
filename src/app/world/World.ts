@@ -18,10 +18,13 @@ export class World {
     public deadCreaturesCount:number = 0;
     public totalAgeOfDeadCreatures:number = 0;
     public oldestAliveCreature:Creature;
+    public inspectRandomCreature:boolean = true;
 
-    public _inspectedCreature:Creature;
-    public set  inspectedCreature(creature:Creature){
+
+    private _inspectedCreature:Creature;
+    public set inspectedCreature(creature:Creature) {
         this._inspectedCreature = creature;
+        this._inspectedCreature.recordHistory = true;
     }
 
     public get inspectedCreature ():Creature {
@@ -61,6 +64,13 @@ export class World {
             const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);            
             this._tileMap = new TileMap ();
             this._tileMap.createTilesBySeedMap (map);
+
+            let cnt:number = 10;
+            while(--cnt){
+                const creatureByDesign:Creature = Creature.createByDesign ();
+                this.setAtRandomPosition(creatureByDesign);
+                this.addCreature(creatureByDesign);
+            }
         }
     }
 
@@ -113,6 +123,9 @@ export class World {
         if(this.aliveCreaturesCount < this.MAX_CREATURE_COUNT){
             this.totalCreaturesCount ++;
             this._creatures.push(creature);
+            if(this.inspectRandomCreature && this.inspectedCreature != null && this.inspectedCreature.isDead){
+                this.inspectedCreature = creature;
+            }
         }
     }
 
@@ -135,11 +148,11 @@ export class World {
         for(const creature of this._creatures){
              if(this.oldestAliveCreature == null || creature.age > this.oldestAliveCreature.age) {
                 this.oldestAliveCreature = creature;
-                this.inspectedCreature = creature;
+                if(this.inspectRandomCreature || this.inspectedCreature == null){
+                    this.inspectedCreature = creature;
+                }
             }
             creature.tick (delta);
-
-           
         }
 
         this.createCreaturesToMinCreatureCount ();

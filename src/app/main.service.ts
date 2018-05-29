@@ -17,8 +17,8 @@ export class MainService {
     public world:World;
 
     public selectCreature (creature:Creature):void {
-        console.log("selectCreature: ", creature);
-        this.world.inspectedCreature = creature;        
+        console.log("selectCreature: ", creature);       
+        this.world.inspectedCreature = creature;
     }
 
     constructor (

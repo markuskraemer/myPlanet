@@ -1,3 +1,4 @@
+import { CreatureHistoryComponent } from './ui/creature-history/creature-history.component';
 import { CreaturePreviewComponent } from './view/creature-preview/creature-preview.component';
 import { CreatureStorageService } from './storage/creature-storage.service';
 import { CreaturesStorageListComponent } from './ui/creatures-storage-list/creatures-storage-list.component';
@@ -35,7 +36,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     WorldInfoComponent,
     CreaturesCanvasComponent,
     InputWidgetComponent,
-    CreaturePreviewComponent
+    CreaturePreviewComponent,
+    CreatureHistoryComponent
   ],
   imports: [
     BrowserModule,

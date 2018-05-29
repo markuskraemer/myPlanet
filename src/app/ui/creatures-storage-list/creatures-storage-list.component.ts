@@ -41,6 +41,10 @@ export class CreaturesStorageListComponent implements OnInit {
         this.mainService.deleteCreatureStorage(item.id);
     } 
 
+    public handlePreviewClick (jsonString:string){
+        this.mainService.world.inspectedCreature = this.getCreature(jsonString);
+    }
+
     public getCreature (jsonString:string){
         return Creature.fromJSON (JSON.parse(jsonString));
     }

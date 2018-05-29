@@ -5,7 +5,10 @@
     "baseUrl": "./",
     "module": "es2015",
     "types": [],
-    "experimentalDecorators": true
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5"
+
   },
   "exclude": [
     "test.ts",
