@@ -13,8 +13,9 @@
 </div>
 <app-dialogs></app-dialogs><br>
 <input type="checkbox" [(ngModel)]="showWorld">Show World | 
-<input type="checkbox" [(ngModel)]="mainService.world.autoChangeInspectedCreature">Inspect random creature 
+<input type="checkbox" [(ngModel)]="mainService.world.inspectRandomCreature">Inspect random creature 
 <app-input-widget></app-input-widget>minCreatureCount: <input type="number" [(ngModel)]="mainService.world.minCreatureCount"> <br>
+max food amount: <input type="number" [(ngModel)]="mainService.world.maxTileFoodAmount"> <br>
 <input type="button" value="save creature" (click)="mainService.saveCurrentInspectedCreature ()">
 <input type="button" value="load creatures..." (click)="mainService.openCreaturesStorageList ()">
 <br>

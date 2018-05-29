@@ -294,7 +294,7 @@ export class Creature {
     }
 
     private updateInputNeurons ():void {
-        this.inputFood.input = this.tile ? this.tile.foodAmount / Tile.MAX_FOOD_AMOUNT : 0;
+        this.inputFood.input = this.tile ? this.tile.foodAmount / Alias.world.maxFoodAmount : 0;
         this.inputEnergy.input = (this._energy - Creature.MINIMUM_SURVIVALENERGY) / (Creature.START_ENERGY - Creature.MINIMUM_SURVIVALENERGY);
         this.inputAge.input = this.age / 10;
     }    

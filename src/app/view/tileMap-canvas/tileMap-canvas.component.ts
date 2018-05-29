@@ -1,3 +1,4 @@
+import { Alias } from './../../Alias';
 import { TickService } from './../../tick.service';
 import { TileType } from './../../world/TileType.enum';
 import { Tile } from './../../world/Tile';
@@ -70,7 +71,7 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
     }
 
     public getBackgroundColor (tile:Tile):string {
-        const perc:number = tile.foodAmount / Tile.MAX_FOOD_AMOUNT;
+        const perc:number = tile.foodAmount / Alias.world.maxFoodAmount;
         switch(tile.type){
             
             case TileType.Water:
@@ -84,6 +85,8 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
                     + '125,'
                     + (150 + perc * 105) + ','
                     + '125)';
+
+
             
         }
     }

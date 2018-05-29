@@ -1,7 +1,8 @@
+import { Alias } from './../Alias';
 import { TileType } from './TileType.enum';
 export class Tile {
 
-    public static readonly MAX_FOOD_AMOUNT:number = 1000;
+    public static maxFoodAmount:number = 1000;
 
     public _foodAmount:number = 1;
 
@@ -38,12 +39,13 @@ export class Tile {
     public tick ():void {
         this._changed = false;
         if(this.type != TileType.Water){
-            if(this.foodAmount < Tile.MAX_FOOD_AMOUNT) {
+            if(this.foodAmount < Alias.world.maxTileFoodAmount) {
                 this.foodAmount += 10;
     
-                if(this.foodAmount > Tile.MAX_FOOD_AMOUNT){
-                    this.foodAmount = Tile.MAX_FOOD_AMOUNT;
-                }
+                
+            }
+            if(this.foodAmount > Alias.world.maxTileFoodAmount){
+                this.foodAmount = Alias.world.maxTileFoodAmount;
             }
         }
     }

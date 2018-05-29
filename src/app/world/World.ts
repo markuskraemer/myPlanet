@@ -9,6 +9,9 @@ export class World {
     public readonly width:number = 800;
     public readonly height:number = 800;
     public minCreatureCount:number = 10;
+    public readonly maxFoodAmount:number = 1000;
+    public maxTileFoodAmount:number = 1000;
+    
     public readonly MAX_CREATURE_COUNT:number = 1000;
     private static _instance:World;
     private _tileMap:TileMap;
