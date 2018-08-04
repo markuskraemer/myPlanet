@@ -1,3 +1,4 @@
+import { InspectedCreatuteType } from './../../world/World';
 import { Creature } from './../../world/Creature';
 import { FormatterService } from './../../utils/Formatter.service';
 import { DialogService } from './../dialog.service';
@@ -41,7 +42,8 @@ export class CreaturesStorageListComponent implements OnInit {
         this.mainService.deleteCreatureStorage(item.id);
     } 
 
-    public handlePreviewClick (jsonString:string){
+    public handlePreviewClick (jsonString:string) {
+        this.mainService.world.inspectedCreatureType = InspectedCreatuteType.custom;
         this.mainService.world.inspectedCreature = this.getCreature(jsonString);
     }
 

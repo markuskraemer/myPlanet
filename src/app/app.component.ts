@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
     public showWorld:boolean = true;
+    public showStats:boolean = true;
 
     constructor (
         public dialogService:DialogService,

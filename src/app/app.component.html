@@ -12,18 +12,23 @@
 
 </div>
 <app-dialogs></app-dialogs><br>
-<input type="checkbox" [(ngModel)]="showWorld">Show World | 
-<input type="checkbox" [(ngModel)]="mainService.world.inspectRandomCreature">Inspect random creature 
+<input type="checkbox" [(ngModel)]="showWorld">Show World | <input type="checkbox" [(ngModel)]="showStats">Show Stats 
 <app-input-widget></app-input-widget>minCreatureCount: <input type="number" [(ngModel)]="mainService.world.minCreatureCount"> <br>
 max food amount: <input type="number" [(ngModel)]="mainService.world.maxTileFoodAmount"> <br>
-<input type="button" value="save creature" (click)="mainService.saveCurrentInspectedCreature ()">
-<input type="button" value="load creatures..." (click)="mainService.openCreaturesStorageList ()">
 <br>
 <div class="world" *ngIf="showWorld">
     <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
     <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)"></app-creatures-canvas>
 </div>
-<app-world-info [world]="mainService.world" class="world-info"></app-world-info>
-<app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
-<app-creature-history [creature]="mainService.world.inspectedCreature" class="creature-history"></app-creature-history> 
-
+<div class="right" *ngIf="showStats">
+    <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
+    <input type="button" value="save creature" (click)="mainService.saveCurrentInspectedCreature ()">
+    <input type="button" value="load creatures..." (click)="mainService.openCreaturesStorageList ()">
+    <p>
+        <input type="radio" value="custom" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Custom
+        <input type="radio" value="oldest" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Oldest
+        <input type="radio" value="mostChildren" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Most Children
+    </p>
+    <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
+    <app-creature-history [creature]="mainService.world.inspectedCreature" class="creature-history"></app-creature-history> 
+</div>

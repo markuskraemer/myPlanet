@@ -1,7 +1,14 @@
+
 import { MapGenerator } from './MapGenerator';
 import { TileMap } from './TileMap';
 import { Tile } from './Tile';
 import { Creature } from './Creature';
+
+export enum InspectedCreatuteType  {
+    custom = 'custom',
+    oldest =  'oldest',
+    mostChildren =  'mostChildren'
+}
 
 export class World {
 
@@ -21,10 +28,40 @@ export class World {
     public deadCreaturesCount:number = 0;
     public totalAgeOfDeadCreatures:number = 0;
     public oldestAliveCreature:Creature;
-    public inspectRandomCreature:boolean = true;
-
-
+    public oldestCreatureEver:Creature;
+    public mostChildrenCreature:Creature;
     private _inspectedCreature:Creature;
+    private _inspectedCreatureType:InspectedCreatuteType = InspectedCreatuteType.custom;
+
+    public set inspectedCreatureType (value:InspectedCreatuteType) {
+   
+        if(this._inspectedCreatureType != value){
+            this._inspectedCreatureType = value;
+            this.updateInspectedCreatureByType ();
+        }
+    }
+
+    private updateInspectedCreatureByType ():void {
+            switch(this._inspectedCreatureType) {
+                case InspectedCreatuteType.custom:
+                    break;
+
+                case InspectedCreatuteType.mostChildren:
+                    this.inspectedCreature = this.mostChildrenCreature;
+                    break;
+
+                case InspectedCreatuteType.oldest:
+                    this.inspectedCreature = this.oldestCreatureEver;
+                    break;
+
+            }
+
+    }
+
+    public get inspectedCreatureType ():InspectedCreatuteType {
+        return this._inspectedCreatureType;
+    }
+
     public set inspectedCreature(creature:Creature) {
         this._inspectedCreature = creature;
         this._inspectedCreature.recordHistory = true;
@@ -67,13 +104,13 @@ export class World {
             const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);            
             this._tileMap = new TileMap ();
             this._tileMap.createTilesBySeedMap (map);
-
+            /*
             let cnt:number = 10;
             while(--cnt){
                 const creatureByDesign:Creature = Creature.createByDesign ();
                 this.setAtRandomPosition(creatureByDesign);
                 this.addCreature(creatureByDesign);
-            }
+            }*/
         }
     }
 
@@ -126,9 +163,6 @@ export class World {
         if(this.aliveCreaturesCount < this.MAX_CREATURE_COUNT){
             this.totalCreaturesCount ++;
             this._creatures.push(creature);
-            if(this.inspectRandomCreature && this.inspectedCreature != null && this.inspectedCreature.isDead){
-                this.inspectedCreature = creature;
-            }
         }
     }
 
@@ -149,10 +183,17 @@ export class World {
         this.tileMap.tick ();
 
         for(const creature of this._creatures){
+
+            if(this.mostChildrenCreature == null || creature.childCount > this.mostChildrenCreature.childCount){
+                this.mostChildrenCreature = creature;
+                this.updateInspectedCreatureByType ();
+            }
+
              if(this.oldestAliveCreature == null || creature.age > this.oldestAliveCreature.age) {
                 this.oldestAliveCreature = creature;
-                if(this.inspectRandomCreature || this.inspectedCreature == null){
-                    this.inspectedCreature = creature;
+                if(this.oldestCreatureEver == null || creature.age > this.oldestCreatureEver.age){
+                    this.oldestCreatureEver = creature;
+                    this.updateInspectedCreatureByType ();
                 }
             }
             creature.tick (delta);

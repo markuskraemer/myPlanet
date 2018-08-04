@@ -14,22 +14,6 @@ import { nonenumerable } from './../utils/ObjectUtils';
 import * as Color from 'color';
 
 
-/**
- * @enumerable decorator that sets the enumerable property of a class field to false.
- * @param value true|false
- */
-function enumerable(value: boolean) {
-    return function (target:any, key: string): any {
-        let pd = Reflect.getOwnPropertyDescriptor(target, key) || {};
-        pd.enumerable = value;
-        //pd.configurable = true;
-        pd.writable = true;
-        Reflect.defineProperty(target, key, pd);
-        return pd;
-    }
-};
-
-
 export class Creature {
 
     private static readonly EAT_GAIN:number = 10;

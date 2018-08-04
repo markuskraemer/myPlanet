@@ -14,8 +14,9 @@ export class CreatureHistoryComponent implements OnInit {
     public set creature(value:Creature){
         this._creature = value;
         if(this._creature != null){
+            this.lastHistoryLength = -1;
             this.setUpChart ();
-             this.draw ();
+            this.draw ();
         }
     }
 
@@ -23,6 +24,7 @@ export class CreatureHistoryComponent implements OnInit {
         return this._creature;
     }
 
+    private lastHistoryLength:number = 0;
     private _creature:Creature;
 
     private chart:Chart;
@@ -35,8 +37,10 @@ export class CreatureHistoryComponent implements OnInit {
         
       //  this.setUpChart ();
         this.tickService.draw.subscribe (()=> {
-            if(this._creature)
-                this.draw()
+            if(this._creature && (this._creature.__history.length != this.lastHistoryLength)){
+                this.draw();
+                this.lastHistoryLength = this._creature.__history.length;
+            }
         });
         
     }
