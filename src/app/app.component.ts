@@ -1,3 +1,4 @@
+import { WorldStorageService } from './storage/world-storage.service';
 import { FormatterService } from './utils/Formatter.service';
 import { TickService } from './tick.service';
 import { MainService } from './main.service';
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 
@@ -19,7 +20,8 @@ export class AppComponent {
         public dialogService:DialogService,
         public mainService:MainService,
         public tickService:TickService,
-        public formatterService:FormatterService
+        public formatterService:FormatterService,
+        public worldStorageService:WorldStorageService
     ){
     }
 

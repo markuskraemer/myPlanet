@@ -1,3 +1,4 @@
+
 import { CreatureHistoryComponent } from './ui/creature-history/creature-history.component';
 import { CreaturePreviewComponent } from './view/creature-preview/creature-preview.component';
 import { CreatureStorageService } from './storage/creature-storage.service';
@@ -22,7 +23,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatButtonModule, 
+    MatCheckboxModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatDividerModule, 
+    MatButtonToggleModule, 
+    MatListModule,
+    MatSliderModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -46,7 +54,13 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
     FormsModule,
     BrowserAnimationsModule,
     MatButtonModule, 
-    MatCheckboxModule 
+    MatCheckboxModule,
+    MatButtonToggleModule,
+    MatSliderModule ,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
+    MatListModule
   ],
   providers: [
       MainService,

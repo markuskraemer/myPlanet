@@ -6,7 +6,7 @@ export class TickService {
     private _ticks:number = 0;
     private intervalId:any;
     private _isRunning:boolean;
-    private _speed:number = .25;
+    private _speed:number = 40;
     public tick:EventEmitter<number> = new EventEmitter ();
     public draw:EventEmitter<null> = new EventEmitter ();
 
@@ -17,7 +17,9 @@ export class TickService {
     public set speed (value:number) {
         if(this._speed != value){
             this._speed = value;
-            this.start ();
+            if(this.isRunning){
+                this.start ();
+            }
         }
     }    
 

@@ -1,0 +1,84 @@
+
+$unitpadding:10px;
+
+:host {
+    display: flex;
+}
+
+.config-unit {
+    width:320px;
+    height:100vh;
+    display:flex;
+    flex-direction: column;
+}
+
+.unit{
+    padding:$unitpadding;
+    box-sizing: border-box;
+    width:100%; 
+
+    mat-list-item {
+        margin-top:40px;
+        margin-bottom:20px;
+        font-style: italic;
+    }
+
+    mat-divider {
+        margin-bottom:10px;
+    }
+}
+
+.slider{
+    width:100%;
+}
+
+
+.tick-unit {
+    border:.5px solid grey;
+
+    .tick-unit__start-stop-button {
+        width:100%;
+        height:50px;
+    }
+}
+
+.config-unit__scroll-container  {
+    background: #eee;
+    overflow-y: auto;
+}
+
+
+.world-unit {
+    height:100vh;
+    padding:10px;
+}
+
+
+.row {
+    height:40px;
+    display: block;
+}
+
+.world {
+
+}
+
+.creature-info {
+    position: absolute;
+    top:140px;
+    right: 0;
+    z-index:100;
+    width:400px;
+}
+
+.creature-history{
+    position: absolute;
+    bottom:0;
+    right: 0;
+    z-index:100;
+    width:400px;
+}
+
+.world-info {
+    width:100%;
+}

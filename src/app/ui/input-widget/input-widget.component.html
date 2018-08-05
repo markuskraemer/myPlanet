@@ -1,1 +1,8 @@
-set creature count up to: <input type="number" [(ngModel)]="count"><input type="button" value="ok" (click)="handleClick()">
+<mat-form-field>
+   <input matInput type="number" placeholder="Set creature count up to:" [(ngModel)]="count">
+</mat-form-field>
+ <button mat-mini-fab
+        color="primary" 
+        (click)="handleClick()">
+        OK
+</button>
