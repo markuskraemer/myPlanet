@@ -1,4 +1,4 @@
-import * as Victor  from 'victor';
+import Victor = require('victor');
 
 import { TileType } from './TileType.enum';
 import { MathUtils } from './../utils/MathUtils';
