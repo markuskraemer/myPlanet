@@ -1,3 +1,4 @@
+import { DialogsService } from './ui/dialogs.service';
 import { WorldStorageService } from './storage/world-storage.service';
 import { FormatterService } from './utils/Formatter.service';
 import { TickService } from './tick.service';
@@ -21,7 +22,8 @@ export class AppComponent {
         public mainService:MainService,
         public tickService:TickService,
         public formatterService:FormatterService,
-        public worldStorageService:WorldStorageService
+        public worldStorageService:WorldStorageService,
+        public dialogsService:DialogsService
     ){
     }
 

@@ -1,7 +1,7 @@
 <div>
     aliveCreatures: {{world.aliveCreaturesCount}}<br>
     totalCreatures: {{world.totalCreaturesCount}}<br>
-    avAge: {{world.avAgeOfDeadCreatures}}<br>
-    oldest Creature Age: {{world.oldestAliveCreatureAge}} <br>
+    avAge: {{world.avAgeOfDeadCreatures | number:'1.3-3'}}<br>
+    oldest Creature Age: {{world.oldestAliveCreatureAge | number:'1.3-3'}} <br>
     oldest Creature Generations: {{world.oldestAliveCreature ? world.oldestAliveCreature.generation : 0}} 
 </div>

@@ -1,15 +1,39 @@
 
 $unitpadding:10px;
-
+$colorlight:#eee;
 :host {
     display: flex;
 }
 
+.small-text {
+    font-size: 12px;
+    color: grey;
+}
+
 .config-unit {
     width:320px;
-    height:100vh;
+    height:calc(100vh - 20px);
+    padding:$unitpadding;
     display:flex;
     flex-direction: column;
+
+    .config-unit__scroll-container  {
+        background: $colorlight;
+        overflow-y: auto;
+
+        .config-unit__scroll-container__section{
+            padding-left:$unitpadding*2;
+        }
+    }
+}
+
+.unit-header {
+    font-style: italic;
+}
+ 
+mat-divider {
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 .unit{
@@ -17,15 +41,19 @@ $unitpadding:10px;
     box-sizing: border-box;
     width:100%; 
 
-    mat-list-item {
-        margin-top:40px;
-        margin-bottom:20px;
-        font-style: italic;
-    }
+   
+}
 
-    mat-divider {
-        margin-bottom:10px;
-    }
+
+.creature-unit {
+    position: absolute;
+    right:0;
+    top:0;
+    width:320px;
+    padding:$unitpadding;
+    background: $colorlight;
+    margin: $unitpadding;
+    box-sizing: border-box;
 }
 
 .slider{
@@ -42,10 +70,7 @@ $unitpadding:10px;
     }
 }
 
-.config-unit__scroll-container  {
-    background: #eee;
-    overflow-y: auto;
-}
+
 
 
 .world-unit {
@@ -54,29 +79,13 @@ $unitpadding:10px;
 }
 
 
-.row {
-    height:40px;
-    display: block;
-}
-
-.world {
-
-}
 
 .creature-info {
-    position: absolute;
-    top:140px;
-    right: 0;
-    z-index:100;
-    width:400px;
+    position: relative;
 }
 
 .creature-history{
-    position: absolute;
-    bottom:0;
-    right: 0;
-    z-index:100;
-    width:400px;
+   position: relative;  
 }
 
 .world-info {

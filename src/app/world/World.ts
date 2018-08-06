@@ -30,8 +30,9 @@ export class World {
     public oldestAliveCreature:Creature;
     public oldestCreatureEver:Creature;
     public mostChildrenCreature:Creature;
+    public customInspectedCreature:Creature;
     private _inspectedCreature:Creature;
-    private _inspectedCreatureType:InspectedCreatuteType = InspectedCreatuteType.custom;
+    private _inspectedCreatureType:InspectedCreatuteType = InspectedCreatuteType.oldest;
 
     public set inspectedCreatureType (value:InspectedCreatuteType) {
    
@@ -44,6 +45,7 @@ export class World {
     private updateInspectedCreatureByType ():void {
             switch(this._inspectedCreatureType) {
                 case InspectedCreatuteType.custom:
+                    this.inspectedCreature = this.customInspectedCreature;
                     break;
 
                 case InspectedCreatuteType.mostChildren:
@@ -64,7 +66,9 @@ export class World {
 
     public set inspectedCreature(creature:Creature) {
         this._inspectedCreature = creature;
-        this._inspectedCreature.recordHistory = true;
+        if(this._inspectedCreature){
+            this._inspectedCreature.recordHistory = true;
+        }
     }
 
     public get inspectedCreature ():Creature {

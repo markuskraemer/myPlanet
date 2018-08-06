@@ -1,3 +1,5 @@
+import { DialogsService } from './ui/dialogs.service';
+import { StoredCreaturesComponent } from './ui/stored-creatures/stored-creatures.component';
 
 import { CreatureHistoryComponent } from './ui/creature-history/creature-history.component';
 import { CreaturePreviewComponent } from './view/creature-preview/creature-preview.component';
@@ -30,7 +32,9 @@ import { MatButtonModule,
     MatDividerModule, 
     MatButtonToggleModule, 
     MatListModule,
-    MatSliderModule } from '@angular/material';
+    MatSliderModule,
+    MatSelectModule,
+    MatDialogModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -47,7 +51,8 @@ import { MatButtonModule,
     CreaturesCanvasComponent,
     InputWidgetComponent,
     CreaturePreviewComponent,
-    CreatureHistoryComponent
+    CreatureHistoryComponent,
+    StoredCreaturesComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +65,9 @@ import { MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [
       MainService,
@@ -68,10 +75,14 @@ import { MatButtonModule,
       DialogService,
       WorldStorageService,
       CreatureStorageService,
-      TickService 
+      TickService,
+      DialogsService 
   ],
   bootstrap: [
       AppComponent
-      ]
+  ],
+  entryComponents:[
+        StoredCreaturesComponent
+  ]
 })
 export class AppModule { }

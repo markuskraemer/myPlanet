@@ -1,5 +1,5 @@
 <div id="stats"></div>
-
+<app-dialogs></app-dialogs>    
 <div class="config-unit">
     <div class="tick-unit unit">
         <button mat-raised-button
@@ -24,49 +24,55 @@
         FPS: {{tickService.speed}}
     </div>
     <div class="config-unit__scroll-container unit">
-        <mat-list-item>Simulation</mat-list-item>
-        <mat-divider></mat-divider>        
-        <app-input-widget></app-input-widget>
-        <br>
-        <mat-form-field>
-            <input matInput placeholder="min creature count:" type="number" [(ngModel)]="mainService.world.minCreatureCount">
-        </mat-form-field>
-        <br>
-        Maximum Food Amount per tile:<br>
-        {{mainService.world.maxTileFoodAmount}}<br>
-        <mat-slider 
-                class="slider"
-                [max]="1000"
-                [min]="10"
-                [step]="50"
-                [thumb-label]="true"
-                [tick-interval]="50"
-                [(ngModel)]="mainService.world.maxTileFoodAmount">
-        </mat-slider>
-
-        <mat-list-item>World</mat-list-item>
-        <mat-divider></mat-divider>        
-        <mat-form-field>
-            <input matInput placeholder="Id" readonly="true" [(ngModel)]="mainService.world.id">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Name" [(ngModel)]="mainService.world.name">
-        </mat-form-field>
-        <br>
-        <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
-        <br>
-        <button mat-raised-button
-            (click)="dialogService.openStorageList()">
-            Load...
-        </button>
-        <button mat-raised-button
-            (click)="worldStorageService.save(mainService.world)">
-            Save
-        </button>
-
-        <app-dialogs></app-dialogs><br>
-        <input type="checkbox" [(ngModel)]="showWorld">Show World | <input type="checkbox" [(ngModel)]="showStats">Show Stats 
         
+        <!-- Simulation -->
+        <mat-list-item class="unit-header" >Simulation</mat-list-item>
+        <mat-divider></mat-divider>   
+        <div class="config-unit__scroll-container__section">    
+            <app-input-widget></app-input-widget>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="min creature count:" type="number" [(ngModel)]="mainService.world.minCreatureCount">
+            </mat-form-field>
+            <br>
+            <span class="small-text">
+                Maximum Food Amount per tile:
+            </span>
+            <br>
+            {{mainService.world.maxTileFoodAmount}}<br>
+            <mat-slider 
+                    class="slider"
+                    [max]="1000"
+                    [min]="10"
+                    [step]="50"
+                    [thumb-label]="true"
+                    [tick-interval]="50"
+                    [(ngModel)]="mainService.world.maxTileFoodAmount">
+            </mat-slider>
+        </div>
+        <!-- World -->
+        <mat-list-item class="unit-header">World</mat-list-item>
+        <mat-divider></mat-divider>
+        <div class="config-unit__scroll-container__section">        
+            <mat-form-field>
+                <input matInput placeholder="Id" readonly="true" [(ngModel)]="mainService.world.id">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Name" [(ngModel)]="mainService.world.name">
+            </mat-form-field>
+            <br>
+            <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
+            <br>
+            <button mat-raised-button
+                (click)="dialogService.openStorageList()">
+                Load World...
+            </button>
+            <button mat-raised-button
+                (click)="worldStorageService.save(mainService.world)">
+                Save World
+            </button>
+        </div>
+           
     </div>
 </div>
 <div class="world-unit">
@@ -75,17 +81,32 @@
         <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)"></app-creatures-canvas>
     </div>
 </div>
-<!--
-<div class="right" *ngIf="showStats">
-    <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
-    <input type="button" value="save creature" (click)="mainService.saveCurrentInspectedCreature ()">
-    <input type="button" value="load creatures..." (click)="mainService.openCreaturesStorageList ()">
-    <p>
-        <input type="radio" value="custom" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Custom
-        <input type="radio" value="oldest" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Oldest
-        <input type="radio" value="mostChildren" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Most Children
-    </p>
+
+<div class="creature-unit">
+    <mat-list-item class="unit-header" >Creature</mat-list-item>
+    <mat-divider></mat-divider>   
+    <mat-form-field>
+        <mat-select placeholder="Show Type" [value]="mainService.world.inspectedCreatureType" (selectionChange)="mainService.world.inspectedCreatureType=$event.value">
+            <mat-option [value]="'custom'" disabled="{{mainService.world.customInspectedCreature==undefined}}">
+                Custom
+            </mat-option>
+            <mat-option [value]="'oldest'">
+                Oldest
+            </mat-option>
+            <mat-option [value]="'mostChildren'">
+                Most Children
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <br>
     <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
-    <app-creature-history [creature]="mainService.world.inspectedCreature" class="creature-history"></app-creature-history> 
+    <br>
+    <button mat-raised-button
+            (click)="dialogsService.openStoredCreatures()">
+            Load Creature...
+        </button>
+        <button mat-raised-button disabled="{{mainService.world.inspectedCreature==undefined}}"
+            (click)="mainService.saveCurrentInspectedCreature ()">
+            Save Creature
+    </button>
 </div>
--->

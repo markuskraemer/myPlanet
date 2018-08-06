@@ -1,3 +1,4 @@
+import { DialogsService } from './ui/dialogs.service';
 import { DialogService } from './ui/dialog.service';
 import { IStorable } from './storage/IStorable';
 import { CreatureStorageService } from './storage/creature-storage.service';
@@ -8,7 +9,7 @@ import { Injectable, ApplicationRef, EventEmitter } from '@angular/core';
 import { WorldStorageService } from './storage/world-storage.service';
 import { Inject } from '@angular/core';
 import { Alias } from './Alias';
-import { World } from './world/World';
+import { World, InspectedCreatuteType } from './world/World';
 import * as Stats from 'stats.js';
 
 @Injectable()
@@ -17,16 +18,19 @@ export class MainService {
     public world:World;
 
     public selectCreature (creature:Creature):void {
-        console.log("selectCreature: ", creature);       
-        this.world.inspectedCreature = creature;
+        console.log("selectCreature: ", creature);    
+        this.world.customInspectedCreature = creature;
+        this.world.inspectedCreatureType = InspectedCreatuteType.custom;
+        // this.world.inspectedCreature = creature;
     }
 
     constructor (
        private worldStorageService:WorldStorageService,
        private creatureStorageService:CreatureStorageService,
-       private dialogService:DialogService,
+       private __dialogService:DialogService,
        private appRef:ApplicationRef,
        public tickService:TickService
+      // public dialogsService:DialogsService
         ){
         this.init ();
     }
@@ -72,7 +76,7 @@ export class MainService {
     }
 
     public openCreaturesStorageList ():void {
-        this.dialogService.openCreaturesStorageList ();
+      //  this.dialogsService.openStoredCreatures ();
     }
 
     public deleteCreatureStorage (id:string):void {
