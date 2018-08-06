@@ -1,3 +1,4 @@
+import { StoredWorldsComponent } from './ui/stored-worlds/stored-worlds.component';
 import { DialogsService } from './ui/dialogs.service';
 import { StoredCreaturesComponent } from './ui/stored-creatures/stored-creatures.component';
 
@@ -52,7 +53,8 @@ import { MatButtonModule,
     InputWidgetComponent,
     CreaturePreviewComponent,
     CreatureHistoryComponent,
-    StoredCreaturesComponent
+    StoredCreaturesComponent,
+    StoredWorldsComponent 
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,8 @@ import { MatButtonModule,
       AppComponent
   ],
   entryComponents:[
-        StoredCreaturesComponent
+      StoredCreaturesComponent,
+      StoredWorldsComponent
   ]
 })
 export class AppModule { }
