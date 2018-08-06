@@ -1,6 +1,12 @@
 :host {
 }
 
+.header {
+    font-style: italic;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
 .item {
     display:flex;
     align-items: center;
@@ -15,4 +21,20 @@
 .preview {
     width: 20px;
     height:20px;
+}
+
+.button-ok {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.small-button {
+    color:blue;
+    margin:10px;
+    cursor:pointer;
+    user-select: none;
+}
+
+.small-button:hover {
+    color:darkblue;
 }

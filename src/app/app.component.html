@@ -10,7 +10,7 @@
         </button>
         <br>
         <br>
-        Ticks:{{tickService.ticks}} | Time:{{ formatterService.toDuration(tickService.ticks) }}<br>
+        Ticks: {{tickService.ticks}} | Time: {{ formatterService.toDuration(tickService.ticks) }}<br>
         <mat-slider 
                 class="slider"
                 [max]="60"
@@ -26,8 +26,8 @@
     <div class="config-unit__scroll-container unit">
         
         <!-- Simulation -->
-        <mat-list-item class="unit-header" >Simulation</mat-list-item>
-        <mat-divider></mat-divider>   
+        <mat-list-item class="global__header" >Simulation</mat-list-item>
+        <mat-divider class="global__divider"></mat-divider>   
         <div class="config-unit__scroll-container__section">    
             <app-input-widget></app-input-widget>
             <br>
@@ -51,8 +51,8 @@
             </mat-slider>
         </div>
         <!-- World -->
-        <mat-list-item class="unit-header">World</mat-list-item>
-        <mat-divider></mat-divider>
+        <mat-list-item class="global__header">World</mat-list-item>
+        <mat-divider class="global__divider"></mat-divider>
         <div class="config-unit__scroll-container__section">        
             <mat-form-field>
                 <input matInput placeholder="Id" readonly="true" [(ngModel)]="mainService.world.id">
@@ -83,8 +83,8 @@
 </div>
 
 <div class="creature-unit">
-    <mat-list-item class="unit-header" >Creature</mat-list-item>
-    <mat-divider></mat-divider>   
+    <mat-list-item class="global__header" >Creature</mat-list-item>
+    <mat-divider class="global__divider"></mat-divider>   
     <mat-form-field>
         <mat-select placeholder="Show Type" [value]="mainService.world.inspectedCreatureType" (selectionChange)="mainService.world.inspectedCreatureType=$event.value">
             <mat-option [value]="'custom'" disabled="{{mainService.world.customInspectedCreature==undefined}}">

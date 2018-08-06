@@ -24,6 +24,10 @@ export class StoredCreaturesComponent  {
         this.dialogRef.close();
     }
 
+    public handleOKClick():void {
+        this.dialogRef.close();        
+    }
+
     public handleLoadClick (item:IStorageDescribtion):void {
         this.mainService.loadAndAddCreature(item.id);
     }
