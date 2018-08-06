@@ -1,5 +1,4 @@
 import { DialogsService } from './ui/dialogs.service';
-import { DialogService } from './ui/dialog.service';
 import { IStorable } from './storage/IStorable';
 import { CreatureStorageService } from './storage/creature-storage.service';
 import { NeuralNetwork } from './network/NeuralNetwork';
@@ -27,10 +26,8 @@ export class MainService {
     constructor (
        private worldStorageService:WorldStorageService,
        private creatureStorageService:CreatureStorageService,
-       private __dialogService:DialogService,
        private appRef:ApplicationRef,
        public tickService:TickService
-      // public dialogsService:DialogsService
         ){
         this.init ();
     }
@@ -73,10 +70,6 @@ export class MainService {
     
     public deleteWorld (id:string):void {
         this.worldStorageService.delete (id);
-    }
-
-    public openCreaturesStorageList ():void {
-      //  this.dialogsService.openStoredCreatures ();
     }
 
     public deleteCreatureStorage (id:string):void {

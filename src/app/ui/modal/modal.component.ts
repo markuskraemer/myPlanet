@@ -1,4 +1,3 @@
-import { DialogService } from './../dialog.service';
 import { Component, OnInit, ElementRef } from '@angular/core';
 
 import * as $ from 'jquery';
@@ -12,14 +11,11 @@ import 'jquery-ui/ui/widgets/dialog.js';
 export class ModalComponent implements OnInit {
 
   constructor(
-      private elementRef:ElementRef,
-      private dialogService:DialogService
-  ) { }
+      private elementRef:ElementRef  ) { }
 
   ngOnInit() {
       console.log("INIT $ ", $);
       $('#dialog').dialog ({
-        close:() => this.dialogService.closeStorageList ()
       });
   }
 
