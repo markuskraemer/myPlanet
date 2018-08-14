@@ -30,7 +30,7 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
         requestAnimationFrame(()=>this.draw());
     }
 
-    private tileSize:number = 25;
+    private tileSize:number = 20;
 
     constructor(
         private elementRef:ElementRef,
@@ -39,7 +39,11 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.forceDrawAll = true;
-        this.subscribtion = this.tickService.draw.subscribe (()=>this.draw ());
+        this.subscribtion = this.tickService.draw.subscribe (()=> { 
+            if(this.tickService.ticks % 4 == 0){
+                this.draw (); 
+            }
+        });
     }
 
     ngOnDestroy () {
@@ -57,7 +61,7 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
                 const y:number = Math.floor(i / this._tileMap.colCount) * this.tileSize;
                 context.fillStyle = this.getBackgroundColor(tile);
                 context.fillRect (x, y, this.tileSize, this.tileSize);
-            // }
+             //}
         }
         this.forceDrawAll = false;
         // this.context.drawImage (this.backbufferContext.canvas, 0, 0);
@@ -71,23 +75,18 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
     }
 
     public getBackgroundColor (tile:Tile):string {
-        const perc:number = tile.foodAmount / Alias.world.maxFoodAmount;
+        const perc:number = tile.foodAmount / Alias.world.maxTileFoodAmount;
         switch(tile.type){
             
             case TileType.Water:
                 return 'rgb(122,122,255)';  
-            
 
-            case TileType.Gras:
             case TileType.Sand:
-
-                return 'rgb('  
-                    + '125,'
+            case TileType.Gras:
+                return 'rgb('                     
+                    + (150 + perc * 50) + ','
                     + (150 + perc * 105) + ','
                     + '125)';
-
-
-            
         }
     }
 

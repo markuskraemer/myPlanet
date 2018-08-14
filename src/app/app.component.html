@@ -81,31 +81,36 @@
     </div>
 </div>
 
-<div class="creature-unit">
-    <mat-list-item class="global__header" >Creature</mat-list-item>
-    <mat-divider class="global__divider"></mat-divider>   
-    <mat-form-field>
-        <mat-select placeholder="Show Type" [value]="mainService.world.inspectedCreatureType" (selectionChange)="mainService.world.inspectedCreatureType=$event.value">
-            <mat-option [value]="'custom'" disabled="{{mainService.world.customInspectedCreature==undefined}}">
-                Custom
-            </mat-option>
-            <mat-option [value]="'oldest'">
-                Oldest
-            </mat-option>
-            <mat-option [value]="'mostChildren'">
-                Most Children
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <br>
-    <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
-    <br>
-    <button mat-raised-button
-            (click)="dialogsService.openStoredCreatures()">
-            Load Creature...
+<div class="creature-unit" [class.open]="showCreatureUnit">
+    <div class="creature-unit__arrow" (click)="showCreatureUnit=!showCreatureUnit">
+
+    </div>
+    <div class="creature-unit__content">
+        <mat-list-item class="global__header" >Creature</mat-list-item>
+        <mat-divider class="global__divider"></mat-divider>   
+        <mat-form-field>
+            <mat-select placeholder="Show Type" [value]="mainService.world.inspectedCreatureType" (selectionChange)="mainService.world.inspectedCreatureType=$event.value">
+                <mat-option [value]="'custom'" disabled="{{mainService.world.customInspectedCreature==undefined}}">
+                    Custom
+                </mat-option>
+                <mat-option [value]="'oldest'">
+                    Oldest
+                </mat-option>
+                <mat-option [value]="'mostChildren'">
+                    Most Children
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+        <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
+        <br>
+        <button mat-raised-button
+                (click)="dialogsService.openStoredCreatures()">
+                Load Creature...
+            </button>
+            <button mat-raised-button disabled="{{mainService.world.inspectedCreature==undefined}}"
+                (click)="mainService.saveCurrentInspectedCreature ()">
+                Save Creature
         </button>
-        <button mat-raised-button disabled="{{mainService.world.inspectedCreature==undefined}}"
-            (click)="mainService.saveCurrentInspectedCreature ()">
-            Save Creature
-    </button>
+    </div>
 </div>

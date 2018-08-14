@@ -1,4 +1,3 @@
-import Victor = require('victor');
 
 import { TileType } from './TileType.enum';
 import { MathUtils } from './../utils/MathUtils';
@@ -33,7 +32,7 @@ export class Creature {
     private static creatureCount:number = 0;
     private _brain:NeuralNetwork;
     private tile:Tile;
-    private moveVector:Victor;
+    private moveVector:{x:number, y:number};
     private _energy:number = 0;
     private _recordHistory:boolean = false;
 
@@ -83,13 +82,12 @@ export class Creature {
 
     constructor (doSelfInit:boolean = true)  {
        // console.log(" new Creature: ", doSelfInit);
-       
        Object.defineProperty(this, '__history', {
             value: [],
             writable: true,
             enumerable:false
         });
-        this.moveVector = new Victor (0,0);
+        this.moveVector = {x:0, y:0};
       
         if(doSelfInit){
             this.init ();
@@ -159,7 +157,7 @@ export class Creature {
         this.y = json['y'];
         this.color = new Color(json['color'].color);
         this.viewAngle = json['viewAngle'];
-        this.moveVector = new Victor(json['moveVector'].x, json['moveVector'].y);
+        this.moveVector = {x: json['moveVector'].x, y: json['moveVector'].y};
         this.age = json['age'];
         this.isDead = json['isDead'];
 
@@ -263,7 +261,7 @@ export class Creature {
         if(this._recordHistory)
             this.__history.push(this.toJSON());
       
-        this.tile = Alias.world.tileMap.getTileAt (this.x, this.y);
+        this.tile = Alias.world.tileMap.getTileAtXY (this.x, this.y);
         this.updateInputNeurons ();
         const costMultiplier:number = this.calcCostMultiplier ();
         this.rotate (costMultiplier, timeDelta);
@@ -278,7 +276,7 @@ export class Creature {
     }
 
     private updateInputNeurons ():void {
-        this.inputFood.input = this.tile ? this.tile.foodAmount / Alias.world.maxFoodAmount : 0;
+        this.inputFood.input = this.tile ? this.tile.foodAmount / Alias.world.maxTileFoodAmount : 0;
         this.inputEnergy.input = (this._energy - Creature.MINIMUM_SURVIVALENERGY) / (Creature.START_ENERGY - Creature.MINIMUM_SURVIVALENERGY);
         this.inputAge.input = this.age / 10;
     }    
@@ -313,7 +311,8 @@ export class Creature {
 
     private move (costMultiplier:number, timeDelta:number):void {
         const moveForce = MathUtils.clampNegPos(this.outMove.output);
-        this.moveVector.multiplyScalar (moveForce * Creature.MOVE_FACTOR);
+        this.moveVector.x *= (moveForce * Creature.MOVE_FACTOR);
+        this.moveVector.y *= (moveForce * Creature.MOVE_FACTOR);
         if(Alias.world.tileMap.isOnTile (this.x + this.moveVector.x, this.y + this.moveVector.y)){
             this.x += this.moveVector.x;
             this.y += this.moveVector.y;

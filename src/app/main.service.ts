@@ -35,6 +35,7 @@ export class MainService {
     private init ():void {
         this.world = new World ();
         Alias.world = this.world;
+        this.world.createMap ();
         this.world.createCreature ();
         this.tickService.tick.subscribe ( (delta:number) => this.tick(delta));
         this.tickService.start ();

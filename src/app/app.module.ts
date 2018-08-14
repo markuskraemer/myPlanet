@@ -13,7 +13,6 @@ import { CreatureInfoComponent } from './view/creatureInfo/creature-info.compone
 import { NeuralNetworkComponent } from './view/neuralNetwork/neuralNetwork.component';
 import { TickService } from './tick.service';
 import { MainService } from './main.service';
-import { ModalComponent } from './ui/modal/modal.component';
 import { WorldStorageService } from './storage/world-storage.service';
 import { FormatterService } from './utils/Formatter.service';
 import { BrowserModule,  } from '@angular/platform-browser';
@@ -36,7 +35,6 @@ import { MatButtonModule,
   declarations: [
     AppComponent,
     TileMapCanvasComponent,
-    ModalComponent,
     NeuralNetworkComponent,
     CreatureInfoComponent,
     WorldInfoComponent,

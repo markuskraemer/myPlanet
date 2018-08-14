@@ -39,13 +39,38 @@ $colorlight:#eee;
 
 .creature-unit {
     position: absolute;
-    right:0;
     top:0;
+    right:-320px;
     width:320px;
     padding:$unitpadding;
     background: $colorlight;
     margin: $unitpadding;
     box-sizing: border-box;
+    transition: .5s all ease-out;
+}
+
+.creature-unit.open {
+    right:0;    
+    cursor: pointer;
+    .creature-unit__arrow {
+        transform:scaleX(-1);
+         filter:drop-shadow(-4px 4px 1px rgba(0,0,0,.75));
+    }
+}
+
+.creature-unit__arrow {
+    width:40px;
+    height:40px;
+    position: absolute;
+    left:-40px;
+    top:0;
+    background:url(../assets/arrow-open.png) no-repeat 100%;
+    filter:drop-shadow(4px 4px 1px rgba(0,0,0,.75));
+}
+
+
+
+.creature-unit__content {
 }
 
 .slider{
