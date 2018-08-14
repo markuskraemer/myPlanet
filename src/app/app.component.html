@@ -21,6 +21,18 @@
         </mat-slider>
         <br>
         FPS: {{tickService.speed}}
+        <br>
+        <mat-slider 
+                class="slider"
+                [max]="16"
+                [min]="1"
+                [step]="1"
+                [thumb-label]="true"
+                [tick-interval]="1"
+                [(ngModel)]="tickService.updateFrameModulo">
+        </mat-slider>
+        <br>
+        Update every frame: {{this.tickService.updateFrameModulo}}
     </div>
     <div class="config-unit__scroll-container unit">
         
@@ -33,21 +45,6 @@
             <mat-form-field>
                 <input matInput placeholder="min creature count:" type="number" [(ngModel)]="mainService.world.minCreatureCount">
             </mat-form-field>
-            <br>
-            <span class="small-text">
-                Maximum Food Amount per tile:
-            </span>
-            <br>
-            {{mainService.world.maxTileFoodAmount}}<br>
-            <mat-slider 
-                    class="slider"
-                    [max]="1000"
-                    [min]="10"
-                    [step]="50"
-                    [thumb-label]="true"
-                    [tick-interval]="50"
-                    [(ngModel)]="mainService.world.maxTileFoodAmount">
-            </mat-slider>
         </div>
         <!-- World -->
         <mat-list-item class="global__header">World</mat-list-item>

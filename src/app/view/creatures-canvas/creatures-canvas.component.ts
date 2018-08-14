@@ -48,7 +48,7 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscribtion = this.tickService.draw.subscribe (()=>{ 
-            if(this.tickService.ticks % 4 == 0){
+            if(this.tickService.ticks % this.tickService.updateFrameModulo == 0){
                 this.draw (); 
             }
         });

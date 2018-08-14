@@ -2,24 +2,19 @@ import { Alias } from './../Alias';
 import { TileType } from './TileType.enum';
 export class Tile {
 
-    public maxFoodAmountFactor:number = 1;
     public _foodAmount:number = 1;
+    public individualMaxFoodAmount:number = 1;
+    public staticMaxFoodAmount:number = 1;
 
     public set foodAmount (value:number){
         if(value != this._foodAmount){
             this._foodAmount = value;
-            this._changed = true;
         }
     }
 
     public get foodAmount ():number {
         return this._foodAmount;
     } 
-
-    public get changed ():boolean {
-        return this._changed;
-    } 
-
 
     public type:TileType;
     private _changed:boolean;
@@ -38,10 +33,9 @@ export class Tile {
     public tick ():void {
         this._changed = false;
         if(this.type != TileType.Water){
-            this.foodAmount += 6;
-            const myMaxFoodAmount:number = Alias.world.maxTileFoodAmount * this.maxFoodAmountFactor;           
-            if(this.foodAmount > myMaxFoodAmount){
-                this.foodAmount = myMaxFoodAmount;
+            this.foodAmount += 6;       
+            if(this.foodAmount > this.individualMaxFoodAmount){
+                this.foodAmount = this.individualMaxFoodAmount;
             }
         }
     }
@@ -50,5 +44,5 @@ export class Tile {
         const c:number = Math.min(this.foodAmount, eatWish);
         this.foodAmount -= c;
         return c;
-    }
+    } 
 }

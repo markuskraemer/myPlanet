@@ -31,7 +31,7 @@ export class TileMap {
         this.tiles = [];
         this.createTiles (map);
         this.setFoodAmount ();
-        this.setFoodAmountIfWaterNeighbour ();
+        this.accordFoodAmountToNeighbours ();
     }
 
     private createTiles (map:number[]) {
@@ -46,13 +46,16 @@ export class TileMap {
         for(let i:number = 0; i < this.tiles.length; ++i){
             const tile:Tile = this.tiles[i];                
             if(tile.type == TileType.Water){
-                tile.foodAmount = 0;
-            }else if(tile.type == TileType.Sand){
-                tile.foodAmount = Alias.world.maxTileFoodAmount * .2 + Math.random () * Alias.world.maxTileFoodAmount * .1;
-                tile.maxFoodAmountFactor = Math.random () * .2 + .8;
+                tile.foodAmount = tile.individualMaxFoodAmount = tile.staticMaxFoodAmount = 0;
+            }else if(tile.type == TileType.Sand) {
+
+                tile.staticMaxFoodAmount = Alias.world.maxTileFoodAmount / 2;
+                tile.individualMaxFoodAmount = tile.staticMaxFoodAmount * .75 + Math.random () * tile.staticMaxFoodAmount * .25;
+            
             }else if(tile.type == TileType.Gras || tile.type == TileType.None){
-                tile.foodAmount = Alias.world.maxTileFoodAmount * .5 + Math.random () * Alias.world.maxTileFoodAmount * .5;
-                tile.maxFoodAmountFactor = Math.random () * .2 + .8;
+            
+                tile.staticMaxFoodAmount = Alias.world.maxTileFoodAmount;
+                tile.individualMaxFoodAmount =  tile.staticMaxFoodAmount * .75 + Math.random () *  tile.staticMaxFoodAmount * .25;
             }
         }
     }
@@ -65,8 +68,25 @@ export class TileMap {
         return index % this.colCount;
     }
 
+    private getSuroundingTileType (tiles:Tile[]):number {
+        
+        for(let tile of tiles){
+            if(tile){
+                switch(tile.type){
+                    case TileType.Water:
+                        return TileType.Water;
 
-    private setFoodAmountIfWaterNeighbour ():void {
+                    case TileType.Sand:
+                        return TileType.Sand;
+
+                }
+            }
+        }
+        return TileType.Gras;
+    }
+
+
+    private accordFoodAmountToNeighbours ():void {
         for(let i:number = 0; i < this.tiles.length; ++i){
             const tile:Tile = this.tiles[i];
             if(tile.type == TileType.Water){
@@ -79,30 +99,30 @@ export class TileMap {
             const right:Tile = this.getTileAtRC (r+1, c);
             const top:Tile = this.getTileAtRC (r, c-1);
             const bottom:Tile = this.getTileAtRC (r, c+1);
-            if(
-                   (left && left.type == TileType.Water) 
-                || (right && right.type == TileType.Water) 
-                || (top && top.type == TileType.Water) 
-                || (bottom && bottom.type == TileType.Water)
-                ) 
-            {
-                tile.maxFoodAmountFactor *= .5;
+
+            const orthogonalSurroundingTileType:TileType = this.getSuroundingTileType ([left, right, top, bottom]); 
+
+            if(orthogonalSurroundingTileType == TileType.Water) {            
+                tile.individualMaxFoodAmount *= .5;
+            }else if(orthogonalSurroundingTileType == TileType.Sand){
+                tile.individualMaxFoodAmount *= .75;
             }else{
                 const leftTop:Tile = this.getTileAtRC (r-1, c-1);
                 const rightTop:Tile = this.getTileAtRC (r+1, c-1);
                 const leftBottom:Tile = this.getTileAtRC (r-1, c+1);
                 const rightBottom:Tile = this.getTileAtRC (r+1, c+1);
-            if(
-                      (leftTop && leftTop.type == TileType.Water) 
-                   || (rightTop && rightTop.type == TileType.Water)
-                   || (leftBottom && leftBottom.type == TileType.Water)
-                   || (rightBottom && rightBottom.type == TileType.Water)
-                ){
-                    tile.maxFoodAmountFactor *= .75;
-                }
-            }            
-        }              
+                
+                const crossSurroundingTileType:TileType = this.getSuroundingTileType ([leftTop, rightTop, leftBottom, rightBottom]); 
+
+                if(crossSurroundingTileType == TileType.Water) {            
+                    tile.individualMaxFoodAmount *= .75;
+                }else if(crossSurroundingTileType == TileType.Sand){
+                    tile.individualMaxFoodAmount *= .9;            
+                }            
+            }              
+        }
     }
+
 
     public tick ():void {
         for(const tile of this.tiles){

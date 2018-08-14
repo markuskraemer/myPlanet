@@ -40,7 +40,7 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.forceDrawAll = true;
         this.subscribtion = this.tickService.draw.subscribe (()=> { 
-            if(this.tickService.ticks % 4 == 0){
+            if(this.tickService.ticks % this.tickService.updateFrameModulo == 0){
                 this.draw (); 
             }
         });
@@ -75,18 +75,25 @@ export class TileMapCanvasComponent implements OnInit, OnDestroy {
     }
 
     public getBackgroundColor (tile:Tile):string {
-        const perc:number = tile.foodAmount / Alias.world.maxTileFoodAmount;
+        const perc:number = tile.foodAmount / tile.staticMaxFoodAmount;
         switch(tile.type){
             
             case TileType.Water:
                 return 'rgb(122,122,255)';  
 
-            case TileType.Sand:
+           
             case TileType.Gras:
                 return 'rgb('                     
                     + (150 + perc * 50) + ','
                     + (150 + perc * 105) + ','
                     + '125)';
+
+             case TileType.Sand:
+                 return 'rgb('                     
+                    + (150 + perc * 105) + ','
+                    + (150 + perc * 105) + ','
+                    + '125)';
+                    
         }
     }
 

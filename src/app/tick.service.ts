@@ -7,6 +7,7 @@ export class TickService {
     private intervalId:any;
     private _isRunning:boolean;
     private _speed:number = 40;
+    public updateFrameModulo:number = 1;
     public tick:EventEmitter<number> = new EventEmitter ();
     public draw:EventEmitter<null> = new EventEmitter ();
 

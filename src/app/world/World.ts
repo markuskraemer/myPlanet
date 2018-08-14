@@ -1,6 +1,4 @@
 import { MapLoader } from './MapLoader';
-
-import { MapGenerator } from './MapGenerator';
 import { TileMap } from './TileMap';
 import { Tile } from './Tile';
 import { Creature } from './Creature';
