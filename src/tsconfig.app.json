@@ -7,6 +7,7 @@
     "types": [],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true, 
     "target": "es5"
 
   },

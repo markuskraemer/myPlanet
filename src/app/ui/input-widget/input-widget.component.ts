@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InputWidgetComponent implements OnInit {
 
-    public count:number = 10;
+    public count:number = 1000;
 
     constructor() { }
 

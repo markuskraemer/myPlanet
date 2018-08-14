@@ -1,3 +1,4 @@
+import { MapLoader } from './MapLoader';
 
 import { MapGenerator } from './MapGenerator';
 import { TileMap } from './TileMap';
@@ -15,8 +16,7 @@ export class World {
     private _creatures:Creature [] = [];
     public readonly width:number = 800;
     public readonly height:number = 800;
-    public minCreatureCount:number = 10;
-    public readonly maxFoodAmount:number = 1000;
+    public minCreatureCount:number = 300;
     public maxTileFoodAmount:number = 1000;
     
     public readonly MAX_CREATURE_COUNT:number = 1000;
@@ -30,20 +30,19 @@ export class World {
     public oldestAliveCreature:Creature;
     public oldestCreatureEver:Creature;
     public mostChildrenCreature:Creature;
+    public customInspectedCreature:Creature;
     private _inspectedCreature:Creature;
-    private _inspectedCreatureType:InspectedCreatuteType = InspectedCreatuteType.custom;
+    private _inspectedCreatureType:InspectedCreatuteType = InspectedCreatuteType.oldest;
 
     public set inspectedCreatureType (value:InspectedCreatuteType) {
-   
-        if(this._inspectedCreatureType != value){
-            this._inspectedCreatureType = value;
-            this.updateInspectedCreatureByType ();
-        }
+        this._inspectedCreatureType = value;
+        this.updateInspectedCreatureByType ();
     }
 
     private updateInspectedCreatureByType ():void {
             switch(this._inspectedCreatureType) {
                 case InspectedCreatuteType.custom:
+                    this.inspectedCreature = this.customInspectedCreature;
                     break;
 
                 case InspectedCreatuteType.mostChildren:
@@ -55,7 +54,6 @@ export class World {
                     break;
 
             }
-
     }
 
     public get inspectedCreatureType ():InspectedCreatuteType {
@@ -64,7 +62,9 @@ export class World {
 
     public set inspectedCreature(creature:Creature) {
         this._inspectedCreature = creature;
-        this._inspectedCreature.recordHistory = true;
+        if(this._inspectedCreature){
+            this._inspectedCreature.recordHistory = true;
+        }
     }
 
     public get inspectedCreature ():Creature {
@@ -101,18 +101,15 @@ export class World {
         if(selfInit){
             this.name = "Untitled World";
             this._id = '' + Math.floor(Math.random () * 1000);
-            const map:number[][] = MapGenerator.create (this.width/TileMap.TILE_SIZE,this.height/TileMap.TILE_SIZE);            
-            this._tileMap = new TileMap ();
-            this._tileMap.createTilesBySeedMap (map);
-            /*
-            let cnt:number = 10;
-            while(--cnt){
-                const creatureByDesign:Creature = Creature.createByDesign ();
-                this.setAtRandomPosition(creatureByDesign);
-                this.addCreature(creatureByDesign);
-            }*/
         }
     }
+
+    public createMap ():void {
+        const map:number[] = MapLoader.getMap ();            
+        this._tileMap = new TileMap ();
+        this._tileMap.createTilesBySeedMap1d (map, this.width/TileMap.TILE_SIZE);
+    }
+
 
     public toJSON ():any {
         return this;
@@ -122,13 +119,13 @@ export class World {
         const world = new World (false);
         world._id = json['_id'];
         world.name = json['name'];
-       // world.totalCreaturesCount = json['totalCreaturesCount'];
+        world.totalCreaturesCount = json['totalCreaturesCount'];
         world.deadCreaturesCount = json['deadCreaturesCount'];
         world.totalAgeOfDeadCreatures = json['totalAgeOfDeadCreatures'];
         world._tileMap = TileMap.fromJSON (json['_tileMap']);      
         for(const creaturesJSON of json['_creatures']){
             let creature:Creature = Creature.fromJSON(<any>creaturesJSON);
-            world.addCreature(creature);
+            world._creatures.push(creature);
         }
         return world;
     }

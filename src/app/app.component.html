@@ -1,34 +1,116 @@
 <div id="stats"></div>
-<div class="header">ID: {{mainService.world.id}} | <input type="text" [(ngModel)]="mainService.world.name" ></div>
-<app-command-bar class="row"></app-command-bar>
-<div class="row">
-    <input type="button" 
-        value="{{tickService.isRunning?'stop':'start'}}" 
-        (click)="tickService.isRunning?tickService.stop():tickService.start()">
-    Ticks:{{tickService.ticks}} | Time:{{ formatterService.toDuration(tickService.ticks) }}
-    <input type="range" min="0.5" max="20" step="0.5" [(ngModel)]="tickService.speed">
-    speed: x{{tickService.speed}}
-    updateTime:{{tickService.updateTime}} 
+<div class="config-unit">
+    <div class="tick-unit unit">
+        <button mat-raised-button
+            class="tick-unit__start-stop-button" 
+            color="{{tickService.isRunning?'warn':'primary'}}" 
+            (click)="tickService.isRunning?tickService.stop():tickService.start()">
+            {{tickService.isRunning?'Stop':'Start'}}
+        </button>
+        <br>
+        <br>
+        Ticks: {{tickService.ticks}} | Time: {{ formatterService.toDuration(tickService.ticks) }}<br>
+        <mat-slider 
+                class="slider"
+                [max]="60"
+                [min]="10"
+                [step]="10"
+                [thumb-label]="true"
+                [tick-interval]="10"
+                [(ngModel)]="tickService.speed">
+        </mat-slider>
+        <br>
+        FPS: {{tickService.speed}}
+    </div>
+    <div class="config-unit__scroll-container unit">
+        
+        <!-- Simulation -->
+        <mat-list-item class="global__header" >Simulation</mat-list-item>
+        <mat-divider class="global__divider"></mat-divider>   
+        <div class="config-unit__scroll-container__section">    
+            <app-input-widget></app-input-widget>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="min creature count:" type="number" [(ngModel)]="mainService.world.minCreatureCount">
+            </mat-form-field>
+            <br>
+            <span class="small-text">
+                Maximum Food Amount per tile:
+            </span>
+            <br>
+            {{mainService.world.maxTileFoodAmount}}<br>
+            <mat-slider 
+                    class="slider"
+                    [max]="1000"
+                    [min]="10"
+                    [step]="50"
+                    [thumb-label]="true"
+                    [tick-interval]="50"
+                    [(ngModel)]="mainService.world.maxTileFoodAmount">
+            </mat-slider>
+        </div>
+        <!-- World -->
+        <mat-list-item class="global__header">World</mat-list-item>
+        <mat-divider class="global__divider"></mat-divider>
+        <div class="config-unit__scroll-container__section">        
+            <mat-form-field>
+                <input matInput placeholder="Id" readonly="true" [(ngModel)]="mainService.world.id">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Name" [(ngModel)]="mainService.world.name">
+            </mat-form-field>
+            <br>
+            <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
+            <br>
+            <button mat-raised-button
+                (click)="dialogsService.openStoredWorlds()">
+                Load World...
+            </button>
+            <button mat-raised-button
+                (click)="worldStorageService.save(mainService.world)">
+                Save World
+            </button>
+        </div>
+           
+    </div>
+</div>
+<div class="world-unit">
+    <div class="world" *ngIf="showWorld">
+        <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
+        <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)"></app-creatures-canvas>
+    </div>
+</div>
 
-</div>
-<app-dialogs></app-dialogs><br>
-<input type="checkbox" [(ngModel)]="showWorld">Show World | <input type="checkbox" [(ngModel)]="showStats">Show Stats 
-<app-input-widget></app-input-widget>minCreatureCount: <input type="number" [(ngModel)]="mainService.world.minCreatureCount"> <br>
-max food amount: <input type="number" [(ngModel)]="mainService.world.maxTileFoodAmount"> <br>
-<br>
-<div class="world" *ngIf="showWorld">
-    <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
-    <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)"></app-creatures-canvas>
-</div>
-<div class="right" *ngIf="showStats">
-    <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
-    <input type="button" value="save creature" (click)="mainService.saveCurrentInspectedCreature ()">
-    <input type="button" value="load creatures..." (click)="mainService.openCreaturesStorageList ()">
-    <p>
-        <input type="radio" value="custom" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Custom
-        <input type="radio" value="oldest" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Oldest
-        <input type="radio" value="mostChildren" name="inspectedCreature" [(ngModel)]="mainService.world.inspectedCreatureType">Most Children
-    </p>
-    <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
-    <app-creature-history [creature]="mainService.world.inspectedCreature" class="creature-history"></app-creature-history> 
+<div class="creature-unit" [class.open]="showCreatureUnit">
+    <div class="creature-unit__arrow" (click)="showCreatureUnit=!showCreatureUnit">
+
+    </div>
+    <div class="creature-unit__content">
+        <mat-list-item class="global__header" >Creature</mat-list-item>
+        <mat-divider class="global__divider"></mat-divider>   
+        <mat-form-field>
+            <mat-select placeholder="Show Type" [value]="mainService.world.inspectedCreatureType" (selectionChange)="mainService.world.inspectedCreatureType=$event.value">
+                <mat-option [value]="'custom'" disabled="{{mainService.world.customInspectedCreature==undefined}}">
+                    Custom
+                </mat-option>
+                <mat-option [value]="'oldest'">
+                    Oldest
+                </mat-option>
+                <mat-option [value]="'mostChildren'">
+                    Most Children
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+        <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
+        <br>
+        <button mat-raised-button
+                (click)="dialogsService.openStoredCreatures()">
+                Load Creature...
+            </button>
+            <button mat-raised-button disabled="{{mainService.world.inspectedCreature==undefined}}"
+                (click)="mainService.saveCurrentInspectedCreature ()">
+                Save Creature
+        </button>
+    </div>
 </div>

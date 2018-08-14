@@ -19,8 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "libs/jquery-ui.custom/jquery-ui-fcversion.css"
+        "styles.css"
       ],
       "scripts": [
       ],

@@ -1,4 +1,4 @@
-import { DialogService } from './ui/dialog.service';
+import { DialogsService } from './ui/dialogs.service';
 import { IStorable } from './storage/IStorable';
 import { CreatureStorageService } from './storage/creature-storage.service';
 import { NeuralNetwork } from './network/NeuralNetwork';
@@ -8,7 +8,7 @@ import { Injectable, ApplicationRef, EventEmitter } from '@angular/core';
 import { WorldStorageService } from './storage/world-storage.service';
 import { Inject } from '@angular/core';
 import { Alias } from './Alias';
-import { World } from './world/World';
+import { World, InspectedCreatuteType } from './world/World';
 import * as Stats from 'stats.js';
 
 @Injectable()
@@ -17,14 +17,15 @@ export class MainService {
     public world:World;
 
     public selectCreature (creature:Creature):void {
-        console.log("selectCreature: ", creature);       
-        this.world.inspectedCreature = creature;
+        console.log("selectCreature: ", creature);    
+        this.world.customInspectedCreature = creature;
+        this.world.inspectedCreatureType = InspectedCreatuteType.custom;
+        // this.world.inspectedCreature = creature;
     }
 
     constructor (
        private worldStorageService:WorldStorageService,
        private creatureStorageService:CreatureStorageService,
-       private dialogService:DialogService,
        private appRef:ApplicationRef,
        public tickService:TickService
         ){
@@ -34,6 +35,7 @@ export class MainService {
     private init ():void {
         this.world = new World ();
         Alias.world = this.world;
+        this.world.createMap ();
         this.world.createCreature ();
         this.tickService.tick.subscribe ( (delta:number) => this.tick(delta));
         this.tickService.start ();
@@ -69,10 +71,6 @@ export class MainService {
     
     public deleteWorld (id:string):void {
         this.worldStorageService.delete (id);
-    }
-
-    public openCreaturesStorageList ():void {
-        this.dialogService.openCreaturesStorageList ();
     }
 
     public deleteCreatureStorage (id:string):void {
