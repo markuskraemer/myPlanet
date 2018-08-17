@@ -1,0 +1,13 @@
+<div style="position: absolute; z-index:100;background:yellow">
+{{mouseIsDown}}<br>
+{{viewPortX}}|{{viewPortY}}<br>
+</div>
+<div class="detector" (mousedown)="onMouseDown($event)" 
+                        (mouseup)="onMouseUp($event)" 
+                        (mousemove)="onMouseMove($event)" 
+                        (mousewheel)="onMouseWheel($event)"
+                        ></div>
+<div class="view-port" #viewport>
+    <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
+    <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)" #creaturecanvas></app-creatures-canvas>
+</div>

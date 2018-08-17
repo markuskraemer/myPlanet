@@ -13,8 +13,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-    public showWorld:boolean = true;
-    public showCreatureUnit:boolean = true;
+    public showCreatureUnit:boolean = false;
 
     constructor (
         public mainService:MainService,

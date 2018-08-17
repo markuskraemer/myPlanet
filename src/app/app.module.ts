@@ -1,3 +1,4 @@
+import { WorldViewportComponent } from './view/world-viewport/world-viewport.component';
 import { StoredWorldsComponent } from './ui/stored-worlds/stored-worlds.component';
 import { DialogsService } from './ui/dialogs.service';
 import { StoredCreaturesComponent } from './ui/stored-creatures/stored-creatures.component';
@@ -43,7 +44,8 @@ import { MatButtonModule,
     CreaturePreviewComponent,
     CreatureHistoryComponent,
     StoredCreaturesComponent,
-    StoredWorldsComponent 
+    StoredWorldsComponent,
+    WorldViewportComponent 
   ],
   imports: [
     BrowserModule,

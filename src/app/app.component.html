@@ -72,10 +72,7 @@
     </div>
 </div>
 <div class="world-unit">
-    <div class="world" *ngIf="showWorld">
-        <app-tileMap-canvas [tileMap]="mainService.world.tileMap"></app-tileMap-canvas>
-        <app-creatures-canvas [creatures]="mainService.world.creatures" (selectcreature)="mainService.selectCreature($event)"></app-creatures-canvas>
-    </div>
+  <app-world-viewport></app-world-viewport>
 </div>
 
 <div class="creature-unit" [class.open]="showCreatureUnit">

@@ -50,12 +50,12 @@ export class TileMap {
             }else if(tile.type == TileType.Sand) {
 
                 tile.staticMaxFoodAmount = Alias.world.maxTileFoodAmount / 2;
-                tile.individualMaxFoodAmount = tile.staticMaxFoodAmount * .75 + Math.random () * tile.staticMaxFoodAmount * .25;
+                tile.foodAmount = tile.individualMaxFoodAmount = tile.staticMaxFoodAmount * .75 + Math.random () * tile.staticMaxFoodAmount * .25;
             
             }else if(tile.type == TileType.Gras || tile.type == TileType.None){
             
                 tile.staticMaxFoodAmount = Alias.world.maxTileFoodAmount;
-                tile.individualMaxFoodAmount =  tile.staticMaxFoodAmount * .75 + Math.random () *  tile.staticMaxFoodAmount * .25;
+                tile.foodAmount = tile.individualMaxFoodAmount = tile.staticMaxFoodAmount * .75 + Math.random () *  tile.staticMaxFoodAmount * .25;
             }
         }
     }

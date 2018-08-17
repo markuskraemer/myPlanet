@@ -16,11 +16,15 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
     private tileSize:number = 25;
 
     @HostListener('click', ['$event']) 
-    private onClick(e:MouseEvent) {
+    public onClick(e:MouseEvent) {
         console.log("onClick: ", e);
         const creature:Creature = this.findCreatureByPosition (e.offsetX, e.offsetY);
         if(creature != null){
             this.selectCreature.emit (creature);
+        }else{
+             event.stopPropagation ();
+            event.stopImmediatePropagation ();
+            event.preventDefault ();
         }
     }
 
