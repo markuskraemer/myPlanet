@@ -21,6 +21,7 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
     private onMouseUpRef:(event:MouseEvent) => void;
 
     public onMouseDown (event:MouseEvent) {
+        console.log("md: ", event);
         this.mouseDownX = event.offsetX;
         this.mouseDownY = event.offsetY;
         this.startMouseX = event.offsetX - this.viewPortX;
@@ -34,7 +35,7 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
         const deltaY:number = this.mouseDownY - event.offsetY;
         const threshold:number = 10;
         const dist:number = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        console.log("dist: " + dist); 
+        console.log("mu: ", event);
         if(dist < threshold){
             console.log("trying to pass event");
             this.creaturecanvas.onClick (event);
@@ -50,6 +51,7 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
 
     public onMouseMove (event:MouseEvent) {
         if(this.mouseIsDown){
+            console.log("mm: ", event);
             this.updateViewportPosition(event);
         }
     }
@@ -66,6 +68,25 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
         
     }
 
+
+
+    private _updateViewportScale (event:MouseWheelEvent):void {
+
+        var origH  = 800;  // original image height
+        var origW  = 800; // original image width
+
+        const left:number = event.offsetX - (event.offsetX) * this.scale;
+        const top:number =  event.offsetY - (event.offsetY) * this.scale;
+
+        this.viewPortX = left;
+        this.viewPortY = top;
+
+        this.viewport.nativeElement.style.transform = 
+        
+         'translate(' + left + 'px, ' + top + 'px)' 
+          + ' scale(' + this.scale + ')';
+          
+    }
 
     private updateViewportPosition (event:MouseEvent):void {
         this.viewPortX = event.offsetX - this.startMouseX;
@@ -95,25 +116,6 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
             'translate(' + this.viewPortX + 'px, ' + this.viewPortY + 'px)' 
             + ' scale(' + this.scale + ')';
     }
-
-    private _updateViewportScale (event:MouseWheelEvent):void {
-
-        var origH  = 800;  // original image height
-        var origW  = 800; // original image width
-
-        const left:number = event.offsetX - (event.offsetX * this.scale);
-        const top:number =  event.offsetY - (event.offsetY * this.scale);
-
-        this.viewPortX = left;
-        this.viewPortY = top;
-
-        this.viewport.nativeElement.style.transform = 
-        
-         'translate(' + left + 'px, ' + top + 'px)' 
-          + ' scale(' + this.scale + ')';
-          
-    }
-
 
 
     @ViewChild ('viewport')
