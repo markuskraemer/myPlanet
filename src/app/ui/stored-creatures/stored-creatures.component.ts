@@ -29,7 +29,7 @@ export class StoredCreaturesComponent  {
     }
 
     public handleLoadClick (item:IStorageDescribtion):void {
-        this.mainService.loadAndAddCreature(item.id);
+        this.mainService.loadAndAddCreature(item.o);
     }
 
     public handleDeleteClick(item:IStorageDescribtion):void {
@@ -44,4 +44,4 @@ export class StoredCreaturesComponent  {
     public getCreature (jsonString:string){
         return Creature.fromJSON (JSON.parse(jsonString));
     }
-}
+} 

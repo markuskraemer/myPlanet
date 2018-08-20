@@ -21,10 +21,6 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
         const creature:Creature = this.findCreatureByPosition (e.offsetX, e.offsetY);
         if(creature != null){
             this.selectCreature.emit (creature);
-        }else{
-             event.stopPropagation ();
-            event.stopImmediatePropagation ();
-            event.preventDefault ();
         }
     }
 
@@ -41,6 +37,14 @@ export class CreaturesCanvasComponent implements OnInit, OnDestroy {
     public set tileMap (value:Creature[]){
         this._creatures = value;
         requestAnimationFrame(()=>this.draw());
+    }
+
+    public doClick (x:number, y:number):void {
+        console.log("doClick: " + x + "|" + y);
+        const creature:Creature = this.findCreatureByPosition (x, y);
+        if(creature != null){
+            this.selectCreature.emit (creature);
+        }        
     }
 
     constructor(

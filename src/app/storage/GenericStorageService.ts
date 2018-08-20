@@ -21,15 +21,14 @@ export class GenericStorageService {
 
         const result:IStorageDescribtion = this.getDescribtionById (id,  this.getFileDescribtions ());
         return result.o;
-        /*
-        const storage:string = localStorage.getItem(id);
-        return storage;
-        */
     }
 
     public save (o:IStorable):void {
-        const oJSON:JSON = o.toJSON ();
-        console.log("save: ", oJSON);
+        const oJSON:any = o.toJSON ();
+        console.log("save: " + oJSON);
+        const d = document.createElement ('div');
+        document.body.appendChild (d);
+        d.innerText = JSON.stringify (oJSON);
         this.updateDescribtion (o);
         localStorage.setItem (o.id, JSON.stringify(oJSON));
         console.log("saved: ", JSON.parse(localStorage.getItem (o.id)));
@@ -61,6 +60,8 @@ export class GenericStorageService {
         if(!this.items){
             this.items = JSON.parse (localStorage.getItem (this.key)) || [];
         }
+        const d = localStorage.getItem (this.key);
+        console.log("localStorage: ", d);
         return this.items;
     }
 

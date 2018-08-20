@@ -17,7 +17,6 @@ export class MainService {
     public world:World;
 
     public selectCreature (creature:Creature):void {
-        console.log("selectCreature: ", creature);    
         this.world.customInspectedCreature = creature;
         this.world.inspectedCreatureType = InspectedCreatuteType.custom;
         // this.world.inspectedCreature = creature;
@@ -61,7 +60,16 @@ export class MainService {
         Alias.world = this.world;
     }
 
-    public loadAndAddCreature (id:string):void {
+    public loadAndAddCreature (creatureJSONString:string):void {
+        const creatureJSON:JSON = JSON.parse(creatureJSONString);
+        const creature:Creature = Creature.createFromJSONBrain (creatureJSON);
+        this.world.addCreature(creature);
+        this.world.setAtRandomPosition(creature);
+        this.tickService.emitDraw ();
+    }
+
+
+    public _loadAndAddCreature (id:string):void {
         const creatureJSON:JSON = JSON.parse(this.creatureStorageService.load(id));
         const creature:Creature = Creature.createFromJSONBrain (creatureJSON);
         this.world.addCreature(creature);

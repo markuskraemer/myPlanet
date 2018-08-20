@@ -26,6 +26,8 @@ export class Tile {
     public static fromJSON (json:JSON):Tile {
         const tile:Tile = new Tile ();
         tile.foodAmount = json['_foodAmount'];
+        tile.individualMaxFoodAmount = json['individualMaxFoodAmount'];
+        tile.staticMaxFoodAmount = json['staticMaxFoodAmount'];
         tile.type = json['type'];
         return tile;
     }
