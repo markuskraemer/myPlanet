@@ -1,5 +1,4 @@
 import { DefaultCreatureStorageService } from './storage/default-creature-storage.service';
-import { DefaultWorldStorageService } from './storage/default-world-storage.service';
 import { WorldViewportComponent } from './view/world-viewport/world-viewport.component';
 import { StoredWorldsComponent } from './ui/stored-worlds/stored-worlds.component';
 import { DialogsService } from './ui/dialogs.service';
@@ -69,7 +68,6 @@ import { MatButtonModule,
       FormatterService,
       WorldStorageService,
       CreatureStorageService,
-      DefaultWorldStorageService,
       DefaultCreatureStorageService,
       TickService,
       DialogsService 

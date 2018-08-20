@@ -23,15 +23,16 @@ export class GenericStorageService {
         return result.o;
     }
 
-    public save (o:IStorable):void {
-        const oJSON:any = o.toJSON ();
-        console.log("save: " + oJSON);
-        const d = document.createElement ('div');
-        document.body.appendChild (d);
-        d.innerText = JSON.stringify (oJSON);
-        this.updateDescribtion (o);
-        localStorage.setItem (o.id, JSON.stringify(oJSON));
-        console.log("saved: ", JSON.parse(localStorage.getItem (o.id)));
+    public save (storable:IStorable):void {
+        const oJSON:any = storable.toJSON ();
+
+        const o = oJSON['o'];
+        console.log("oJSON: ", oJSON);
+
+
+        this.updateDescribtion (storable);
+        localStorage.setItem (storable.id, JSON.stringify(oJSON));
+        console.log("saved: ", JSON.parse(localStorage.getItem (storable.id)));
     }
 
     private updateDescribtion (o:IStorable):void {

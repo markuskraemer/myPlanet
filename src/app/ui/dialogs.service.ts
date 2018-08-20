@@ -1,5 +1,4 @@
 import { DefaultCreatureStorageService } from './../storage/default-creature-storage.service';
-import { DefaultWorldStorageService } from './../storage/default-world-storage.service';
 import { CreatureStorageService } from './../storage/creature-storage.service';
 import { WorldStorageService } from './../storage/world-storage.service';
 import { StoredCreaturesComponent } from './stored-creatures/stored-creatures.component';
@@ -15,7 +14,6 @@ export class DialogsService {
         public dialog: MatDialog,
         public worldStorageService:WorldStorageService,
         public creaturesStorageService:CreatureStorageService,
-        public defaultWorldStorageService:DefaultWorldStorageService, 
         public defaultCreatureStorageService:DefaultCreatureStorageService 
     ) { }
 

@@ -8,7 +8,7 @@
              <span class="global__small-button" (click)="handleLoadClick(item)">
                 add
             </span>
-            <span class="global__small-button" (click)="handleDeleteClick(item)">
+            <span class="global__small-button" (click)="handleDeleteClick(item)" *ngIf="!item.isDefault">
                 delete
             </span>
         </div>
