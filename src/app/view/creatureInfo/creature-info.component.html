@@ -1,0 +1,11 @@
+<div *ngIf="creature!=undefined" class="container">
+    <div class="info"> 
+        ID: {{creature.id}} <br>
+        energy: {{formatterService.float(creature.energy)}}<br>
+        age: {{formatterService.float(creature.age)}}<br>
+        children: {{creature.childCount}}<br>
+        generation: {{creature.generation}}<br>
+    </div>
+    <app-creature-preview [creature]="creature" class="preview"></app-creature-preview>
+    <app-neuralNetwork [network]="creature.brain" class="brain-info"></app-neuralNetwork>
+</div>

@@ -1,0 +1,24 @@
+<div>
+    <mat-list-item class="global__header" >Stored Creatures</mat-list-item>
+    <mat-divider class="global__divider"></mat-divider>   
+    <div *ngIf="data.length>0">
+        <div *ngFor="let item of data" class="item">
+            <span class="info">{{item.name}} | {{formatterService.toDate(item.time)}} | {{item.id}}      </span>
+            <app-creature-preview class="preview" [creature]="getCreature(item.o)" (click)="handlePreviewClick(item.o)"></app-creature-preview>
+             <span class="global__small-button" (click)="handleAddClick(item)">
+                add
+            </span>
+            <span class="global__small-button" (click)="handleDeleteClick(item)" *ngIf="!item.isDefault">
+                delete
+            </span>
+        </div>
+    </div>
+    <div *ngIf="data.length==0">
+        Nothing to show.
+    </div>
+     <button mat-button class="global__button-ok"
+        color="basic" 
+        (click)="handleOKClick()">
+        OK
+    </button>
+</div>

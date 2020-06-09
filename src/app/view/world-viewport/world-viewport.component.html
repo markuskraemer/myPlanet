@@ -1,0 +1,16 @@
+<div class="detector" (mousedown)="onMouseDown($event)" 
+                        (mouseup)="onMouseUp($event)" 
+                        (mousemove)="onMouseMove($event)" 
+                        (mousewheel)="onMouseWheel($event)"
+                        [class.detector_draging]="mouseIsDown"
+                        ></div>
+<div class="view-port" #viewport [class.view-port_transition]="!mouseIsDown" >
+    <app-tileMap-canvas [tileMap]="mainService.world.tileMap"   
+                        [tileSize]="tileSize"
+                        [unscaledTileSize]="mainService.world.tileMap.tileSize"></app-tileMap-canvas>
+    <app-creatures-canvas [creatures]="mainService.world.creatures" 
+                          (selectcreature)="mainService.selectCreature($event)" 
+                          [tileSize]="tileSize"
+                          [unscaledTileSize]="mainService.world.tileMap.tileSize"
+                          #creaturecanvas></app-creatures-canvas>
+</div>

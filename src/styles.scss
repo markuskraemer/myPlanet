@@ -1,1 +1,38 @@
+
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body,html {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: normal;
+    margin:0;
+    padding:0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.global__header {
+    font-style: italic;
+}
+
+.global__divider {
+    margin-top:10px !important;
+    margin-bottom:10px !important;
+}
+
+.global__small-button {
+    color:blue;
+    margin:10px;
+    cursor:pointer;
+    user-select: none;
+}
+
+.global__small-button:hover {
+    color:darkblue;
+}
+
+.global__button-ok {
+    margin-top: 20px !important;
+    margin-left: 50% !important;
+    transform: translateX(-50%);
+}
