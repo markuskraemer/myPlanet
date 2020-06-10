@@ -30,9 +30,10 @@ export class TileMapCanvasComponent extends GenericMapCanvasComponent {
     ) { 
         super (elementRef, tickService, mainService);
         this.updateMod = 4;
+        /*
         window.addEventListener('focus', () => {
             this.forceDraw = true;
-        })
+        })*/
     }
 
 

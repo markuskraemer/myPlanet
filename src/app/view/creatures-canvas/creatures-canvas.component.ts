@@ -71,7 +71,7 @@ export class CreaturesCanvasComponent extends GenericMapCanvasComponent {
             context.fillRect ((creature.x + creature.width / 10) * this.scale, 
                                 creature.y * this.scale, 
                                 (creature.width / 5) * this.scale, 
-                                (creature.width /5) * this.scale);
+                                (creature.width / 5) * this.scale);
 
             context.fillRect ((creature.x + creature.width / 2) * this.scale, 
                                 creature.y * this.scale, 

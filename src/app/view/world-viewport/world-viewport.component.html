@@ -1,3 +1,14 @@
+<div class="top-area">
+    Scale: {{scale100}} %
+    <mat-slider 
+        class="slider"
+        max="800"
+        min="100"
+        [step]="10"
+        thumbLabel
+        [(ngModel)]="scale100">
+    </mat-slider>
+</div>
 <div class="detector" (mousedown)="onMouseDown($event)" 
                         (mouseup)="onMouseUp($event)" 
                         (mousemove)="onMouseMove($event)" 

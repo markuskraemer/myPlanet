@@ -1,9 +1,23 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, 
+    MatCheckboxModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatDividerModule, 
+    MatButtonToggleModule, 
+    MatListModule,
+    MatSliderModule,
+    MatSelectModule,
+    MatDialogModule } from '@angular/material';
 import { DefaultCreatureStorageService } from './storage/default-creature-storage.service';
 import { WorldViewportComponent } from './view/world-viewport/world-viewport.component';
 import { StoredWorldsComponent } from './ui/stored-worlds/stored-worlds.component';
 import { DialogsService } from './ui/dialogs.service';
 import { StoredCreaturesComponent } from './ui/stored-creatures/stored-creatures.component';
-
 import { CreatureHistoryComponent } from './ui/creature-history/creature-history.component';
 import { CreaturePreviewComponent } from './view/creature-preview/creature-preview.component';
 import { CreatureStorageService } from './storage/creature-storage.service';
@@ -17,22 +31,6 @@ import { TickService } from './tick.service';
 import { MainService } from './main.service';
 import { WorldStorageService } from './storage/world-storage.service';
 import { FormatterService } from './utils/Formatter.service';
-import { BrowserModule,  } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, 
-    MatCheckboxModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatDividerModule, 
-    MatButtonToggleModule, 
-    MatListModule,
-    MatSliderModule,
-    MatSelectModule,
-    MatDialogModule } from '@angular/material';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +50,7 @@ import { MatButtonModule,
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
+    HammerModule,
     MatButtonModule, 
     MatCheckboxModule,
     MatButtonToggleModule,
@@ -70,7 +69,7 @@ import { MatButtonModule,
       CreatureStorageService,
       DefaultCreatureStorageService,
       TickService,
-      DialogsService 
+      DialogsService,
   ],
   bootstrap: [
       AppComponent

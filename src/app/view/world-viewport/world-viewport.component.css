@@ -28,3 +28,16 @@
     cursor:default;
 }
 
+.top-area {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 5px 10px;
+    background: rgba(255,255,255, .75);
+    box-shadow: 6px 8px 8px 0px rgba(50, 50, 50, .5);
+    z-index: 2;
+}
+
+.mat-slider {
+    width: 300px;
+  }

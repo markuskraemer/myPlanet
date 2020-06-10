@@ -1,14 +1,14 @@
 import { TileMap } from './../../world/TileMap';
 import { CreaturesCanvasComponent } from './../creatures-canvas/creatures-canvas.component';
 import { MainService } from './../../main.service';
-import { Component, OnInit, OnDestroy, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-world-viewport',
   templateUrl: './world-viewport.component.html',
   styleUrls: ['./world-viewport.component.css']
 })
-export class WorldViewportComponent implements OnInit, OnDestroy {
+export class WorldViewportComponent implements AfterViewInit, OnDestroy {
 
     public readonly tileSize:number = 20;
 
@@ -20,9 +20,12 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
 
     public viewportX:number = 0;
     public viewportY:number = 0;
-    public scale:number = 1;
-    public oldScale:number = 1;
-    private scaleFactor:number = 1.1;
+    private scale:number = 1;
+    private oldScale:number = this.scale;
+    private readonly scaleFactor:number = 1.1;
+    private readonly maxScale = 4;
+    private readonly origWidth = 800; 
+    private readonly origHeight = 800;  
     private onMouseUpRef:(event:MouseEvent) => void;
 
     @ViewChild ('viewport')
@@ -30,6 +33,16 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
 
     @ViewChild ('creaturecanvas')
     public creaturecanvas:CreaturesCanvasComponent;
+
+    public set scale100(value: number) {
+        this.scale = Math.min(this.maxScale, value / 200);
+        this.updateViewportScale(this.origWidth/2, this.origHeight/2);
+        this.oldScale = this.scale;
+    }
+
+    public get scale100(){
+        return this.scale * 200 | 0;
+    }
 
     constructor(
         public mainService:MainService
@@ -39,8 +52,9 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         window.addEventListener('mouseup', this.onMouseUpRef);
+        this.updateViewportTransform();
     }
 
     ngOnDestroy () {
@@ -84,11 +98,13 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
         
         if(event.deltaY > 0){
             this.scale *= this.scaleFactor;
-        }else if(event.deltaY < 0)
-        {
+            if(this.scale > this.maxScale) {
+                this.scale = this.maxScale;
+            }
+        }else if(event.deltaY < 0) {
             this.scale /= this.scaleFactor;
         }
-        this.updateViewportScale (event);
+        this.updateViewportScale (event.offsetX, event.offsetY);
         event.preventDefault ();
         
     }
@@ -103,13 +119,13 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
         return {x:x, y:y};
     }
 
-    private updateViewportScale (event:MouseWheelEvent):void {
+    private updateViewportScale (offsetX: number, offsetY: number):void {
                 
-        const sizeXAtScale1:number = (event.offsetX - this.viewportX) / this.oldScale;
-        const sizeYAtScale1:number = (event.offsetY - this.viewportY) / this.oldScale;
+        const sizeXAtScale1:number = (offsetX - this.viewportX) / this.oldScale;
+        const sizeYAtScale1:number = (offsetY - this.viewportY) / this.oldScale;
 
-        this.viewportX = event.offsetX - sizeXAtScale1 * this.scale;
-        this.viewportY = event.offsetY - sizeYAtScale1 * this.scale;
+        this.viewportX = offsetX - sizeXAtScale1 * this.scale;
+        this.viewportY = offsetY - sizeYAtScale1 * this.scale;
 
         this.updateViewportTransform ();            
 
@@ -124,21 +140,14 @@ export class WorldViewportComponent implements OnInit, OnDestroy {
     }
 
     private updateViewportTransform ():void {
-
-        const viewportScale:number = this.tileSize / TileMap.TILE_SIZE;
         
+        const viewportScale:number = this.tileSize / TileMap.TILE_SIZE;        
         this.scale = Math.max(this.scale, 1 / viewportScale);
 
-        const vpWidth:number = 800;
-        const vpHeight:number = 800;
-
-        var origW  = 800; 
-        var origH  = 800;  
-
         const left:number = 0;
-        const right:number = -origW * this.scale  * viewportScale + origW;
+        const right:number = -this.origWidth * this.scale  * viewportScale + this.origWidth;
         const top:number = 0;
-        const bottom:number = -origH * this.scale * viewportScale + origH;
+        const bottom:number = -this.origHeight * this.scale * viewportScale + this.origHeight;
 
         this.viewportX = Math.min(left, this.viewportX);
         this.viewportX = Math.max(right, this.viewportX);
