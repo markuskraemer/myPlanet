@@ -15,7 +15,7 @@ $colorlight:#eee;
 
 .config-unit {
     width:320px;
-    height:calc(100vh - 20px);
+    height:800px;
     padding:$unitpadding;
     display:flex;
     flex-direction: column;
@@ -30,13 +30,11 @@ $colorlight:#eee;
     }
 }
 
-
 .unit{
     padding:$unitpadding;
     box-sizing: border-box;
     width:100%; 
 }
-
 
 .creature-unit {
     position: absolute;
@@ -84,7 +82,6 @@ $colorlight:#eee;
 }
 
 .world-unit {
-    height:100vh;
     padding:10px;
 }
 
@@ -104,4 +101,9 @@ $colorlight:#eee;
 
 .world-info {
     width:100%;
+}
+
+.description {
+    margin: 50px;
+    width: 60%;
 }
