@@ -36,4 +36,9 @@ export class AppComponent {
         console.log("now value: " + event.target['value']);
     }
 
+    public handleSelectionChange(event:any){
+        console.log('handleSelectionChange', event);
+        this.mainService.world.inspectedCreatureType = event;
+    }
+
 }

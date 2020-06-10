@@ -1,8 +1,11 @@
 
 $unitpadding:10px;
 $colorlight:#eee;
-:host {
+.content {
     display: flex;
+    position: relative;
+    background: yellow;
+    overflow: hidden;
 }
 
 .small-text {
@@ -32,8 +35,6 @@ $colorlight:#eee;
     padding:$unitpadding;
     box-sizing: border-box;
     width:100%; 
-
-   
 }
 
 

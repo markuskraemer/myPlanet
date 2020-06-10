@@ -17,9 +17,11 @@ export class NeuralNetworkComponent implements AfterViewInit {
     public set network (n:NeuralNetwork) {
         this._network = n;
         this.infoConnections.length = 0;
-        this.determineContext ();
-        requestAnimationFrame ( () => this.draw ());
-        this.draw (); 
+        if(this.canvas) {
+            this.determineContext ();
+            requestAnimationFrame ( () => this.draw ());
+            this.draw (); 
+        }
     }
 
     public get network ():NeuralNetwork {

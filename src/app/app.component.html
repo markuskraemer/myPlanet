@@ -1,121 +1,134 @@
-<div id="stats"></div>
-<div class="config-unit">
-    <div class="tick-unit unit">
-        <button mat-raised-button
-            class="tick-unit__start-stop-button" 
-            color="{{tickService.isRunning?'warn':'primary'}}" 
-            (click)="tickService.isRunning?tickService.stop():tickService.start()">
-            {{tickService.isRunning?'Stop':'Start'}}
-        </button>
-        <br>
-        <br>
-        Ticks: {{tickService.ticks}} | Time: {{ formatterService.toDuration(tickService.ticks) }}<br>
-        <mat-slider 
-                class="slider"
-                [max]="60"
-                [min]="10"
-                [step]="10"
-                [thumbLabel]="true"
-                [tickInterval]="10"
-                [(ngModel)]="tickService.speed">
-        </mat-slider>
-        <br>
-        FPS: {{tickService.speed}}
-        <br>
-        <mat-slider 
-                class="slider"
-                [max]="16"
-                [min]="1"
-                [step]="1"
-                [thumbLabel]="true"
-                [tickInterval]="1"
-                [(ngModel)]="tickService.updateFrameModulo">
-        </mat-slider>
-        <br>
-        Update every frame: {{this.tickService.updateFrameModulo}}
-    </div>
-    <div class="config-unit__scroll-container unit">
-        
-        <!-- Simulation -->
-        <mat-list-item class="global__header" >Simulation</mat-list-item>
-        <mat-divider class="global__divider"></mat-divider>   
-        <div class="config-unit__scroll-container__section">    
-            <app-input-widget></app-input-widget>
+
+<div class="description"><h6>My Planet is a evolutionsimulation which has been developed to explore the posibilities of neural networks.</h6>It is heavely inspired by <a href="https://www.youtube.com/watch?v=xukp4MMTTFI" target="_blank">evo net by brotcrunsher</a><span>
+The simulation aims to create a stable population of creatures by imitating evolution throw genetic algorithm.<br>The creatures forming the population have each a brain which is represented by a neural network which decides whether the creature should eat, move or give birth. Firstly the brain is configured randomly, but a child's brain is similar to it's parent's brain with a few mutations. In this way the children's brain may be better than the parent's, or so to say the child might be fitter than its parent.</span>      
+Um eine stabile Population zu erzeugen geht, braucht man nur die Simulation zu starten
+und einige Zeit (ca. 10-15 Mnuten) warten. Man kann auch vordefinierte fitte Geschöpfe
+hinzuzufügen mit Klick auf „Load Creatures...“, dann im Popup „very good creature“ (o.ä.)
+mit Klick auf „add“ hinzufügen. Es empfiehlt sich, mehrere Geschöpfe hinzuzufügen um
+sicherzustellen, dass aus den neuen Geschöpfen eine Population entsteht.
+</div>
+<div class="content">
+    <div id="stats"></div>
+    <div class="config-unit">
+        <div class="tick-unit unit">
+            <button mat-raised-button
+                class="tick-unit__start-stop-button" 
+                color="{{tickService.isRunning?'warn':'primary'}}" 
+                (click)="tickService.isRunning?tickService.stop():tickService.start()">
+                {{tickService.isRunning?'Stop':'Start'}}
+            </button>
             <br>
-            <mat-form-field>
-                <input matInput placeholder="max creature count:" type="number" 
-                    [(ngModel)]="mainService.world.maxCreatureCount" 
-                    (blur)="$event.target.value=mainService.world.maxCreatureCount">
-            </mat-form-field>
             <br>
-            <mat-form-field>
-                <input matInput placeholder="min creature count:" type="number" 
-                     [(ngModel)]="mainService.world.minCreatureCount" 
-                    (blur)="$event.target.value=mainService.world.minCreatureCount">
-            </mat-form-field>
+            Ticks: {{tickService.ticks}} | Time: {{ formatterService.toDuration(tickService.ticks) }}<br>
+            <mat-slider 
+                    class="slider"
+                    [max]="60"
+                    [min]="10"
+                    [step]="10"
+                    [thumbLabel]="true"
+                    [tickInterval]="10"
+                    [(ngModel)]="tickService.speed">
+            </mat-slider>
+            <br>
+            FPS: {{tickService.speed}}
+            <br>
+            <mat-slider 
+                    class="slider"
+                    [max]="16"
+                    [min]="1"
+                    [step]="1"
+                    [thumbLabel]="true"
+                    [tickInterval]="1"
+                    [(ngModel)]="tickService.updateFrameModulo">
+            </mat-slider>
+            <br>
+            Update every frame: {{this.tickService.updateFrameModulo}}
         </div>
-        <!-- World -->
-        <mat-list-item class="global__header">World</mat-list-item>
-        <mat-divider class="global__divider"></mat-divider>
-        <div class="config-unit__scroll-container__section">        
+        <div class="config-unit__scroll-container unit">
+            
+            <!-- Simulation -->
+            <mat-list-item class="global__header" >Simulation</mat-list-item>
+            <mat-divider class="global__divider"></mat-divider>   
+            <div class="config-unit__scroll-container__section">    
+                <app-input-widget></app-input-widget>
+                <br>
+                <mat-form-field>
+                    <input matInput placeholder="max creature count:" type="number" 
+                        [(ngModel)]="mainService.world.maxCreatureCount" 
+                        (blur)="$event.target.value=mainService.world.maxCreatureCount">
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                    <input matInput placeholder="min creature count:" type="number" 
+                        [(ngModel)]="mainService.world.minCreatureCount" 
+                        (blur)="$event.target.value=mainService.world.minCreatureCount">
+                </mat-form-field>
+            </div>
+            <!-- World -->
+            <mat-list-item class="global__header">World</mat-list-item>
+            <mat-divider class="global__divider"></mat-divider>
+            <div class="config-unit__scroll-container__section">        
+                <mat-form-field>
+                    <input matInput placeholder="Id" readonly="true" [ngModel]="mainService.world.id">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Name" [(ngModel)]="mainService.world.name">
+                </mat-form-field>
+                <br>
+                <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
+                <br>
+                <button mat-raised-button
+                    (click)="dialogsService.openStoredWorlds()">
+                    Load World...
+                </button>
+                <button mat-raised-button
+                    (click)="worldStorageService.save(mainService.world)">
+                    Save World
+                </button>
+            </div>
+            
+        </div>
+    </div>
+    <div class="world-unit">
+    <app-world-viewport [style.width]="800+'px'" [style.height]="800+'px'"></app-world-viewport>
+    <!--
+    <a href="./docs/myPlanet.pdf" target="_blank" class="world-unit__help">
+        <img src="assets/questionmark.png" />
+    </a>--> 
+    </div>
+<!--
+    <div class="creature-unit" [class.open]="showCreatureUnit">
+        <div class="creature-unit__arrow" (click)="showCreatureUnit=!showCreatureUnit">
+
+        </div>
+        <div class="creature-unit__content">
+            <mat-list-item class="global__header" >Creature</mat-list-item>
+            <mat-divider class="global__divider"></mat-divider>   
             <mat-form-field>
-                <input matInput placeholder="Id" readonly="true" [ngModel]="mainService.world.id">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Name" [(ngModel)]="mainService.world.name">
+                <mat-select>
+                    <mat-option [value]="'custom'" disabled="{{mainService.world.customInspectedCreature==undefined}}">
+                        Custom
+                    </mat-option>
+                    <mat-option [value]="'oldest'">
+                        Oldest
+                    </mat-option>
+                    <mat-option [value]="'mostChildren'">
+                        Most Children
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
             <br>
-            <app-world-info [world]="mainService.world" class="world-info"></app-world-info>
+            <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
             <br>
             <button mat-raised-button
-                (click)="dialogsService.openStoredWorlds()">
-                Load World...
-            </button>
-            <button mat-raised-button
-                (click)="worldStorageService.save(mainService.world)">
-                Save World
+                    (click)="dialogsService.openStoredCreatures()">
+                    Load Creature...
+                </button>
+                <button mat-raised-button disabled="{{mainService.world.inspectedCreature==undefined}}"
+                    (click)="mainService.saveCurrentInspectedCreature ()">
+                    Save Creature
             </button>
         </div>
-           
     </div>
-</div>
-<div class="world-unit">
-  <app-world-viewport [style.width]="800+'px'" [style.height]="800+'px'"></app-world-viewport>
-  <a href="./docs/myPlanet.pdf" target="_blank" class="world-unit__help">
-    <img src="assets/questionmark.png" />
-  </a> 
-</div>
-
-<div class="creature-unit" [class.open]="showCreatureUnit">
-    <div class="creature-unit__arrow" (click)="showCreatureUnit=!showCreatureUnit">
-
-    </div>
-    <div class="creature-unit__content">
-        <mat-list-item class="global__header" >Creature</mat-list-item>
-        <mat-divider class="global__divider"></mat-divider>   
-        <mat-form-field>
-            <mat-select placeholder="Show Type" [value]="mainService.world.inspectedCreatureType" (selectionChange****++++)="mainService.world.inspectedCreatureType=$event.value">
-                <mat-option [value]="'custom'" disabled="{{mainService.world.customInspectedCreature==undefined}}">
-                    Custom
-                </mat-option>
-                <mat-option [value]="'oldest'">
-                    Oldest
-                </mat-option>
-                <mat-option [value]="'mostChildren'">
-                    Most Children
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <br>
-        <app-creature-info [creature]="mainService.world.inspectedCreature" class="creature-info"></app-creature-info>
-        <br>
-        <button mat-raised-button
-                (click)="dialogsService.openStoredCreatures()">
-                Load Creature...
-            </button>
-            <button mat-raised-button disabled="{{mainService.world.inspectedCreature==undefined}}"
-                (click)="mainService.saveCurrentInspectedCreature ()">
-                Save Creature
-        </button>
-    </div>
+-->
 </div>

@@ -1,11 +1,10 @@
 import { MainService } from './../../main.service';
 import { GenericMapCanvasComponent } from './../generic-map-canvas/generic-map-canvas.component';
-import { Alias } from './../../Alias';
 import { TickService } from './../../tick.service';
 import { TileType } from './../../world/TileType.enum';
 import { Tile } from './../../world/Tile';
 import { TileMap } from './../../world/TileMap';
-import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tileMap-canvas',
